@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Check, Loader2, StickyNote, X } from "lucide-react";
+import { Check, StickyNote } from "lucide-react";
 import { InvoiceSheet, type ReceiptData } from "../../components/ui/ReceiptSlip";
 import { staffApi } from "../../api/client";
 import { vnd } from "../../lib/format";
@@ -12,7 +12,6 @@ export default function QrPayModal({
   storeAddress,
   storePhone,
   onPark,
-  onCancel,
   onPaid,
 }: {
   order: any;
@@ -20,12 +19,11 @@ export default function QrPayModal({
   storeAddress?: string;
   storePhone?: string;
   onPark: () => void;
-  onCancel: () => void;
   onPaid: () => void | Promise<void>;
 }) {
   const data: ReceiptData = {
     store_name: storeName || "Lâm Ly Mart",
-    store_address: storeAddress || "12 Nguyễn Trãi, Thanh Xuân, Hà Nội",
+    store_address: storeAddress || "Cầu Diễn, Bắc Từ Liêm, Hà Nội",
     store_phone: storePhone,
     order,
   };
@@ -96,59 +94,46 @@ export default function QrPayModal({
             {order.code} · <b className="text-ink-700">{vnd(order.total_amount)}</b>
           </p>
 
-          {payment?.qr_image && (
-            <img
-              src={payment.qr_image}
-              alt="Mã VietQR của đơn này"
-              className={cn(
-                "mx-auto my-3 w-52 max-w-full rounded-2xl bg-white transition",
-                state !== "waiting" && "opacity-30"
-              )}
-            />
-          )}
-
-          <div
-            className={cn(
-              "rounded-2xl px-3 py-2.5 text-sm font-extrabold",
-              state === "arrived" && "bg-lime-100 text-forest-800",
-              state === "expired" && "bg-coral-50 text-coral-700",
-              state === "waiting" && "bg-sand text-ink-600"
+          <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-3 py-3">
+            {payment?.qr_image && (
+              <img
+                src={payment.qr_image}
+                alt="Mã VietQR của đơn này"
+                className={cn(
+                  "aspect-square w-[min(20rem,100%)] rounded-2xl bg-white object-contain transition",
+                  state !== "waiting" && "opacity-30"
+                )}
+              />
             )}
-            role="status"
-          >
-            {state === "arrived" ? (
-              <span className="inline-flex items-center gap-1.5">
-                <Check className="h-4 w-4" /> Tiền đã vào — đang chốt đơn
-              </span>
-            ) : state === "expired" ? (
-              "Mã QR hết hạn"
-            ) : (
-              <span className="inline-flex items-center gap-1.5">
-                <Loader2 className="h-3.5 w-3.5 animate-spin" /> Đang chờ khách chuyển…
-              </span>
+
+            {state !== "waiting" && (
+              <div
+                className={cn(
+                  "w-full rounded-2xl px-3 py-2.5 text-sm font-extrabold",
+                  state === "arrived" && "bg-lime-100 text-forest-800",
+                  state === "expired" && "bg-coral-50 text-coral-700"
+                )}
+                role="status"
+              >
+                {state === "arrived" ? (
+                  <span className="inline-flex items-center gap-1.5">
+                    <Check className="h-4 w-4" /> Tiền đã vào — đang chốt đơn
+                  </span>
+                ) : (
+                  "Mã QR hết hạn"
+                )}
+              </div>
             )}
           </div>
 
-          <div className="mt-auto space-y-2 pt-4">
+          <div className="space-y-2 pt-1">
             <Button block size="lg" variant="lime" loading={busy} disabled={state === "expired"} onClick={settle}>
               Đã nhận tiền
             </Button>
             <Button block variant="ghost" icon={StickyNote} onClick={onPark}>
               Nháp
             </Button>
-            <Button block variant="danger" icon={X} onClick={onCancel}>
-              Huỷ QR
-            </Button>
           </div>
-
-          <a
-            className="mt-2 block text-xs text-ink-400 hover:text-coral-500"
-            href={`/demo/bank?code=${order.code}&amount=${order.total_amount}`}
-            target="_blank"
-            rel="noreferrer"
-          >
-            Mô phỏng ngân hàng
-          </a>
         </div>
       </div>
     </div>

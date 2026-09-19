@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from datetime import timedelta
 
+import re
+
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 from sqlalchemy.orm import Session, joinedload
 
 from app.config import settings
@@ -11,6 +13,7 @@ from app.core.exceptions import AppError
 from app.core.permissions import require
 from app.core.security import create_token, hash_password, hash_token, verify_password
 from app.core.utils import fold, money, utcnow
+from app.core.paging import clamp_page, page_meta
 from app.database import get_db
 from app.deps import get_current_customer, get_optional_customer
 from app.models import (
@@ -34,6 +37,8 @@ from app.routers.products import serialize_product
 from app.services.promo_service import live_order_promos, near_expiry_info, near_expiry_line_discount, near_expiry_promo, serialize_promo
 from app.services.order_service import apply_promo, create_qr_payment, gen_order_code
 from app.services.reservation_service import ReservationService
+from app.services import shipping
+from app.services.batch_service import ensure_sellable, expired_on_shelf_ids
 
 shop = APIRouter(prefix="/api/v1/shop", tags=["shop"])
 
@@ -70,6 +75,24 @@ class RegisterIn(BaseModel):
     phone: str
     password: str
     email: str | None = None
+
+    @field_validator("phone")
+    @classmethod
+    def vn_phone(cls, v: str) -> str:
+        v = re.sub(r"\D", "", v or "")
+        if not re.fullmatch(r"0\d{9}", v):
+            raise ValueError("Số điện thoại 10 số, bắt đầu bằng 0")
+        return v
+
+    @field_validator("password")
+    @classmethod
+    def ascii_password(cls, v: str) -> str:
+        v = (v or "").replace(" ", "")
+        if len(v) < 6:
+            raise ValueError("Mật khẩu từ 6 ký tự")
+        if re.search(r"\s", v) or re.search(r"[àáạảãâầấậẩẫăằắặẳẵèéẹẻẽêềếệểễìíịỉĩòóọỏõôồốộổỗơờớợởỡùúụủũưừứựửữỳýỵỷỹđ]", v, re.I):
+            raise ValueError("Mật khẩu không viết dấu và không có khoảng trắng")
+        return v
 
 
 @shop.post("/auth/register")
@@ -143,11 +166,17 @@ def catalog(
         query = query.order_by(Product.sale_price.desc())
     else:
         query = query.order_by(Product.sold_count.desc())
+    # Hàng đang có lô quá hạn trên kệ thì khách không thấy, không mua được.
+    blocked = expired_on_shelf_ids(db)
+    if blocked:
+        query = query.filter(Product.id.notin_(blocked))
+    page, size = clamp_page(page, size, default=24)
+    total = query.count()
     items = query.offset((page - 1) * size).limit(size).all()
     out = [serialize_product(db, p) for p in items]
     if in_stock:
         out = [x for x in out if x["available"] > 0]
-    return {"items": out}
+    return {"items": out, **page_meta(page, size, total)}
 
 
 @shop.get("/search")
@@ -157,6 +186,7 @@ def search(q: str, db: Session = Depends(get_db)):
         db.query(Product)
         .filter(Product.is_online.is_(True), Product.is_active.is_(True))
         .filter((Product.name.ilike(f"%{q}%")) | (Product.name_search.ilike(f"%{folded}%")))
+        .filter(Product.id.notin_(expired_on_shelf_ids(db) or {0}))
         .limit(8)
         .all()
     )
@@ -173,12 +203,14 @@ def search(q: str, db: Session = Depends(get_db)):
 @shop.get("/products/{slug}")
 def product_detail(slug: str, db: Session = Depends(get_db)):
     p = db.query(Product).filter(Product.slug == slug).first()
-    if not p:
-        raise HTTPException(404, "Không tìm thấy sản phẩm")
+    blocked = expired_on_shelf_ids(db)
+    if not p or p.id in blocked:
+        raise HTTPException(404, "Sản phẩm tạm ngưng bán")
     data = serialize_product(db, p)
     related = (
         db.query(Product)
         .filter(Product.category_id == p.category_id, Product.id != p.id, Product.is_online.is_(True), Product.is_active.is_(True))
+        .filter(Product.id.notin_(blocked or {0}))
         .limit(6)
         .all()
     )
@@ -278,6 +310,7 @@ def add_cart(body: CartItemIn, db: Session = Depends(get_db), customer: Customer
     p = db.get(Product, body.product_id)
     if not p or not p.is_online:
         raise HTTPException(404, "Sản phẩm không bán online")
+    ensure_sellable(db, p)
     cart = get_cart(db, customer, body.session_key)
     existing = next((i for i in cart.items if i.product_id == body.product_id), None)
     if existing:
@@ -314,6 +347,8 @@ class AddressIn(BaseModel):
     district: str
     ward: str
     street: str
+    lat: float | None = None
+    lng: float | None = None
     note: str | None = None
     is_default: bool = True
 
@@ -332,9 +367,43 @@ def list_addresses(customer: Customer = Depends(get_current_customer), db: Sessi
             "street": a.street,
             "note": a.note,
             "is_default": a.is_default,
+            "lat": a.lat,
+            "lng": a.lng,
+            "shipping": shipping.quote(db, a.lat, a.lng),
         }
         for a in rows
     ]
+
+
+class LocateIn(BaseModel):
+    lat: float
+    lng: float
+
+
+@shop.patch("/addresses/{address_id}/location")
+def locate_address(address_id: int, body: LocateIn, customer: Customer = Depends(get_current_customer), db: Session = Depends(get_db)):
+    """Gắn toạ độ cho địa chỉ đã lưu từ trước khi có phí theo km."""
+    a = db.get(CustomerAddress, address_id)
+    if not a or a.customer_id != customer.id:
+        raise HTTPException(404, "Không tìm thấy địa chỉ")
+    a.lat, a.lng = body.lat, body.lng
+    return shipping.quote(db, a.lat, a.lng)
+
+
+class QuoteIn(BaseModel):
+    lat: float | None = None
+    lng: float | None = None
+
+
+@shop.get("/shipping/rule")
+def shipping_rule(db: Session = Depends(get_db)):
+    r = shipping.rule(db)
+    return {k: r[k] for k in ("free_km", "base_fee", "per_km")}
+
+
+@shop.post("/shipping/quote")
+def shipping_quote(body: QuoteIn, db: Session = Depends(get_db)):
+    return shipping.quote(db, body.lat, body.lng)
 
 
 @shop.post("/addresses")
@@ -362,7 +431,14 @@ async def place_order(body: PlaceOrderIn, customer: Customer = Depends(get_curre
     if body.delivery_method == "DELIVERY" and not body.address_id:
         # Thiếu địa chỉ thì đơn giao vẫn tạo được nhưng shipper không biết đi đâu.
         raise AppError("NO_ADDRESS", "Đơn giao tận nơi cần địa chỉ nhận hàng")
-    shipping = 15000 if body.delivery_method == "DELIVERY" else 0
+    ship_quote = None
+    if body.delivery_method == "DELIVERY":
+        addr = db.get(CustomerAddress, body.address_id)
+        if not addr or addr.customer_id != customer.id:
+            raise AppError("NO_ADDRESS", "Địa chỉ nhận hàng không hợp lệ")
+        # Phí tính lại ở server theo toạ độ đã lưu, không tin số tiền trình duyệt gửi lên.
+        ship_quote = shipping.quote(db, addr.lat, addr.lng)
+    shipping_fee = ship_quote["fee"] if ship_quote else 0
     ttl = settings.online_qr_reserve_minutes if body.payment_method == "QR_BANK" else settings.online_cod_reserve_hours * 60
     order = Order(
         code=gen_order_code(db),
@@ -370,7 +446,7 @@ async def place_order(body: PlaceOrderIn, customer: Customer = Depends(get_curre
         warehouse_id=1,
         channel="ONLINE",
         delivery_method=body.delivery_method,
-        shipping_fee=shipping,
+        shipping_fee=shipping_fee,
         status="PENDING_CONFIRM",
         payment_status="UNPAID",
         note=body.note,
@@ -382,6 +458,7 @@ async def place_order(body: PlaceOrderIn, customer: Customer = Depends(get_curre
     near_promo = near_expiry_promo(db)
     for ci in list(cart.items):
         p = ci.product
+        ensure_sellable(db, p)
         line_discount = near_expiry_line_discount(db, p.id, float(p.sale_price), float(ci.quantity), near_promo)
         line_total = money(float(p.sale_price) * float(ci.quantity) - line_discount)
         db.add(
@@ -412,9 +489,18 @@ async def place_order(body: PlaceOrderIn, customer: Customer = Depends(get_curre
     order.subtotal = subtotal
     order.discount_amount = discount
     order.promotion_id = promo_id
-    order.total_amount = money(subtotal - discount + shipping)
+    order.total_amount = money(subtotal - discount + shipping_fee)
     if body.delivery_method == "DELIVERY":
-        db.add(Shipment(order_id=order.id, method="DELIVERY", address_id=body.address_id, shipping_fee=shipping, status="PENDING"))
+        db.add(
+            Shipment(
+                order_id=order.id,
+                method="DELIVERY",
+                address_id=body.address_id,
+                shipping_fee=shipping_fee,
+                distance_km=ship_quote["distance_km"],
+                status="PENDING",
+            )
+        )
     else:
         db.add(Shipment(order_id=order.id, method="PICKUP", shipping_fee=0, status="PENDING"))
     if body.payment_method == "QR_BANK":

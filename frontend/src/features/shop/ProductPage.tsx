@@ -30,7 +30,7 @@ export default function ProductPage() {
 
   if (q.isPending) {
     return (
-      <div className="mx-auto max-w-6xl px-3 py-6 sm:px-4 sm:py-8">
+      <div className="shop-wrap py-4 sm:py-6">
         <div className="grid gap-5 md:grid-cols-2 md:gap-8">
           <Skeleton className="h-56 rounded-3xl sm:h-80 md:h-[420px]" />
           <div className="space-y-3">
@@ -82,7 +82,7 @@ export default function ProductPage() {
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-3 py-6 sm:px-4 sm:py-8">
+    <div className="shop-wrap py-4 sm:py-6">
       <Link
         to="/catalog"
         className="inline-flex items-center gap-1.5 text-sm font-bold text-forest-700 transition hover:text-coral-500"
@@ -192,7 +192,7 @@ export default function ProductPage() {
         <div className="mt-12">
           <div className="section-kicker">Mua kèm</div>
           <h3 className="mb-4 font-display text-2xl font-black">Hay lấy cùng</h3>
-          <div className="grid grid-cols-2 gap-2.5 md:grid-cols-3 lg:grid-cols-4 sm:gap-4">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
             {p.related.map((r: any) => (
               <ProductCard key={r.id} p={r} />
             ))}

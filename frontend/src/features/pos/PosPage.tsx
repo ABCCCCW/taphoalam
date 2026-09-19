@@ -2,9 +2,10 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { staffApi } from "../../api/client";
+import BankModal from "../settings/BankModal";
 import { useAuth } from "../../stores/authStore";
 import { lineDiscount, lineNet, promoDiscount, useCart, type Promo } from "../../stores/cartStore";
-import { num, uid, vnd } from "../../lib/format";
+import { dateFull, expiryNote, num, uid, vnd } from "../../lib/format";
 import { homeFor } from "../../lib/roles";
 import { look, ROLE } from "../../lib/labels";
 import { cn } from "../../lib/cn";
@@ -19,7 +20,7 @@ import { useToast } from "../../components/ui/Toast";
 import { Notice } from "../../components/ui/Feedback";
 import {
   Banknote, LayoutDashboard, ListFilter, LogOut, Minus, PackagePlus, Pause,
-  Plus, QrCode, Search, Settings, Smartphone, StickyNote, Trash2, UserRound, X, BadgePercent, Check,
+  Landmark, Plus, QrCode, Search, Smartphone, StickyNote, Trash2, UserRound, X, BadgePercent, Check, PenLine, AlertTriangle,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { phoneHost, phoneJoinOrigin, phoneHttpsPort, phoneHttpPort, isLoopback, publicOrigin } from "../../lib/origin";
@@ -51,15 +52,17 @@ export default function PosPage() {
   const nav = useNavigate();
   const qc = useQueryClient();
   const toast = useToast();
-  const { lines, add, setQty, remove, clear, customer, setCustomer, discount, promo, setPromo, hold, held, restore } = useCart();
+  const { lines, add, setQty, remove, clear, customer, setCustomer, discount, setDiscount, promo, setPromo, hold, held, restore, replace } = useCart();
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<number | "">("");
   const [phone, setPhone] = useState("");
   const [cusEdit, setCusEdit] = useState(false);
   const [newCus, setNewCus] = useState<string | null>(null);
   const [more, setMore] = useState(false);
+  const [bankOpen, setBankOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
   const [promoOpen, setPromoOpen] = useState(false);
+  const [manualOpen, setManualOpen] = useState(false);
   const [pay, setPay] = useState<"CASH" | "QR" | null>(null);
   const [cash, setCash] = useState(0);
   const [busy, setBusy] = useState(false);
@@ -96,6 +99,7 @@ export default function PosPage() {
   const [kg, setKg] = useState("0.3");
   const searchRef = useRef<HTMLInputElement>(null);
   const buf = useRef("");
+  const lastRef = useRef<any>(null);
 
   const shift = useQuery({ queryKey: ["shift"], queryFn: staffApi.currentShift, refetchInterval: 15000 });
   // Backend khởi động lại lúc quầy đang mở thì lần tải nhóm hàng đầu tiên hỏng; cứ thử lại
@@ -114,8 +118,13 @@ export default function PosPage() {
   // Chỉ mã đang trong hạn mới về đây; qua nửa đêm là mã hết hạn tự biến mất khỏi danh sách.
   const promos = useQuery<Promo[]>({ queryKey: ["promos-live"], queryFn: staffApi.promotionsAvailable, refetchInterval: 60_000 });
 
+  // Hàng có lô quá hạn trên kệ: ngừng bán, không hiện ở quầy cho tới khi kho bỏ lô đó.
+  const sellable = useMemo(
+    () => (products.data?.items || []).filter((p: any) => p.next_lot?.status !== "expired"),
+    [products.data]
+  );
   const shelves = useMemo(() => {
-    const items = products.data?.items || [];
+    const items = sellable;
     const list = cats.data || [];
     const grouped = list
       .map((c: any) => ({ ...c, items: items.filter((p: any) => p.category_id === c.id) }))
@@ -124,14 +133,16 @@ export default function PosPage() {
     const known = new Set(list.map((c: any) => c.id));
     const rest = items.filter((p: any) => !known.has(p.category_id));
     return rest.length ? [...grouped, { id: "other", icon: "📦", name: "Hàng khác", items: rest }] : grouped;
-  }, [products.data, cats.data]);
+  }, [sellable, cats.data]);
 
   // Tạm tính đã trừ giảm cận date của từng món
   const subtotal = lines.reduce((s, l) => s + lineNet(l), 0);
   const nearOff = lines.reduce((s, l) => s + lineDiscount(l), 0);
   const chosen = (promos.data || []).find((p) => p.code === promo) || null;
   const promoOff = promoDiscount(chosen, subtotal);
-  const total = Math.max(0, subtotal - promoOff - discount);
+  // Giảm tay không được lớn hơn phần còn phải thu sau mã KM.
+  const manualOff = Math.min(discount, Math.max(0, subtotal - promoOff));
+  const total = Math.max(0, subtotal - promoOff - manualOff);
   const count = lines.reduce((s, l) => s + l.quantity, 0);
   const inCart = (id: number) => lines.find((l) => l.product_id === id)?.quantity || 0;
   const shelfOf = (id: number) => {
@@ -173,7 +184,22 @@ export default function PosPage() {
     setQty(id, next);
   };
 
+  /** Chặn hàng quá hạn; hàng sắp hết hạn thì nhắc thu ngân báo khách (chỉ lần đầu thêm). */
+  const expiryGate = (p: any) => {
+    // Quét tem lô thì xét đúng lô đó; bấm trên kệ / mã nhà sản xuất thì xét lô bán ra trước.
+    const lot = p.scanned_lot || p.next_lot;
+    if (lot?.status === "expired") {
+      toast.error(`${p.name}: lô trên kệ đã quá hạn (HSD ${dateFull(lot.expiry_date)}) — không bán, báo kho bỏ kệ`);
+      return false;
+    }
+    if (lot?.status === "expiring" && !inCart(p.id)) {
+      toast.info(`⚠ ${p.name} sắp hết hạn: HSD ${dateFull(lot.expiry_date)} (${expiryNote(lot.days).toLowerCase()}) — nhắc khách nhé`);
+    }
+    return true;
+  };
+
   const put = (p: any) => {
+    if (!expiryGate(p)) return;
     const outside = p.cost_confirmed === false;
     const left = Number(p.available || 0) - inCart(p.id);
     if (!outside && left <= 0) return;
@@ -190,6 +216,7 @@ export default function PosPage() {
     async (code: string) => {
       try {
         const p = await staffApi.barcode(code);
+        if (!expiryGate(p)) return;
         if (p.product_type === "WEIGHTED" && !p.suggested_qty) {
           setWeight(p);
           setKg("0.3");
@@ -320,7 +347,27 @@ export default function PosPage() {
   const checkout = async (method: "CASH" | "QR_BANK") => {
     if (!shift.data) return;
     if (!lines.length || busy || overStock) return;
+    /* Đơn QR nháp đã có trên máy chủ — mở lại mã cũ, không tạo đơn thứ hai. */
+    if (method === "QR_BANK" && last?.status === "PENDING_PAYMENT") {
+      setPay("QR");
+      return;
+    }
     setBusy(true);
+    if (method === "CASH" && last?.status === "PENDING_PAYMENT") {
+      try {
+        await staffApi.cancelOrder(last.id);
+      } catch (e: any) {
+        const msg = String(e?.message || "");
+        if (!/không huỷ|NOT_CANCELLABLE/i.test(msg)) {
+          setBusy(false);
+          toast.error(e, "Chưa bỏ được đơn QR cũ");
+          return;
+        }
+      }
+      setWaiting((w) => w.filter((x) => x.id !== last.id));
+      setLast(null);
+      lastRef.current = null;
+    }
     try {
       const order = await staffApi.checkout(
         {
@@ -328,12 +375,13 @@ export default function PosPage() {
           customer_id: customer?.id,
           payment_method: method,
           received: method === "CASH" ? cash : total,
-          discount,
+          discount: manualOff,
           promo_code: promoOff > 0 ? promo : undefined,
         },
         uid()
       );
       setLast(order);
+      lastRef.current = order;
       qc.invalidateQueries({ queryKey: ["pos-p"] });
       if (method === "CASH") {
         await openSlip(order, true);
@@ -354,7 +402,7 @@ export default function PosPage() {
     try {
       setSlip(await staffApi.receipt(order.id));
     } catch {
-      setSlip({ store_name: "Lâm Ly Mart", store_address: "12 Nguyễn Trãi, Thanh Xuân, Hà Nội", order });
+      setSlip({ store_name: "Lâm Ly Mart", store_address: "Cầu Diễn, Bắc Từ Liêm, Hà Nội", order });
     }
   };
 
@@ -371,26 +419,75 @@ export default function PosPage() {
     }
     setPay(null);
     setLast(null);
+    lastRef.current = null;
     clear();
     qc.invalidateQueries({ queryKey: ["pos-p"] });
   };
 
-  const resumeQr = (o: any) => {
-    setWaiting((w) => w.filter((x) => x.id !== o.id));
-    setLast(o);
-    setPay("QR");
+  const parkCurrent = () => {
+    if (last?.status === "PENDING_PAYMENT") parkQr();
+    else hold();
   };
 
-  const abandonQr = async () => {
-    const id = last?.id;
-    if (last?.status === "PENDING_PAYMENT") {
-      await staffApi.cancelOrder(last.id).catch(() => {});
+  /* Chip nháp QR về giỏ như tiền mặt — rồi mới Xoá đơn / mở QR lại. */
+  const resumeQr = (o: any) => {
+    if (last?.status === "PENDING_PAYMENT" && last.id !== o.id) {
+      setWaiting((w) => (w.some((x) => x.id === last.id) ? w : [...w, last]));
     }
-    setWaiting((w) => w.filter((x) => x.id !== id));
+    setWaiting((w) => w.filter((x) => x.id !== o.id));
+    replace({
+      lines: (o.items || []).map((i: any) => ({
+        product_id: i.product_id,
+        name: i.product_name,
+        emoji: i.emoji,
+        image_url: i.image_url,
+        unit_price: i.unit_price,
+        quantity: i.quantity,
+      })),
+      customer: o.customer_id ? { id: o.customer_id, name: o.customer_name, loyalty_points: 0 } : null,
+      discount: Number(o.discount_amount || 0),
+    });
+    setLast(o);
+    lastRef.current = o;
     setPay(null);
-    setLast(null);
-    qc.invalidateQueries({ queryKey: ["pos-p"] });
   };
+
+  /* Giỏ nháp QR đã có đơn trên máy chủ: Xoá phải huỷ + trả tồn. */
+  const dropCart = async () => {
+    if (last?.status === "PENDING_PAYMENT") {
+      try {
+        await staffApi.cancelOrder(last.id);
+      } catch (e: any) {
+        const msg = String(e?.message || "");
+        if (!/không huỷ|NOT_CANCELLABLE/i.test(msg)) {
+          toast.error(e, "Chưa xoá được đơn QR");
+          return;
+        }
+      }
+      setWaiting((w) => w.filter((x) => x.id !== last.id));
+      setLast(null);
+      lastRef.current = null;
+      qc.invalidateQueries({ queryKey: ["pos-p"] });
+    }
+    clear();
+  };
+
+  /* Chip «Chưa TT» QR chỉ nằm trên máy. Tải lại trang thì hỏi lại đơn
+     đang chờ CK của ca này, để còn mở / xoá được. */
+  useEffect(() => {
+    staffApi
+      .orders({ channel: "POS", status: "PENDING_PAYMENT", size: 50 })
+      .then((r) => {
+        const items = r.items || [];
+        if (!items.length) return;
+        setWaiting((w) => {
+          const have = new Set(w.map((x) => x.id));
+          const extra = items.filter((o: any) => !have.has(o.id) && o.id !== lastRef.current?.id);
+          return extra.length ? [...w, ...extra] : w;
+        });
+      })
+      .catch(() => {});
+  }, []);
 
   /* Gắn khách bằng SĐT. Không thấy số thì mở hộp thoại tạo khách mới —
      trước đây dùng prompt() của trình duyệt, bấm Huỷ là tạo «Khách lẻ» rỗng. */
@@ -399,8 +496,9 @@ export default function PosPage() {
     if (!p) return;
     try {
       const list = await staffApi.customers({ phone: p });
-      if (list[0]) {
-        setCustomer(list[0]);
+      const hit = (list.items || list)[0];
+      if (hit) {
+        setCustomer(hit);
         setCusEdit(false);
         setPhone("");
       } else {
@@ -425,7 +523,7 @@ export default function PosPage() {
   };
 
   const storeName = settings.data?.["store.name"] || "Lâm Ly Mart";
-  const storeAddress = settings.data?.["store.address"] || "12 Nguyễn Trãi, Thanh Xuân, Hà Nội";
+  const storeAddress = settings.data?.["store.address"] || "Cầu Diễn, Bắc Từ Liêm, Hà Nội";
   const storePhone = settings.data?.["store.phone"] || "";
   const pickedCat = cats.data?.find((c: any) => c.id === cat);
   const initials = (user?.full_name || user?.username || "?")
@@ -541,10 +639,10 @@ export default function PosPage() {
                   <MenuItem icon={LayoutDashboard} label="Về quản trị" onClick={() => nav(homeFor(user?.role))} />
                 )}
                 {user?.role === "ADMIN" && (
-                  <MenuItem icon={Settings} label="Cấu hình cửa hàng" onClick={() => nav("/admin/settings")} />
+                  <MenuItem icon={Landmark} label="Tài khoản ngân hàng" onClick={() => { setMore(false); setBankOpen(true); }} />
                 )}
                 <div className="my-1 border-t border-black/[.06]" />
-                <MenuItem icon={LogOut} label="Đăng xuất" onClick={() => { logout(); nav("/admin/login"); }} />
+                <MenuItem icon={LogOut} label="Đăng xuất" onClick={() => { logout(); nav("/dang-nhap"); }} />
               </div>
             </>
           )}
@@ -668,7 +766,7 @@ export default function PosPage() {
             </div>
           ) : (
             <div className="grid flex-1 grid-cols-[repeat(auto-fill,minmax(7.5rem,1fr))] content-start gap-2.5 overflow-auto pr-1">
-              {products.data?.items?.map((p: any) => (
+              {sellable.map((p: any) => (
                 <PosRow key={p.id} p={p} qty={inCart(p.id)} onAdd={() => put(p)} />
               ))}
               {!products.isPending && !products.data?.items?.length && (
@@ -694,7 +792,7 @@ export default function PosPage() {
                 type="button"
                 className="inline-flex h-9 items-center gap-1.5 rounded-xl bg-ink-100 px-3 text-sm font-extrabold text-ink-800 hover:bg-ink-50 disabled:opacity-30"
                 disabled={!lines.length}
-                onClick={hold}
+                onClick={parkCurrent}
                 title="Để đơn này sang nháp, rồi bán khách khác"
               >
                 <StickyNote className="h-3.5 w-3.5" />
@@ -704,7 +802,7 @@ export default function PosPage() {
                 type="button"
                 className="inline-flex h-9 items-center gap-1.5 rounded-xl bg-coral-50 px-3 text-sm font-extrabold text-coral-600 hover:bg-coral-100 disabled:opacity-30"
                 disabled={!lines.length}
-                onClick={clear}
+                onClick={dropCart}
                 title="Xoá hết món trên đơn này"
               >
                 <Trash2 className="h-3.5 w-3.5" />
@@ -720,7 +818,7 @@ export default function PosPage() {
                   key={`qr-${o.id}`}
                   className="chip bg-coral-500 text-xs font-extrabold text-white"
                   onClick={() => resumeQr(o)}
-                  title="QR đang chờ CK — bấm mở lại"
+                  title="Đơn chưa thanh toán — bấm mở lại"
                 >
                   <QrCode className="h-3 w-3" /> Chưa TT {i + 1}
                 </button>
@@ -729,7 +827,14 @@ export default function PosPage() {
                 <button
                   key={`hold-${h.id}`}
                   className="chip border border-ink-200 bg-white text-xs font-extrabold text-ink-800"
-                  onClick={() => restore(h.id)}
+                  onClick={() => {
+                    if (last?.status === "PENDING_PAYMENT") {
+                      setWaiting((w) => (w.some((x) => x.id === last.id) ? w : [...w, last]));
+                      setLast(null);
+                      lastRef.current = null;
+                    }
+                    restore(h.id);
+                  }}
                   title="Đơn chưa thanh toán — bấm mở lại"
                 >
                   <StickyNote className="h-3 w-3" /> Chưa TT {waiting.length + i + 1}
@@ -757,8 +862,9 @@ export default function PosPage() {
                   className="input py-2"
                   placeholder="Số điện thoại"
                   inputMode="numeric"
+                  maxLength={10}
                   value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
+                  onChange={(e) => setPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
                   onKeyDown={(e) => e.key === "Enter" && findCus()}
                 />
                 <Button size="sm" className="px-3" onClick={findCus}>OK</Button>
@@ -786,6 +892,11 @@ export default function PosPage() {
                   <div className="truncate text-sm font-bold">{l.name}</div>
                   {shelfOf(l.product_id) != null && l.quantity > Number(shelfOf(l.product_id)) && l.cost_confirmed !== false ? (
                     <div className="text-xs text-coral-500">Kệ còn {num(shelfOf(l.product_id) || 0)} — bớt số lượng nhé</div>
+                  ) : l.lot_status === "expiring" && l.lot_expiry ? (
+                    <div className="flex items-center gap-1 text-xs font-semibold text-sun-700" title="Nhắc khách hạn dùng">
+                      <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
+                      HSD {dateFull(l.lot_expiry)} · {expiryNote(l.lot_days).toLowerCase()}
+                    </div>
                   ) : l.cost_confirmed === false ? (
                     <div className="text-xs text-sun-700">Hàng ngoài</div>
                   ) : lineDiscount(l) > 0 ? (
@@ -836,24 +947,59 @@ export default function PosPage() {
                 }}
               />
             )}
+            {manualOpen && (
+              <div className="mb-2 flex items-center gap-2">
+                <div className="relative flex-1">
+                  <input
+                    autoFocus
+                    inputMode="numeric"
+                    className="input py-2 pr-8 text-right font-bold text-ink-900"
+                    placeholder="Số tiền giảm"
+                    value={discount ? money(discount) : ""}
+                    onChange={(e) => setDiscount(Number(e.target.value.replace(/\D/g, "")) || 0)}
+                    onKeyDown={(e) => e.key === "Enter" && setManualOpen(false)}
+                  />
+                  <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm font-bold text-ink-400">đ</span>
+                </div>
+                {discount > 0 && (
+                  <button type="button" className="rounded-xl bg-white/10 px-3 py-2 text-xs font-bold hover:bg-white/15" onClick={() => setDiscount(0)}>
+                    Bỏ
+                  </button>
+                )}
+                <button type="button" className="rounded-xl bg-white px-3 py-2 text-xs font-extrabold text-forest-900" onClick={() => setManualOpen(false)}>
+                  Xong
+                </button>
+              </div>
+            )}
             {nearOff > 0 && (
               <div className="mb-1 px-1 text-xs font-semibold text-coral-300">Đã trừ cận date −{money(nearOff)}đ</div>
             )}
-            <div className="mb-3 flex items-end justify-between px-1">
-              <button className="inline-flex items-center gap-1 text-xs font-bold text-lime-300" onClick={() => setPromoOpen((v) => !v)}>
-                <BadgePercent className="h-3.5 w-3.5" />
-                {promoOpen
-                  ? "Ẩn KM"
-                  : chosen
-                    ? promoOff > 0
-                      ? `${chosen.code} −${money(promoOff)}đ`
-                      : `${chosen.code} · thiếu ${money(chosen.min_order_amount - subtotal)}đ`
-                    : `Chọn mã KM${promos.data?.length ? ` (${promos.data.length})` : ""}`}
-              </button>
-              <div className="text-right">
-                <div className="text-xs text-white/60">Cần thu</div>
-                <div className="font-display text-3xl font-black leading-none text-white">{money(total)}đ</div>
-              </div>
+            {/* Hai nút tách hẳn, cao và rộng đều nhau để bấm bằng ngón tay không lệch sang nút kia. */}
+            <div className="grid grid-cols-2 gap-2">
+              <DiscountChip
+                icon={PenLine}
+                label="Giảm tay"
+                value={manualOff > 0 ? `−${money(manualOff)}đ` : ""}
+                open={manualOpen}
+                onClick={() => {
+                  setManualOpen((v) => !v);
+                  setPromoOpen(false);
+                }}
+              />
+              <DiscountChip
+                icon={BadgePercent}
+                label={chosen ? chosen.code : `Mã KM${promos.data?.length ? ` (${promos.data.length})` : ""}`}
+                value={chosen ? (promoOff > 0 ? `−${money(promoOff)}đ` : `thiếu ${money(chosen.min_order_amount - subtotal)}đ`) : ""}
+                open={promoOpen}
+                onClick={() => {
+                  setPromoOpen((v) => !v);
+                  setManualOpen(false);
+                }}
+              />
+            </div>
+            <div className="my-3 flex items-baseline justify-between gap-2 px-1">
+              <div className="text-sm font-semibold text-white/60">Cần thu</div>
+              <div className="font-display text-3xl font-black leading-none text-white">{money(total)}đ</div>
             </div>
             <div className="grid grid-cols-2 gap-2">
               <button
@@ -879,7 +1025,7 @@ export default function PosPage() {
         <CashPayModal
           lines={lines}
           subtotal={subtotal}
-          discount={promoOff + discount}
+          discount={promoOff + manualOff}
           total={total}
           customer={customer}
           cashier={user?.full_name}
@@ -894,7 +1040,7 @@ export default function PosPage() {
           onClose={() => { setPay(null); setSlip(null); }}
           onConfirm={() => checkout("CASH")}
           onDraft={() => {
-            hold();
+            parkCurrent();
             setPay(null);
             setSlip(null);
             setCash(0);
@@ -909,7 +1055,6 @@ export default function PosPage() {
           storeAddress={settings.data?.["store.address"]}
           storePhone={settings.data?.["store.phone"]}
           onPark={parkQr}
-          onCancel={abandonQr}
           onPaid={async () => {
             try {
               /* complete_qr_order ở backend không làm lại nếu đơn đã COMPLETED,
@@ -920,6 +1065,7 @@ export default function PosPage() {
               setPay(null);
               clear();
               setLast(null);
+              lastRef.current = null;
               qc.invalidateQueries({ queryKey: ["pos-p"] });
               await openSlip(done, true);
             } catch (e) {
@@ -1090,6 +1236,7 @@ export default function PosPage() {
       )}
 
       {slip && pay !== "CASH" && <ReceiptPrinter data={slip} onClose={() => setSlip(null)} />}
+      {bankOpen && <BankModal onClose={() => setBankOpen(false)} />}
     </div>
   );
 }
@@ -1099,7 +1246,7 @@ function PosRow({ p, qty, onAdd }: { p: any; qty: number; onAdd: () => void }) {
   const left = Math.max(0, Number(p.available || 0) - qty);
   const out = !outside && left <= 0;
   const low = !out && !outside && (p.low_stock || left <= Number(p.min_stock || 0));
-  const unit = p.product_type === "WEIGHTED" ? " kg" : "";
+  const unit = p.unit ? ` ${String(p.unit).toLowerCase()}` : p.product_type === "WEIGHTED" ? " kg" : "";
 
   // Tồn kho chỉ là chữ nhỏ màu xám; đổi màu khi sắp hết/hàng ngoài để mắt bắt được
   // đúng món cần chú ý, còn lại cả kệ đồng một tông cho gọn.
@@ -1297,6 +1444,41 @@ function CloseShiftModal({
 }
 
 /** Chọn mã khuyến mãi đang chạy — không gõ tay. Mã chưa đủ đơn tối thiểu vẫn hiện nhưng mờ đi. */
+function DiscountChip({
+  icon: Icon,
+  label,
+  value,
+  open,
+  onClick,
+}: {
+  icon: any;
+  label: string;
+  value: string;
+  open: boolean;
+  onClick: () => void;
+}) {
+  const applied = !!value;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-expanded={open}
+      className={cn(
+        "flex h-11 min-w-0 items-center gap-2 rounded-xl px-3 text-left text-sm font-bold ring-1 transition active:scale-[.98]",
+        open
+          ? "bg-white text-forest-900 ring-white"
+          : applied
+            ? "bg-white/15 text-white ring-white/40"
+            : "bg-white/[.06] text-white/85 ring-white/15 hover:bg-white/10"
+      )}
+    >
+      <Icon className="h-4 w-4 shrink-0" />
+      <span className="truncate">{label}</span>
+      {value && <span className="ml-auto shrink-0 tabular-nums">{value}</span>}
+    </button>
+  );
+}
+
 function PromoPicker({
   promos,
   loading,

@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from app.core.security import hash_password
+from app.services.staff_accounts import ADMIN_PASSWORD, ADMIN_USERNAME, DEFAULT_STAFF_PASSWORD
 from app.core.utils import fold, utcnow
 from app.database import Base, SessionLocal, engine
 from app.models import (
@@ -140,7 +141,7 @@ def seed(reset: bool = False):
         db.flush()
         brand_map[n] = b.id
 
-    db.add(Warehouse(code="KHO01", name="Quầy bán", address="12 Nguyễn Trãi, Thanh Xuân, Hà Nội", is_default=True))
+    db.add(Warehouse(code="KHO01", name="Quầy bán", address="Cầu Diễn, Bắc Từ Liêm, Hà Nội", is_default=True))
     db.add(Warehouse(code="KHO02", name="Kho sau", address="Sân sau cửa hàng", is_default=False))
     db.add_all(
         [
@@ -152,9 +153,9 @@ def seed(reset: bool = False):
 
     db.add_all(
         [
-            User(username="admin", password_hash=hash_password("admin123"), full_name="Chủ tiệm Lâm", role="ADMIN", phone="0901000001", pin_hash=hash_password("0000")),
-            User(username="cashier", password_hash=hash_password("cashier123"), full_name="Thu ngân Mai", role="CASHIER", phone="0901000002", pin_hash=hash_password("1234")),
-            User(username="stocker", password_hash=hash_password("stocker123"), full_name="Anh Kho Nam", role="STOCKER", phone="0901000003", pin_hash=hash_password("4321")),
+            User(username=ADMIN_USERNAME, password_hash=hash_password(ADMIN_PASSWORD), full_name="Chủ tiệm Lâm", role="ADMIN", phone="0901000001", pin_hash=hash_password("0000")),
+            User(username="0001", password_hash=hash_password(DEFAULT_STAFF_PASSWORD), full_name="Thu ngân Mai", role="CASHIER", phone="0901000002", pin_hash=hash_password("1234")),
+            User(username="0002", password_hash=hash_password(DEFAULT_STAFF_PASSWORD), full_name="Anh Kho Nam", role="STOCKER", phone="0901000003", pin_hash=hash_password("4321")),
         ]
     )
 
@@ -220,7 +221,7 @@ def seed(reset: bool = False):
     c2 = Customer(code="KH000002", name="Trần Bình", phone="0912345678", source="POS", loyalty_points=80, total_spent=240000)
     db.add_all([c1, c2])
     db.flush()
-    db.add(CustomerAddress(customer_id=c1.id, receiver_name="Nguyễn An", receiver_phone="0901234567", province="Hà Nội", district="Thanh Xuân", ward="Nhân Chính", street="12 Nguyễn Trãi", is_default=True))
+    db.add(CustomerAddress(customer_id=c1.id, receiver_name="Nguyễn An", receiver_phone="0901234567", province="Hà Nội", district="Bắc Từ Liêm", ward="Cầu Diễn", street="Phạm Văn Đồng", is_default=True))
 
     now = utcnow()
     db.add(
@@ -236,18 +237,17 @@ def seed(reset: bool = False):
             is_active=True,
         )
     )
-    db.add(Promotion(code="FREESHIP", name="Giảm 15.000đ phí ship", type="AMOUNT", value=15000, min_order_amount=80000, start_at=now - timedelta(days=1), end_at=now + timedelta(days=90), is_active=True))
 
     db.add_all(
         [
-            Banner(title="Freeship đơn từ 80k", image_url="hero-1", link_url="/catalog", sort_order=1),
+            Banner(title="Miễn phí giao trong 2 km", image_url="hero-1", link_url="/catalog", sort_order=1),
             Banner(title="Rau củ sáng sớm", image_url="hero-2", link_url="/catalog?category=7", sort_order=2),
         ]
     )
 
     settings = {
         "store.name": "Lâm Ly Mart",
-        "store.address": "12 Nguyễn Trãi, Thanh Xuân, Hà Nội",
+        "store.address": "Cầu Diễn, Bắc Từ Liêm, Hà Nội",
         "store.phone": "0901 234 567",
         "store.slogan": "Tươi mỗi ngày, gần ngay phố",
         "bank.bin": "970436",
@@ -256,6 +256,12 @@ def seed(reset: bool = False):
         "bank.account_name": "TAP HOA LAM",
         "tax.default": "0",
         "loyalty.rate": "10000",
+        # Phí giao: miễn phí trong 2 km, quá 2 km 20.000đ rồi mỗi km thêm 5.000đ.
+        "store.lat": "21.0394",
+        "store.lng": "105.7647",
+        "ship.free_km": "2",
+        "ship.base_fee": "20000",
+        "ship.per_km": "5000",
     }
     for k, v in settings.items():
         db.add(Setting(key=k, value=v, group=k.split(".")[0]))
@@ -268,7 +274,7 @@ def seed(reset: bool = False):
     seed_promotions(db)
     db.commit()
     print(
-        "Seed xong: admin/admin123 · cashier/cashier123 · stocker/stocker123 · khách 0901234567/khach123"
+        f"Seed xong: {ADMIN_USERNAME}/{ADMIN_PASSWORD} · thu ngân 0001 · kho 0002 (mật khẩu {DEFAULT_STAFF_PASSWORD}) · khách 0901234567/khach123"
         f" · {lots['created']} lô tồn đầu có hạn dùng"
     )
 

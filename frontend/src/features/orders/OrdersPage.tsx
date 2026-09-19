@@ -1,6 +1,6 @@
-import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { ChevronLeft, ChevronRight, Eye, Printer, Undo2 } from "lucide-react";
+import { useState } from "react";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { Eye, Printer, Undo2 } from "lucide-react";
 import { staffApi } from "../../api/client";
 import { num, vnd, when } from "../../lib/format";
 import { CHANNEL, ORDER_STATUS, PAYMENT_STATUS } from "../../lib/labels";
@@ -12,12 +12,10 @@ import DataTable, { type Column } from "../../components/ui/DataTable";
 import Modal from "../../components/ui/Modal";
 import { StatusBadge } from "../../components/ui/Badge";
 import { EmptyState, Notice } from "../../components/ui/Feedback";
-import { PageHeader, SearchInput, Segmented, Toolbar } from "../../components/ui/Page";
+import { PAGE_SIZE, PageBody, PageFrame, PageHeader, Pager, SearchInput, Segmented, Toolbar } from "../../components/ui/Page";
 import { Input, Textarea, Toggle } from "../../components/ui/Field";
 import { useToast } from "../../components/ui/Toast";
 import { cn } from "../../lib/cn";
-
-const SIZE = 30;
 
 export default function OrdersPage() {
   const { user } = useAuth();
@@ -36,16 +34,14 @@ export default function OrdersPage() {
         q: term || undefined,
         channel: channel || undefined,
         page,
-        size: SIZE,
+        size: PAGE_SIZE,
       }),
+    placeholderData: keepPreviousData,
   });
 
   const rows = q.data?.items || [];
-  const hasNext = rows.length === SIZE;
-  const dayTotal = useMemo(
-    () => rows.filter((o: any) => o.status === "COMPLETED").reduce((s: number, o: any) => s + Number(o.total_amount), 0),
-    [rows]
-  );
+  const pages = q.data?.pages || 1;
+  const total = q.data?.total || 0;
 
   const reset = (patch: () => void) => {
     patch();
@@ -59,7 +55,7 @@ export default function OrdersPage() {
       /* Backend chưa trả được phiếu thì vẫn in từ dữ liệu đơn đang có trên máy. */
       setSlip({
         store_name: "Lâm Ly Mart",
-        store_address: "12 Nguyễn Trãi, Thanh Xuân, Hà Nội",
+        store_address: "Cầu Diễn, Bắc Từ Liêm, Hà Nội",
         order,
       });
     }
@@ -111,11 +107,14 @@ export default function OrdersPage() {
   ];
 
   return (
-    <div>
+    <PageFrame>
       <PageHeader
+        className="mb-0"
         kicker="Sổ sách"
         title="Hoá đơn"
       />
+
+      <PageBody>
 
       <Toolbar>
         <SearchInput value={term} onChange={(v) => reset(() => setTerm(v))} placeholder="Tìm theo mã đơn…" />
@@ -155,30 +154,7 @@ export default function OrdersPage() {
             }
           />
         }
-        footer={
-          rows.length > 0 && (
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <span className="text-xs font-semibold text-ink-500">
-                Trang này: {rows.length} đơn · đơn đã xong trên trang {vnd(dayTotal)}
-              </span>
-              <div className="flex items-center gap-1.5">
-                <Button
-                  size="sm"
-                  variant="ghost"
-                  icon={ChevronLeft}
-                  disabled={page === 1}
-                  onClick={() => setPage((p) => Math.max(1, p - 1))}
-                >
-                  Trước
-                </Button>
-                <span className="px-1 text-xs font-bold text-ink-500">Trang {page}</span>
-                <Button size="sm" variant="ghost" disabled={!hasNext} onClick={() => setPage((p) => p + 1)}>
-                  Sau <ChevronRight className="h-3.5 w-3.5" />
-                </Button>
-              </div>
-            </div>
-          )
-        }
+        footer={rows.length > 0 && <Pager page={page} pages={pages} total={total} onPage={setPage} />}
       />
 
       {detail && (
@@ -189,6 +165,9 @@ export default function OrdersPage() {
           subtitle={`${when(detail.created_at)} · ${detail.customer_name || "Khách lẻ"}`}
           footer={
             <>
+              <Button variant="ghost" onClick={() => setDetail(null)}>
+                Đóng
+              </Button>
               {user?.role !== "CASHIER" && ["COMPLETED", "PARTIALLY_RETURNED"].includes(detail.status) && (
                 <Button variant="danger" icon={Undo2} onClick={() => setReturning(detail)}>
                   Khách trả hàng
@@ -261,7 +240,8 @@ export default function OrdersPage() {
       )}
 
       {slip && <ReceiptPrinter data={slip} onClose={() => setSlip(null)} />}
-    </div>
+      </PageBody>
+    </PageFrame>
   );
 }
 

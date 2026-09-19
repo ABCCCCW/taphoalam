@@ -3,13 +3,14 @@ import { createPortal } from "react-dom";
 import { X } from "lucide-react";
 import { cn } from "../../lib/cn";
 
-type Size = "sm" | "md" | "lg" | "xl";
+type Size = "sm" | "md" | "lg" | "xl" | "2xl";
 
 const SIZE: Record<Size, string> = {
   sm: "max-w-[26rem]",
   md: "max-w-md",
   lg: "max-w-2xl",
   xl: "max-w-4xl",
+  "2xl": "max-w-6xl",
 };
 
 export default function Modal({
@@ -89,14 +90,17 @@ export default function Modal({
               {title && <h2 className="font-display text-xl font-black leading-snug text-ink-900">{title}</h2>}
               {subtitle && <p className="text-sm leading-relaxed text-ink-500">{subtitle}</p>}
             </div>
-            <button
-              type="button"
-              onClick={() => onCloseRef.current()}
-              aria-label="Đóng"
-              className="-mr-1 grid h-9 w-9 shrink-0 place-items-center rounded-xl text-ink-400 transition hover:bg-ink-100 hover:text-ink-800"
-            >
-              <X className="h-5 w-5" />
-            </button>
+            {/* Có chân Huỷ/Đóng rồi thì khỏi dấu X — hai chỗ đóng một việc. */}
+            {!footer && (
+              <button
+                type="button"
+                onClick={() => onCloseRef.current()}
+                aria-label="Đóng"
+                className="-mr-1 grid h-9 w-9 shrink-0 place-items-center rounded-xl text-ink-400 transition hover:bg-ink-100 hover:text-ink-800"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            )}
           </header>
         )}
         <div className="min-h-0 flex-1 overflow-y-auto px-5 py-5 sm:px-6">{children}</div>

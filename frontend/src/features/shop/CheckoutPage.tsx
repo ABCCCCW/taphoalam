@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link, useNavigate } from "react-router-dom";
-import { Banknote, Bike, QrCode, Store } from "lucide-react";
+import { Banknote, Bike, Check, LocateFixed, MapPin, Plus, QrCode, Store } from "lucide-react";
 import { shopApi } from "../../api/client";
 import { num, vnd } from "../../lib/format";
 import ProductImage from "../../components/ui/ProductImage";
@@ -11,8 +11,8 @@ import { ChoiceCard, Input, Textarea } from "../../components/ui/Field";
 import { EmptyState, Skeleton } from "../../components/ui/Feedback";
 import { useToast } from "../../components/ui/Toast";
 import { promoDiscount, type Promo } from "../../stores/cartStore";
-
-const SHIP_FEE = 15000;
+import { currentPosition, geocode, kmText, type LatLng } from "../../lib/geo";
+import { cn } from "../../lib/cn";
 
 export default function CheckoutPage() {
   const nav = useNavigate();
@@ -20,6 +20,7 @@ export default function CheckoutPage() {
   const { customer } = useShopAuth();
   const cart = useQuery({ queryKey: ["cart"], queryFn: shopApi.cart, enabled: !!customer });
   const addrs = useQuery({ queryKey: ["addr"], queryFn: shopApi.addresses, enabled: !!customer });
+  const shipRule = useQuery({ queryKey: ["ship-rule"], queryFn: shopApi.shippingRule, staleTime: 300_000 });
 
   const [method, setMethod] = useState("PICKUP");
   const [pay, setPay] = useState("COD");
@@ -31,15 +32,79 @@ export default function CheckoutPage() {
     receiver_name: customer?.name || "",
     receiver_phone: customer?.phone || "",
     province: "Hà Nội",
-    district: "Thanh Xuân",
-    ward: "Nhân Chính",
+    district: "",
+    ward: "",
     street: "",
   });
+  // Địa chỉ đang chọn: id một địa chỉ đã lưu, hoặc "new" để nhập địa chỉ khác.
+  const [pick, setPick] = useState<number | "new" | null>(null);
+  const [loc, setLoc] = useState<LatLng | null>(null);
+  const [locState, setLocState] = useState<"idle" | "finding" | "found" | "miss">("idle");
+  const [locErr, setLocErr] = useState("");
 
   const items = cart.data?.items || [];
-  const saved = addrs.data?.[0];
+  const savedList: any[] = addrs.data || [];
+  const chosenId = pick ?? (savedList.find((a) => a.is_default) || savedList[0])?.id ?? "new";
+  const saved = chosenId === "new" ? null : savedList.find((a) => a.id === chosenId) || null;
   const needAddress = method === "DELIVERY" && !saved;
-  const ship = method === "DELIVERY" ? SHIP_FEE : 0;
+  const rule = shipRule.data || { free_km: 2, base_fee: 20000, per_km: 5000 };
+
+  // Địa chỉ mới: khách gõ xong số nhà + phường thì tự tra toạ độ trên bản đồ.
+  const typed = [addr.street, addr.ward, addr.district, addr.province];
+  const lastTyped = useRef("");
+  useEffect(() => {
+    if (!needAddress || !addr.street.trim() || !addr.ward.trim()) return;
+    const key = typed.join("|");
+    if (key === lastTyped.current) return;
+    const t = setTimeout(async () => {
+      lastTyped.current = key;
+      setLocState("finding");
+      const hit = await geocode(typed);
+      setLoc(hit);
+      setLocState(hit ? "found" : "miss");
+    }, 900);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [needAddress, addr.street, addr.ward, addr.district, addr.province]);
+
+  // Địa chỉ lưu từ trước khi tính phí theo km chưa có toạ độ: tra một lần rồi lưu lại.
+  const tried = useRef(new Set<number>());
+  useEffect(() => {
+    if (method !== "DELIVERY" || !saved || saved.lat != null || tried.current.has(saved.id)) return;
+    tried.current.add(saved.id);
+    geocode([saved.street, saved.ward, saved.district, saved.province]).then(async (hit) => {
+      if (!hit) return;
+      await shopApi.locateAddress(saved.id, hit).catch(() => {});
+      addrs.refetch();
+    });
+  }, [method, saved, addrs]);
+
+  const useMyLocation = async () => {
+    setLocErr("");
+    setLocState("finding");
+    try {
+      const here = await currentPosition();
+      if (saved) {
+        await shopApi.locateAddress(saved.id, here);
+        await addrs.refetch();
+        setLocState("idle");
+      } else {
+        setLoc(here);
+        setLocState("found");
+      }
+    } catch (e: any) {
+      setLocErr(e.message);
+      setLocState(saved ? "idle" : loc ? "found" : "miss");
+    }
+  };
+
+  const target: LatLng | null = saved ? (saved.lat != null ? { lat: saved.lat, lng: saved.lng } : null) : loc;
+  const quote = useQuery({
+    queryKey: ["ship-quote", target?.lat, target?.lng],
+    queryFn: () => shopApi.shippingQuote({ lat: target?.lat, lng: target?.lng }),
+    enabled: method === "DELIVERY",
+  });
+  const ship = method === "DELIVERY" ? Number(quote.data?.fee ?? rule.base_fee) : 0;
   const promos = useQuery<Promo[]>({ queryKey: ["shop-promos"], queryFn: shopApi.promotions, enabled: !!customer });
   const subtotal = Number(cart.data?.subtotal || 0);
   const chosen = (promos.data || []).find((p) => p.code === promo) || null;
@@ -67,7 +132,9 @@ export default function CheckoutPage() {
         const a = await shopApi.addAddress({
           ...addr,
           receiver_phone: addr.receiver_phone.replace(/\s/g, ""),
-          is_default: true,
+          is_default: !savedList.length,
+          lat: loc?.lat,
+          lng: loc?.lng,
         });
         address_id = a.id;
       }
@@ -156,55 +223,132 @@ export default function CheckoutPage() {
               icon={Bike}
               tone="coral"
               title="Giao tận nơi"
-              desc={`+${vnd(SHIP_FEE)} quanh Thanh Xuân`}
+              desc={`Miễn phí trong ${num(rule.free_km)} km · xa hơn từ ${vnd(rule.base_fee)}`}
             />
           </div>
 
-          {method === "DELIVERY" && saved && (
-            <div className="mt-4 rounded-2xl bg-lime-50 px-4 py-3 text-sm">
-              <div className="font-bold text-ink-900">{saved.receiver_name}</div>
-              <div className="text-ink-500">
-                {saved.receiver_phone} · {saved.street}, {saved.ward}, {saved.district}
+          {method === "DELIVERY" && (
+            <div className="mt-4 space-y-3">
+              <div className="text-sm font-semibold text-ink-600">Giao tới đâu</div>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {savedList.map((a) => {
+                  const on = saved?.id === a.id;
+                  return (
+                    <button
+                      key={a.id}
+                      type="button"
+                      onClick={() => setPick(a.id)}
+                      className={cn(
+                        "relative rounded-2xl border p-3.5 text-left transition",
+                        on ? "border-ink-900 bg-white ring-1 ring-ink-900" : "border-black/10 bg-white hover:border-black/25"
+                      )}
+                    >
+                      {on && <Check className="absolute right-3 top-3 h-4 w-4 text-ink-900" />}
+                      <div className="pr-6 text-sm font-bold text-ink-900">
+                        {a.receiver_name} · {a.receiver_phone}
+                      </div>
+                      <div className="mt-0.5 text-sm text-ink-500">
+                        {[a.street, a.ward, a.district, a.province].filter(Boolean).join(", ")}
+                      </div>
+                      <div className="mt-1.5 text-xs font-semibold text-ink-500">
+                        {a.shipping?.located
+                          ? `Cách tiệm ${kmText(a.shipping.distance_km)} · ${a.shipping.fee ? vnd(a.shipping.fee) : "miễn phí giao"}`
+                          : "Chưa định vị trên bản đồ"}
+                      </div>
+                    </button>
+                  );
+                })}
+                <button
+                  type="button"
+                  onClick={() => setPick("new")}
+                  className={cn(
+                    "flex min-h-[5.5rem] items-center justify-center gap-2 rounded-2xl border border-dashed p-3.5 text-sm font-bold transition",
+                    needAddress ? "border-ink-900 bg-white text-ink-900" : "border-black/20 text-ink-500 hover:border-black/40 hover:text-ink-800"
+                  )}
+                >
+                  <Plus className="h-4 w-4" /> {savedList.length ? "Giao tới địa chỉ khác" : "Nhập địa chỉ giao"}
+                </button>
               </div>
-            </div>
-          )}
 
-          {needAddress && (
-            <div className="mt-4 grid gap-3 sm:grid-cols-2">
-              <Input
-                label="Tên người nhận"
-                required
-                value={addr.receiver_name}
-                error={errors.receiver_name}
-                onChange={(e) => setAddr({ ...addr, receiver_name: e.target.value })}
-              />
-              <Input
-                label="Số điện thoại"
-                required
-                className="font-mono"
-                inputMode="numeric"
-                placeholder="0901234567"
-                value={addr.receiver_phone}
-                error={errors.receiver_phone}
-                onChange={(e) => setAddr({ ...addr, receiver_phone: e.target.value })}
-              />
-              <Input
-                label="Số nhà, đường"
-                required
-                wrapClass="sm:col-span-2"
-                placeholder="12 Nguyễn Trãi"
-                value={addr.street}
-                error={errors.street}
-                onChange={(e) => setAddr({ ...addr, street: e.target.value })}
-              />
-              <Input
-                label="Phường"
-                required
-                value={addr.ward}
-                error={errors.ward}
-                onChange={(e) => setAddr({ ...addr, ward: e.target.value })}
-              />
-              <Input label="Quận" value={addr.district} onChange={(e) => setAddr({ ...addr, district: e.target.value })} />
+              {needAddress && (
+                <div className="grid gap-3 rounded-2xl bg-ink-50 p-4 sm:grid-cols-2">
+                  <Input
+                    label="Tên người nhận"
+                    required
+                    value={addr.receiver_name}
+                    error={errors.receiver_name}
+                    onChange={(e) => setAddr({ ...addr, receiver_name: e.target.value })}
+                  />
+                  <Input
+                    label="Số điện thoại"
+                    required
+                    className="font-mono"
+                    digits
+                    maxLength={10}
+                    placeholder="Số điện thoại 10 số"
+                    value={addr.receiver_phone}
+                    error={errors.receiver_phone}
+                    onChange={(e) => setAddr({ ...addr, receiver_phone: e.target.value })}
+                  />
+                  <Input
+                    label="Số nhà, đường"
+                    required
+                    wrapClass="sm:col-span-2"
+                    placeholder="Vd. 25 Lê Văn Lương"
+                    value={addr.street}
+                    error={errors.street}
+                    onChange={(e) => setAddr({ ...addr, street: e.target.value })}
+                  />
+                  <Input
+                    label="Phường / xã"
+                    required
+                    placeholder="Vd. Cầu Diễn"
+                    value={addr.ward}
+                    error={errors.ward}
+                    onChange={(e) => setAddr({ ...addr, ward: e.target.value })}
+                  />
+                  <Input
+                    label="Quận / huyện"
+                    placeholder="Vd. Bắc Từ Liêm"
+                    value={addr.district}
+                    onChange={(e) => setAddr({ ...addr, district: e.target.value })}
+                  />
+                  <Input
+                    label="Tỉnh / thành phố"
+                    wrapClass="sm:col-span-2"
+                    value={addr.province}
+                    onChange={(e) => setAddr({ ...addr, province: e.target.value })}
+                  />
+                </div>
+              )}
+
+              {/* Khoảng cách và phí giao cho địa chỉ đang chọn. */}
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 rounded-2xl border border-black/10 bg-white px-4 py-3">
+                <MapPin className="h-4 w-4 shrink-0 text-ink-400" />
+                <div className="min-w-0 flex-1 text-sm">
+                  {locState === "finding" ? (
+                    <span className="font-semibold text-ink-500">Đang tìm địa chỉ trên bản đồ…</span>
+                  ) : needAddress && !addr.street.trim() ? (
+                    <span className="font-semibold text-ink-500">Nhập địa chỉ để tính phí giao.</span>
+                  ) : quote.data?.located ? (
+                    <span className="font-semibold text-ink-900">
+                      Cách tiệm {kmText(quote.data.distance_km)} ·{" "}
+                      {quote.data.fee ? `phí giao ${vnd(quote.data.fee)}` : "miễn phí giao"}
+                    </span>
+                  ) : (
+                    <span className="font-semibold text-sun-700">
+                      Chưa tìm thấy trên bản đồ — tạm tính {vnd(rule.base_fee)}. Bấm "Vị trí của tôi" nếu bạn đang ở nơi nhận hàng.
+                    </span>
+                  )}
+                  {locErr && <div className="mt-0.5 text-xs font-semibold text-coral-600">{locErr}</div>}
+                </div>
+                <Button size="sm" variant="ghost" icon={LocateFixed} loading={locState === "finding"} onClick={useMyLocation}>
+                  Vị trí của tôi
+                </Button>
+              </div>
+              <p className="text-xs text-ink-400">
+                Miễn phí trong {num(rule.free_km)} km. Xa hơn: {vnd(rule.base_fee)}, mỗi km thêm {vnd(rule.per_km)}.
+              </p>
             </div>
           )}
         </section>

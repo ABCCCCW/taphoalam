@@ -8,6 +8,16 @@ from app.core.utils import utcnow
 from app.models import Inventory, InventoryTransaction, Product, ProductBatch
 
 
+LOW_STOCK_RATIO = 0.2
+
+
+def low_stock_threshold(on_hand_after_import: float) -> int:
+    """20% số tồn lúc vừa nhập, làm tròn lên; nhập ít (1–4 món) thì ngưỡng là 1."""
+    import math
+
+    return max(1, math.ceil(on_hand_after_import * LOW_STOCK_RATIO)) if on_hand_after_import > 0 else 0
+
+
 class InventoryService:
     @staticmethod
     def ensure_row(db: Session, product_id: int, warehouse_id: int) -> None:
@@ -114,6 +124,12 @@ class InventoryService:
                 created_at=utcnow(),
             )
         )
+        if type_ == "IMPORT" and qty > 0:
+            # Ngưỡng "sắp hết" tự đặt theo lần nhập gần nhất: còn dưới 20% số tồn ngay
+            # sau khi nhập là cảnh báo — người dùng không phải tự điền mức tồn tối thiểu.
+            prod = db.get(Product, product_id)
+            if prod is not None:
+                prod.min_stock = low_stock_threshold(float(balance))
         return float(balance)
 
     @staticmethod

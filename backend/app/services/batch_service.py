@@ -19,6 +19,9 @@ _CAT_DAYS = {
     "gia vi": 365,
     "do kho": 240,
     "gia dung": 720,
+    "kem": 270,
+    "dong lanh": 180,
+    "an vat": 180,
 }
 
 # Khớp tên trước, nhóm sau — bánh có chữ trứng không lấy hạn của trứng gà.
@@ -111,10 +114,12 @@ def serialize_lot(batch: ProductBatch, product: Product | None = None, today: da
         "emoji": p.emoji if p else None,
         "image_url": p.image_url if p else None,
         "quantity": float(batch.quantity),
+        "mfg_date": as_date(batch.mfg_date).isoformat() if batch.mfg_date else None,
         "expiry_date": exp.isoformat() if exp else None,
         "days": days,
         "status": lot_status(exp, today),
         "batch_code": batch.batch_code,
+        "barcode": batch.barcode,
     }
 
 
@@ -195,3 +200,72 @@ def backfill_opening_lots(db: Session) -> dict:
         product.track_expiry = True
         created += 1
     return {"created": created, "as_of": today.isoformat()}
+
+
+def expired_on_shelf_ids(db: Session, warehouse_id: int = 1, product_ids=None) -> set[int]:
+    """Mặt hàng mà lô sẽ bán ra trước (lô còn hàng, hạn sớm nhất) đã quá hạn.
+
+    Những món này phải ngừng bán ở mọi nơi — quầy, website — cho tới khi kho bấm
+    «Bỏ kệ» lô hết hạn; bỏ xong thì lô kế tiếp còn hạn và món tự bán lại được.
+    """
+    from sqlalchemy import func
+
+    q = (
+        db.query(ProductBatch.product_id, func.min(ProductBatch.expiry_date))
+        .filter(
+            ProductBatch.warehouse_id == warehouse_id,
+            ProductBatch.quantity > 0,
+            ProductBatch.expiry_date.isnot(None),
+        )
+        .group_by(ProductBatch.product_id)
+    )
+    if product_ids is not None:
+        q = q.filter(ProductBatch.product_id.in_(list(product_ids)))
+    today = shop_today()
+    return {pid for pid, exp in q.all() if exp and as_date(exp) < today}
+
+
+def ensure_sellable(db: Session, product: Product, warehouse_id: int = 1):
+    from app.core.exceptions import AppError
+
+    if product.id in expired_on_shelf_ids(db, warehouse_id, [product.id]):
+        raise AppError(
+            "EXPIRED_ON_SHELF",
+            f"{product.name} đang có lô quá hạn — ngừng bán, bỏ lô đó khỏi kệ trước",
+            409,
+        )
+
+
+def find_lot(db: Session, code: str | None) -> ProductBatch | None:
+    """Lô ứng với mã tem lô (đầu 25); mã nhà sản xuất hay mã hàng thì trả None."""
+    from app.services.barcode import is_lot_barcode
+
+    if not code or not is_lot_barcode(code):
+        return None
+    return db.query(ProductBatch).filter(ProductBatch.barcode == code).first()
+
+
+def give_lot_barcode(db: Session, batch: ProductBatch) -> str:
+    from app.services.barcode import generate_lot_barcode
+
+    if not batch.id:
+        db.flush()
+    if not batch.barcode:
+        batch.barcode = generate_lot_barcode(batch.id)
+    return batch.barcode
+
+
+def lot_label(batch: ProductBatch, product: Product, copies: float | None = None) -> dict:
+    """Một dòng trong danh sách in tem theo lô."""
+    exp = as_date(batch.expiry_date)
+    return {
+        "batch_id": batch.id,
+        "product_id": product.id,
+        "name": product.name,
+        "price": float(product.sale_price),
+        "image_url": product.image_url,
+        "emoji": product.emoji,
+        "barcode": batch.barcode,
+        "expiry_date": exp.isoformat() if exp else None,
+        "copies": int(round(copies if copies is not None else float(batch.quantity))),
+    }

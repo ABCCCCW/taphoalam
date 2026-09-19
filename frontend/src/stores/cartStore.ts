@@ -16,6 +16,10 @@ export type CartLine = {
   near_qty?: number;
   near_pct?: number;
   near_expiry_date?: string | null;
+  /** Lô sẽ bán ra trước sắp hết hạn: hiện cảnh báo để thu ngân nhắc khách. */
+  lot_status?: string | null;
+  lot_expiry?: string | null;
+  lot_days?: number | null;
 };
 
 /** Tiền giảm cận date của một dòng: chỉ phần số lượng thuộc lô cận date được giảm. */
@@ -48,7 +52,7 @@ export function promoDiscount(p: Promo | null | undefined, subtotal: number) {
   return Math.min(d, subtotal);
 }
 
-type Held = { id: string; lines: CartLine[]; customer?: any };
+type Held = { id: string; lines: CartLine[]; customer?: any; discount?: number; promo?: string };
 
 type State = {
   lines: CartLine[];
@@ -65,6 +69,7 @@ type State = {
   setPromo: (s: string) => void;
   hold: () => void;
   restore: (id: string) => void;
+  replace: (next: { lines: CartLine[]; customer?: any; discount?: number; promo?: string }) => void;
 };
 
 export const useCart = create<State>((set, get) => ({
@@ -98,6 +103,9 @@ export const useCart = create<State>((set, get) => ({
         near_qty: p.near_expiry?.qty,
         near_pct: p.near_expiry?.percent,
         near_expiry_date: p.near_expiry?.expiry_date,
+        lot_status: p.next_lot?.status,
+        lot_expiry: p.next_lot?.expiry_date,
+        lot_days: p.next_lot?.days,
       });
     }
     set({ lines });
@@ -108,14 +116,23 @@ export const useCart = create<State>((set, get) => ({
   setCustomer: (c) => set({ customer: c }),
   setDiscount: (n) => set({ discount: n }),
   setPromo: (s) => set({ promo: s }),
+  // Đơn nháp mang theo giảm tay và mã KM của chính nó, để khách tiếp theo không bị
+  // trừ nhầm số tiền giảm của khách trước.
   hold: () => {
-    const { lines, customer, held } = get();
+    const { lines, customer, held, discount, promo } = get();
     if (!lines.length) return;
-    set({ held: [...held, { id: Date.now().toString(), lines, customer }], lines: [], customer: null });
+    set({ held: [...held, { id: Date.now().toString(), lines, customer, discount, promo }], lines: [], customer: null, discount: 0, promo: "" });
   },
   restore: (id) => {
     const h = get().held.find((x) => x.id === id);
     if (!h) return;
-    set({ lines: h.lines, customer: h.customer, held: get().held.filter((x) => x.id !== id) });
+    set({ lines: h.lines, customer: h.customer, discount: h.discount || 0, promo: h.promo || "", held: get().held.filter((x) => x.id !== id) });
   },
+  replace: (next) =>
+    set({
+      lines: next.lines,
+      customer: next.customer ?? null,
+      discount: next.discount ?? 0,
+      promo: next.promo ?? "",
+    }),
 }));

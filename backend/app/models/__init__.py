@@ -7,6 +7,7 @@ from sqlalchemy import (
     Boolean,
     Date,
     DateTime,
+    Float,
     ForeignKey,
     Integer,
     Numeric,
@@ -226,6 +227,9 @@ class ProductBatch(Base):
     product_id: Mapped[int] = mapped_column(ForeignKey("products.id"))
     warehouse_id: Mapped[int] = mapped_column(ForeignKey("warehouses.id"))
     batch_code: Mapped[Optional[str]] = mapped_column(String(40), nullable=True)
+    # Mã vạch riêng của lô (EAN-13 đầu 25), in tem dán lên từng hộp khi duyệt phiếu nhập.
+    barcode: Mapped[Optional[str]] = mapped_column(String(20), nullable=True, index=True)
+    mfg_date: Mapped[Optional[datetime]] = mapped_column(Date, nullable=True)
     expiry_date: Mapped[Optional[datetime]] = mapped_column(Date, nullable=True)
     quantity: Mapped[float] = mapped_column(Numeric(12, 3), default=0)
     cost_price: Mapped[float] = mapped_column(Numeric(12, 2), default=0)
@@ -264,6 +268,7 @@ class StockReceiptItem(Base):
     unit_cost: Mapped[float] = mapped_column(Numeric(12, 2))
     line_total: Mapped[float] = mapped_column(Numeric(14, 2))
     batch_code: Mapped[Optional[str]] = mapped_column(String(40), nullable=True)
+    mfg_date: Mapped[Optional[datetime]] = mapped_column(Date, nullable=True)
     expiry_date: Mapped[Optional[datetime]] = mapped_column(Date, nullable=True)
 
     product: Mapped[Product] = relationship()
@@ -334,6 +339,9 @@ class CustomerAddress(Base):
     street: Mapped[str] = mapped_column(String(255))
     note: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     is_default: Mapped[bool] = mapped_column(Boolean, default=False)
+    # Toạ độ do trình duyệt khách tra (bản đồ hoặc vị trí máy) — dùng để tính phí giao.
+    lat: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    lng: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
 
     customer: Mapped[Customer] = relationship(back_populates="addresses")
 
@@ -526,6 +534,7 @@ class Shipment(Base):
     carrier: Mapped[Optional[str]] = mapped_column(String(60), nullable=True)
     tracking_code: Mapped[Optional[str]] = mapped_column(String(80), nullable=True)
     shipping_fee: Mapped[float] = mapped_column(Numeric(12, 2), default=0)
+    distance_km: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     status: Mapped[str] = mapped_column(String(20), default="PENDING")
     shipper_name: Mapped[Optional[str]] = mapped_column(String(120), nullable=True)
     shipped_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)

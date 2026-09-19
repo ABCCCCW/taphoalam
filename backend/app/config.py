@@ -17,6 +17,8 @@ class Settings(BaseSettings):
     qr_ttl_minutes: int = 5
     online_cod_reserve_hours: int = 24
     online_qr_reserve_minutes: int = 30
+    # PIN 6 số mở popup tài khoản nhận chuyển khoản (icon cạnh Đăng xuất)
+    bank_pin: str = "000000"
     # Vercel: schema đã tạo sẵn bằng scripts/migrate_to_postgres.py, khỏi dò bảng mỗi lần cold start
     skip_schema_sync: bool = False
 

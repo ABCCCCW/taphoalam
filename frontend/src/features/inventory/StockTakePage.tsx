@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { ClipboardCheck, Eraser, Scale } from "lucide-react";
 import { staffApi } from "../../api/client";
 import { num, when } from "../../lib/format";
@@ -9,8 +9,9 @@ import ProductImage from "../../components/ui/ProductImage";
 import Button from "../../components/ui/Button";
 import Badge, { StatusBadge } from "../../components/ui/Badge";
 import { EmptyState, Skeleton, TableSkeleton } from "../../components/ui/Feedback";
-import { PageHeader, Panel, SearchInput, Toolbar } from "../../components/ui/Page";
+import { PAGE_SIZE, PageBody, PageFrame, PageHeader, Pager, Panel, SearchInput, Toolbar } from "../../components/ui/Page";
 import { useToast } from "../../components/ui/Toast";
+import KhoTabs from "./KhoTabs";
 import { useConfirm } from "../../components/ui/Confirm";
 import { cn } from "../../lib/cn";
 
@@ -23,30 +24,31 @@ export default function StockTakePage() {
   const canBalance = user?.role === "ADMIN";
 
   const [term, setTerm] = useState("");
-  const [counted, setCounted] = useState<Record<number, string>>({});
+  const [page, setPage] = useState(1);
+  const [counted, setCounted] = useState<Record<number, { raw: string; name: string; system: number }>>({});
   const [busy, setBusy] = useState(false);
 
-  const inv = useQuery({ queryKey: ["inv-take"], queryFn: () => staffApi.inventory() });
+  const inv = useQuery({
+    queryKey: ["inv-take", term, page],
+    queryFn: () => staffApi.inventory({ q: term || undefined, page, size: PAGE_SIZE }),
+    placeholderData: keepPreviousData,
+  });
   const takes = useQuery({ queryKey: ["takes"], queryFn: staffApi.stockTakes });
 
-  const rows = useMemo(() => {
-    const all = inv.data || [];
-    const t = term.trim().toLowerCase();
-    if (!t) return all;
-    return all.filter((r: any) => String(r.name).toLowerCase().includes(t) || String(r.sku).toLowerCase().includes(t));
-  }, [inv.data, term]);
+  const rows = inv.data?.items || [];
+  const pages = inv.data?.pages || 1;
+  const total = inv.data?.total || 0;
 
-  const sheet = useMemo(() => {
-    const all = inv.data || [];
-    return Object.entries(counted)
-      .filter(([, v]) => v !== "")
-      .map(([pid, v]) => {
-        const row = all.find((r: any) => r.product_id === Number(pid));
-        const system = Number(row?.quantity ?? 0);
-        const actual = Number(v);
-        return { product_id: Number(pid), name: row?.name || "", system, actual, diff: actual - system };
-      });
-  }, [counted, inv.data]);
+  const sheet = useMemo(
+    () =>
+      Object.entries(counted)
+        .filter(([, v]) => v.raw !== "")
+        .map(([pid, v]) => {
+          const actual = Number(v.raw);
+          return { product_id: Number(pid), name: v.name, system: v.system, actual, diff: actual - v.system };
+        }),
+    [counted]
+  );
 
   const off = sheet.filter((s) => s.diff !== 0);
   const short = off.filter((s) => s.diff < 0);
@@ -118,16 +120,22 @@ export default function StockTakePage() {
   };
 
   return (
-    <div>
-      <PageHeader
-        kicker="Kho hàng"
-        title="Kiểm kê"
-      />
+    <PageFrame>
+      <PageHeader className="mb-0" title="Kho" actions={<KhoTabs />} />
+
+      <PageBody>
 
       <div className="grid gap-5 lg:grid-cols-[1fr_20rem] lg:items-start">
         <div className="min-w-0">
           <Toolbar>
-            <SearchInput value={term} onChange={setTerm} placeholder="Tìm mặt hàng cần đếm…" />
+            <SearchInput
+              value={term}
+              onChange={(v) => {
+                setPage(1);
+                setTerm(v);
+              }}
+              placeholder="Tìm mặt hàng cần đếm…"
+            />
             {Object.keys(counted).length > 0 && (
               <Button variant="ghost" size="sm" icon={Eraser} onClick={() => setCounted({})}>
                 Xoá số đã đếm
@@ -165,7 +173,8 @@ export default function StockTakePage() {
                   </thead>
                   <tbody>
                     {rows.map((r: any) => {
-                      const raw = counted[r.product_id];
+                      const entry = counted[r.product_id];
+                      const raw = entry?.raw;
                       const touched = raw !== undefined && raw !== "";
                       const diff = touched ? Number(raw) - Number(r.quantity) : 0;
                       return (
@@ -196,7 +205,10 @@ export default function StockTakePage() {
                               aria-label={`Số đếm tay của ${r.name}`}
                               value={raw ?? ""}
                               onChange={(e) =>
-                                setCounted((prev) => ({ ...prev, [r.product_id]: e.target.value }))
+                                setCounted((prev) => ({
+                                  ...prev,
+                                  [r.product_id]: { raw: e.target.value, name: r.name, system: Number(r.quantity) },
+                                }))
                               }
                               className={cn(
                                 "input w-24 py-1.5 text-right font-bold",
@@ -222,6 +234,11 @@ export default function StockTakePage() {
                   </tbody>
                 </table>
               </div>
+              {rows.length > 0 && (
+                <div className="border-t border-black/[.06] px-4 py-3">
+                  <Pager page={page} pages={pages} total={total} onPage={setPage} />
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -311,7 +328,8 @@ export default function StockTakePage() {
           })}
         </ul>
       )}
-    </div>
+      </PageBody>
+    </PageFrame>
   );
 }
 

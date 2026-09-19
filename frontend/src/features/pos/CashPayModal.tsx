@@ -50,7 +50,7 @@ export default function CashPayModal({
   const draft = useMemo<ReceiptData>(
     () => ({
       store_name: storeName || "Lâm Ly Mart",
-      store_address: storeAddress || "12 Nguyễn Trãi, Thanh Xuân, Hà Nội",
+      store_address: storeAddress || "Cầu Diễn, Bắc Từ Liêm, Hà Nội",
       store_phone: storePhone,
       order: {
         code: "—",

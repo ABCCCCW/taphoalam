@@ -28,10 +28,13 @@ Mở http://localhost:5173
 
 | Vai | Đăng nhập | Mật khẩu | PIN |
 |---|---|---|---|
-| Quản trị | `admin` | `admin123` | `0000` |
-| Thu ngân | `cashier` | `cashier123` | `1234` |
-| Kho | `stocker` | `stocker123` | `4321` |
+| Quản trị | `admin` | `Admin@2026` | `0000` |
+| Thu ngân | `0001` | `Nguyenbaolam` | `1234` |
+| Kho | `0002` | `Nguyenbaolam` | `4321` |
 | Khách | SĐT `0901234567` | `khach123` | — |
+
+Nhân viên thêm sau được cấp mã tiếp theo (`0003`, `0004`…), mật khẩu mặc định `Nguyenbaolam`.
+DB đã chạy từ trước: `cd backend && python -m scripts.reset_staff_accounts` (thêm `DATABASE_URL=…` cho Supabase).
 
 Mã KM: `TET10` (giảm 10% đơn từ 50k)
 

@@ -14,6 +14,17 @@ def generate_internal_barcode(product_id: int) -> str:
     return body + ean13_check_digit(body)
 
 
+def generate_lot_barcode(batch_id: int) -> str:
+    """Mã của một lô hàng: 25 + id lô 10 số + số kiểm. Không trùng mã hàng nội bộ (200…)
+    hay mã hàng cân (21…, 22…)."""
+    body = f"25{batch_id:010d}"
+    return body + ean13_check_digit(body)
+
+
+def is_lot_barcode(code: str) -> bool:
+    return len(code) == 13 and code.startswith("25") and is_valid_ean13(code)
+
+
 def parse_weight_barcode(code: str) -> dict | None:
     if len(code) != 13 or not code.startswith("2") or not code.isdigit():
         return None

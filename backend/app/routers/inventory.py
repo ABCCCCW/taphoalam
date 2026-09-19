@@ -2,10 +2,12 @@ from __future__ import annotations
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
+from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 
+from app.core.paging import clamp_page, page_meta
 from app.core.permissions import require
-from app.core.utils import money, next_code, parse_iso_date, utcnow
+from app.core.utils import fold, money, next_code, parse_iso_date, utcnow
 from app.database import get_db
 from app.models import (
     Inventory,
@@ -20,31 +22,90 @@ from app.models import (
     Supplier,
     User,
 )
-from app.services.batch_service import expiry_summary, live_lots, lot_status, serialize_lot
+from app.services.batch_service import give_lot_barcode, live_lots, lot_label, lot_status, serialize_lot
 from app.services.inventory_service import InventoryService
 from app.services.order_service import inventory_view
 
 router = APIRouter(prefix="/api/v1", tags=["inventory"])
 
 
+def _nearest_expiry(db: Session) -> dict:
+    rows = (
+        db.query(ProductBatch.product_id, func.min(ProductBatch.expiry_date))
+        .filter(ProductBatch.quantity > 0, ProductBatch.expiry_date.isnot(None))
+        .group_by(ProductBatch.product_id)
+        .all()
+    )
+    return {pid: exp for pid, exp in rows}
+
+
+def _inventory_scope(db: Session, q: str | None):
+    query = db.query(Inventory).join(Product, Product.id == Inventory.product_id)
+    if q:
+        folded = fold(q)
+        query = query.filter(
+            (Product.name.ilike(f"%{q}%")) | (Product.name_search.ilike(f"%{folded}%")) | (Product.sku.ilike(f"%{q}%"))
+        )
+    return query
+
+
 @router.get("/inventory")
 def list_inventory(
     low_stock: bool = False,
     q: str | None = None,
+    filter: str | None = None,
+    page: int = 1,
+    size: int = 10,
     db: Session = Depends(get_db),
     user: User = Depends(require("inventory.read")),
 ):
-    rows = db.query(Inventory).options(joinedload(Inventory.product)).all()
-    lots = expiry_summary(db)
-    nearest = lots["nearest"]
-    out = []
+    page, size = clamp_page(page, size)
+    kind = filter if filter in {"all", "low", "held", "expired", "expiring"} else ("low" if low_stock else "all")
+    nearest = _nearest_expiry(db)
+    expired_ids = [pid for pid, exp in nearest.items() if lot_status(exp) == "expired"]
+    expiring_ids = [pid for pid, exp in nearest.items() if lot_status(exp) == "expiring"]
+
+    def scoped():
+        return _inventory_scope(db, q)
+
+    summary = {
+        "all": scoped().count(),
+        "low": scoped().filter(Inventory.quantity <= Product.min_stock).count(),
+        "held": scoped().filter(Inventory.reserved > 0).count(),
+        "expired": scoped().filter(Inventory.product_id.in_(expired_ids or [-1])).count(),
+        "expiring": scoped().filter(Inventory.product_id.in_(expiring_ids or [-1])).count(),
+        "reserved": float(scoped().with_entities(func.coalesce(func.sum(Inventory.reserved), 0)).scalar() or 0),
+        "value": float(
+            scoped().with_entities(func.coalesce(func.sum(Inventory.quantity * Product.cost_price), 0)).scalar() or 0
+        ),
+    }
+
+    filtered = scoped()
+    if kind == "low":
+        filtered = filtered.filter(Inventory.quantity <= Product.min_stock)
+    elif kind == "held":
+        filtered = filtered.filter(Inventory.reserved > 0)
+    elif kind == "expired":
+        filtered = filtered.filter(Inventory.product_id.in_(expired_ids or [-1]))
+    elif kind == "expiring":
+        filtered = filtered.filter(Inventory.product_id.in_(expiring_ids or [-1]))
+
+    total = filtered.count()
+    meta = page_meta(page, size, total)
+    rows = (
+        filtered.options(joinedload(Inventory.product))
+        .order_by((Inventory.quantity - Inventory.reserved).asc(), Product.name.asc())
+        .offset((meta["page"] - 1) * size)
+        .limit(size)
+        .all()
+    )
     show_cost = user.role in ("ADMIN", "STOCKER")
+    items = []
     for inv in rows:
         p = inv.product
         if not p:
             continue
-        if q and q.lower() not in p.name.lower() and q.lower() not in (p.name_search or ""):
-            continue
+        exp = nearest.get(p.id)
         item = {
             "product_id": p.id,
             "sku": p.sku,
@@ -58,17 +119,14 @@ def list_inventory(
             "available": float(inv.quantity) - float(inv.reserved),
             "low_stock": float(inv.quantity) <= p.min_stock,
             "cost_confirmed": bool(p.cost_confirmed),
-            "expiry_date": nearest[p.id].isoformat() if p.id in nearest else None,
-            "expiry_status": lot_status(nearest.get(p.id)),
+            "expiry_date": exp.isoformat() if exp else None,
+            "expiry_status": lot_status(exp),
         }
         if show_cost:
             item["cost_price"] = float(p.cost_price)
             item["value"] = money(float(inv.quantity) * float(p.cost_price))
-        if low_stock and not item["low_stock"]:
-            continue
-        out.append(item)
-    out.sort(key=lambda x: x["available"])
-    return out
+        items.append(item)
+    return {"items": items, "summary": summary, **meta}
 
 
 @router.get("/inventory/batches")
@@ -175,6 +233,7 @@ class ReceiptItemIn(BaseModel):
     quantity: float
     unit_cost: float
     batch_code: str | None = None
+    mfg_date: str | None = None
     expiry_date: str | None = None
 
 
@@ -203,6 +262,7 @@ def list_receipts(db: Session = Depends(get_db), _: User = Depends(require("rece
                     "quantity": float(i.quantity),
                     "unit_cost": float(i.unit_cost),
                     "line_total": float(i.line_total),
+                    "mfg_date": i.mfg_date.isoformat() if i.mfg_date else None,
                     "expiry_date": i.expiry_date.isoformat() if i.expiry_date else None,
                 }
                 for i in r.items
@@ -234,6 +294,11 @@ def create_receipt(body: ReceiptIn, db: Session = Depends(get_db), user: User = 
         expiry = parse_iso_date(raw.expiry_date)
         if not expiry:
             raise HTTPException(400, "Mỗi dòng nhập cần hạn sử dụng — để còn biết lô nào phải xuống kệ")
+        mfg = parse_iso_date(raw.mfg_date)
+        if mfg and mfg > utcnow().date():
+            raise HTTPException(400, "Ngày sản xuất không thể sau hôm nay")
+        if mfg and mfg >= expiry:
+            raise HTTPException(400, "Ngày sản xuất phải trước hạn sử dụng")
         line = money(raw.quantity * raw.unit_cost)
         db.add(
             StockReceiptItem(
@@ -243,6 +308,7 @@ def create_receipt(body: ReceiptIn, db: Session = Depends(get_db), user: User = 
                 unit_cost=raw.unit_cost,
                 line_total=line,
                 batch_code=raw.batch_code,
+                mfg_date=mfg,
                 expiry_date=expiry,
             )
         )
@@ -279,17 +345,18 @@ def confirm_receipt(receipt_id: int, db: Session = Depends(get_db), user: User =
             user_id=user.id,
             unit_cost=float(item.unit_cost),
         )
-        db.add(
-            ProductBatch(
-                product_id=item.product_id,
-                warehouse_id=receipt.warehouse_id,
-                batch_code=item.batch_code or f"{receipt.code}-{item.product_id}",
-                expiry_date=item.expiry_date,
-                quantity=float(item.quantity),
-                cost_price=float(item.unit_cost),
-                receipt_id=receipt.id,
-            )
+        lot = ProductBatch(
+            product_id=item.product_id,
+            warehouse_id=receipt.warehouse_id,
+            batch_code=item.batch_code or f"{receipt.code}-{item.product_id}",
+            mfg_date=item.mfg_date,
+            expiry_date=item.expiry_date,
+            quantity=float(item.quantity),
+            cost_price=float(item.unit_cost),
+            receipt_id=receipt.id,
         )
+        db.add(lot)
+        give_lot_barcode(db, lot)
         if item.expiry_date:
             product.track_expiry = True
     if receipt.supplier_id:
@@ -298,7 +365,43 @@ def confirm_receipt(receipt_id: int, db: Session = Depends(get_db), user: User =
             supplier.debt = money(float(supplier.debt) + float(receipt.total_amount) - float(receipt.paid_amount))
     receipt.status = "CONFIRMED"
     receipt.confirmed_at = utcnow()
-    return {"ok": True, "code": receipt.code}
+    return {"ok": True, "code": receipt.code, "id": receipt.id}
+
+
+@router.get("/stock-receipts/{receipt_id}/labels")
+def receipt_labels(receipt_id: int, db: Session = Depends(get_db), _: User = Depends(require("receipt.*"))):
+    """Tem cho từng lô của phiếu đã nhập kho: mỗi hộp một tem, số tem = số lượng nhập."""
+    receipt = db.get(StockReceipt, receipt_id)
+    if not receipt or receipt.status != "CONFIRMED":
+        raise HTTPException(400, "Phiếu chưa nhập kho")
+    lots = db.query(ProductBatch).filter(ProductBatch.receipt_id == receipt.id).order_by(ProductBatch.id).all()
+    out = []
+    for lot in lots:
+        give_lot_barcode(db, lot)
+        item = next((i for i in receipt.items if i.product_id == lot.product_id), None)
+        qty = float(item.quantity) if item else float(lot.quantity)
+        out.append(lot_label(lot, db.get(Product, lot.product_id), qty))
+    # Phiếu cũ nhập trước khi có lô: in theo mã mặt hàng, kèm HSD ghi trên phiếu.
+    with_lot = {lot.product_id for lot in lots}
+    for item in receipt.items:
+        if item.product_id in with_lot:
+            continue
+        p = db.get(Product, item.product_id)
+        code = next((b.barcode for b in p.barcodes if b.is_primary), None) or (p.barcodes[0].barcode if p.barcodes else None)
+        out.append(
+            {
+                "batch_id": None,
+                "product_id": p.id,
+                "name": p.name,
+                "price": float(p.sale_price),
+                "image_url": p.image_url,
+                "emoji": p.emoji,
+                "barcode": code,
+                "expiry_date": item.expiry_date.isoformat() if item.expiry_date else None,
+                "copies": int(round(float(item.quantity))),
+            }
+        )
+    return {"code": receipt.code, "items": out}
 
 
 @router.post("/stock-receipts/{receipt_id}/cancel")

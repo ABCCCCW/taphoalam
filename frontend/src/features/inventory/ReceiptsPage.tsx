@@ -1,13 +1,15 @@
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Ban, ChevronDown, PackageCheck, Plus, Trash2 } from "lucide-react";
+import { Ban, ChevronDown, PackageCheck, Plus, Printer, Trash2 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { staffApi } from "../../api/client";
 import { day, num, vnd, when } from "../../lib/format";
 import { DOC_STATUS } from "../../lib/labels";
 import Button, { IconButton } from "../../components/ui/Button";
+import Modal from "../../components/ui/Modal";
 import { StatusBadge } from "../../components/ui/Badge";
 import { EmptyState, Notice, Skeleton } from "../../components/ui/Feedback";
-import { PageHeader, Panel } from "../../components/ui/Page";
+import { PageBody, PageFrame, PageHeader, Panel } from "../../components/ui/Page";
 import { Input, MoneyInput, Select, Textarea } from "../../components/ui/Field";
 import { useToast } from "../../components/ui/Toast";
 import { useConfirm } from "../../components/ui/Confirm";
@@ -20,6 +22,7 @@ const blankLine = (): Line => ({ key: Date.now() + Math.random(), product_id: ""
 export default function ReceiptsPage() {
   const toast = useToast();
   const confirm = useConfirm();
+  const nav = useNavigate();
 
   const receipts = useQuery({ queryKey: ["receipts"], queryFn: staffApi.receipts });
   const prods = useQuery({ queryKey: ["prods-all"], queryFn: () => staffApi.products({ size: 300 }) });
@@ -31,6 +34,7 @@ export default function ReceiptsPage() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [busy, setBusy] = useState(false);
   const [openRow, setOpenRow] = useState<number | null>(null);
+  const [addingSup, setAddingSup] = useState(false);
 
   const items: any[] = prods.data?.items || [];
   const byId = useMemo(() => new Map<number, any>(items.map((p) => [p.id, p])), [items]);
@@ -103,13 +107,15 @@ export default function ReceiptsPage() {
           được tính lại. Phiếu đã xác nhận chỉ huỷ được bằng phiếu trả nhà cung cấp.
         </>
       ),
-      confirmText: "Nhập kho",
+      confirmText: "Nhập kho & in tem",
     });
     if (!ok) return;
     try {
       await staffApi.confirmReceipt(r.id);
-      toast.success(`Đã nhập kho phiếu ${r.code}`);
+      toast.success(`Đã nhập kho phiếu ${r.code} — in tem dán từng hộp`);
       receipts.refetch();
+      // Mỗi lô vừa nhập có mã riêng: sang In tem với đủ số tem bằng số lượng nhập.
+      nav(`/admin/labels?receipt=${r.id}`);
     } catch (e) {
       toast.error(e);
     }
@@ -136,11 +142,14 @@ export default function ReceiptsPage() {
   };
 
   return (
-    <div>
+    <PageFrame>
       <PageHeader
+        className="mb-0"
         kicker="Kho hàng"
         title="Nhập hàng"
       />
+
+      <PageBody>
 
       <Panel
         className="mb-6"
@@ -148,13 +157,21 @@ export default function ReceiptsPage() {
         bodyClassName="p-5 space-y-4"
       >
         <div className="grid gap-4 sm:grid-cols-2">
-          <Select
-            label="Nhà cung cấp"
-            placeholder="Không ghi nhà cung cấp"
-            value={supplier}
-            onChange={(e) => setSupplier(e.target.value === "" ? "" : Number(e.target.value))}
-            options={(sups.data || []).map((s: any) => ({ value: s.id, label: s.name }))}
-          />
+          <div className="flex items-end gap-2">
+            <Select
+              label="Nhà cung cấp"
+              wrapClass="flex-1"
+              placeholder="Không ghi nhà cung cấp"
+              value={supplier}
+              onChange={(e) => setSupplier(e.target.value === "" ? "" : Number(e.target.value))}
+              searchable
+              searchPlaceholder="Gõ tên nhà cung cấp…"
+              options={(sups.data || []).map((s: any) => ({ value: s.id, label: s.name, hint: s.phone || undefined }))}
+            />
+            <Button variant="soft" icon={Plus} className="shrink-0" onClick={() => setAddingSup(true)}>
+              Thêm NCC
+            </Button>
+          </div>
           <Textarea
             label="Ghi chú phiếu"
             rows={2}
@@ -169,7 +186,7 @@ export default function ReceiptsPage() {
             <span>Mặt hàng</span>
             <span className="text-right">Số lượng</span>
             <span className="text-right">Giá nhập</span>
-            <span>Hạn dùng</span>
+            <span>Hạn dùng *</span>
             <span className="text-right">Thành tiền</span>
             <span />
           </div>
@@ -184,7 +201,13 @@ export default function ReceiptsPage() {
                   placeholder={prods.isPending ? "Đang tải hàng…" : "Chọn mặt hàng"}
                   value={l.product_id}
                   onChange={(e) => pickProduct(l.key, e.target.value === "" ? "" : Number(e.target.value))}
-                  options={items.map((p: any) => ({ value: p.id, label: p.name }))}
+                  searchPlaceholder="Gõ tên hoặc mã vạch…"
+                  options={items.map((p: any) => ({
+                    value: p.id,
+                    label: p.name,
+                    hint: [p.next_lot?.barcode || p.barcode, p.category].filter(Boolean).join(" · ") || undefined,
+                    keywords: [p.barcode, p.next_lot?.barcode].filter(Boolean).join(" ") || undefined,
+                  }))}
                 />
                 <Input
                   type="number"
@@ -203,6 +226,7 @@ export default function ReceiptsPage() {
                 <Input
                   type="date"
                   required
+                  aria-label="Hạn sử dụng"
                   value={l.expiry_date}
                   onChange={(e) => setLine(l.key, { expiry_date: e.target.value })}
                 />
@@ -280,6 +304,11 @@ export default function ReceiptsPage() {
                         Nhập kho
                       </Button>
                     )}
+                    {r.status === "CONFIRMED" && (
+                      <Button size="sm" variant="ghost" icon={Printer} onClick={() => nav(`/admin/labels?receipt=${r.id}`)}>
+                        In tem
+                      </Button>
+                    )}
                     {r.status !== "CANCELLED" && (
                       <Button size="sm" variant="danger" icon={Ban} onClick={() => doCancel(r)}>
                         Huỷ
@@ -314,6 +343,96 @@ export default function ReceiptsPage() {
           })}
         </ul>
       )}
-    </div>
+      </PageBody>
+
+      {addingSup && (
+        <SupplierModal
+          onClose={() => setAddingSup(false)}
+          onDone={(s) => {
+            setAddingSup(false);
+            sups.refetch();
+            setSupplier(s.id);
+          }}
+        />
+      )}
+    </PageFrame>
+  );
+}
+
+/* Thêm nhanh NCC ngay trong phiếu nhập — lưu xong chọn luôn vào phiếu. */
+function SupplierModal({ onClose, onDone }: { onClose: () => void; onDone: (s: any) => void }) {
+  const toast = useToast();
+  const [f, setF] = useState({ name: "", phone: "", address: "" });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [busy, setBusy] = useState(false);
+
+  const submit = async () => {
+    const next: Record<string, string> = {};
+    if (!f.name.trim()) next.name = "Cần tên nhà cung cấp";
+    const phone = f.phone.replace(/\s/g, "");
+    if (phone && !/^0\d{9,10}$/.test(phone)) next.phone = "Số điện thoại 10–11 số, bắt đầu bằng 0";
+    setErrors(next);
+    if (Object.keys(next).length) return;
+
+    setBusy(true);
+    try {
+      const s = await staffApi.createSupplier({
+        name: f.name.trim(),
+        phone: phone || null,
+        address: f.address.trim() || null,
+      });
+      toast.success(`Đã thêm nhà cung cấp ${s.name} · mã ${s.code}`);
+      onDone(s);
+    } catch (e) {
+      toast.error(e);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <Modal
+      size="sm"
+      onClose={onClose}
+      title="Thêm nhà cung cấp"
+      footer={
+        <>
+          <Button variant="ghost" className="flex-1" onClick={onClose}>
+            Huỷ
+          </Button>
+          <Button className="flex-1" loading={busy} onClick={submit}>
+            Lưu
+          </Button>
+        </>
+      }
+    >
+      <div className="space-y-4">
+        <Input
+          label="Tên nhà cung cấp"
+          required
+          autoFocus
+          placeholder="Vd. Đại lý Vinamilk Cầu Giấy"
+          value={f.name}
+          error={errors.name}
+          onChange={(e) => setF({ ...f, name: e.target.value })}
+        />
+        <Input
+          label="Số điện thoại"
+          className="font-mono"
+          digits
+          maxLength={11}
+          placeholder="Số điện thoại liên hệ"
+          value={f.phone}
+          error={errors.phone}
+          onChange={(e) => setF({ ...f, phone: e.target.value })}
+        />
+        <Input
+          label="Địa chỉ"
+          placeholder="Số nhà, đường, phường"
+          value={f.address}
+          onChange={(e) => setF({ ...f, address: e.target.value })}
+        />
+      </div>
+    </Modal>
   );
 }

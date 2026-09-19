@@ -7,7 +7,7 @@ from sqlalchemy.orm import Session, joinedload
 from app.core.permissions import require
 from app.core.utils import money, utcnow
 from app.database import get_db
-from app.models import Banner, Order, OrderItem, ProductReview, Setting, Shipment, User
+from app.models import Banner, CustomerAddress, Order, OrderItem, ProductReview, Setting, Shipment, User
 from app.routers.orders import serialize_order
 from app.services.reservation_service import ReservationService
 
@@ -24,7 +24,29 @@ def list_online(db: Session = Depends(get_db), _: User = Depends(require("order.
         .limit(100)
         .all()
     )
-    return [serialize_order(o) | {"delivery_method": o.delivery_method, "shipping_fee": float(o.shipping_fee)} for o in rows]
+    return [serialize_order(o) | _fulfil_info(db, o) for o in rows]
+
+
+def _fulfil_info(db: Session, o: Order) -> dict:
+    """Thông tin để soạn và giao: SĐT khách, địa chỉ nhận, phí giao."""
+    addr = None
+    if o.shipment and o.shipment.address_id:
+        a = db.get(CustomerAddress, o.shipment.address_id)
+        if a:
+            addr = {
+                "receiver_name": a.receiver_name,
+                "receiver_phone": a.receiver_phone,
+                "line": ", ".join(x for x in [a.street, a.ward, a.district, a.province] if x),
+                "note": a.note,
+            }
+    return {
+        "delivery_method": o.delivery_method,
+        "shipping_fee": float(o.shipping_fee),
+        "customer_phone": o.customer.phone if o.customer else None,
+        "distance_km": o.shipment.distance_km if o.shipment else None,
+        "address": addr,
+        "cancel_reason": o.cancel_reason,
+    }
 
 
 @router.post("/online-orders/{order_id}/confirm")

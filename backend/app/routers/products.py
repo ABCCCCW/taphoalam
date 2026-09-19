@@ -1,9 +1,14 @@
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+import uuid
+from pathlib import Path
+
+from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
 from pydantic import BaseModel
+from sqlalchemy import func
 from sqlalchemy.orm import Session, joinedload
 
+from app.core.paging import clamp_page, page_meta
 from app.core.permissions import require
 from app.core.utils import fold, money
 from app.database import get_db
@@ -15,13 +20,22 @@ from app.models import (
     OrderItem,
     Product,
     ProductBarcode,
+    ProductBatch,
     ProductUnit,
     Setting,
     Supplier,
     Unit,
     User,
 )
-from app.services.batch_service import suggest_expiry
+from app.services.batch_service import (
+    days_until,
+    expired_on_shelf_ids,
+    find_lot,
+    give_lot_barcode,
+    lot_label,
+    lot_status,
+    suggest_expiry,
+)
 from app.services.promo_service import near_expiry_info, near_expiry_promo
 from app.services.barcode import detect_symbology, generate_internal_barcode
 from app.services.barcode_lookup import lookup as lookup_barcode
@@ -53,6 +67,8 @@ def serialize_product(db: Session, p: Product, warehouse_id: int = 1, viewer: Us
         "sale_price": float(p.sale_price),
         "vat_rate": float(p.vat_rate),
         "product_type": p.product_type,
+        "base_unit_id": p.base_unit_id,
+        "unit": (db.get(Unit, p.base_unit_id).name if p.base_unit_id and db.get(Unit, p.base_unit_id) else None),
         "category_id": p.category_id,
         "category": p.category.name if p.category else None,
         "brand": p.brand.name if p.brand else None,
@@ -84,11 +100,187 @@ def serialize_product(db: Session, p: Product, warehouse_id: int = 1, viewer: Us
         "low_stock": inv["quantity"] <= p.min_stock,
         "track_expiry": bool(p.track_expiry),
         "suggested_expiry": suggest_expiry(p).isoformat(),
+        "next_lot": _next_lot(db, p.id, warehouse_id),
         "near_expiry": near_expiry_info(db, p.id, near_promo if near_promo is not _UNSET else near_expiry_promo(db), warehouse_id),
     }
     if _show_cost(viewer):
         data["cost_price"] = float(p.cost_price)
     return data
+
+
+def _next_lot(db: Session, product_id: int, warehouse_id: int = 1) -> dict | None:
+    """Lô còn hàng hết hạn sớm nhất — lô sẽ bán ra trước, NSX/HSD của nó là thứ cần nhìn."""
+    b = (
+        db.query(ProductBatch)
+        .filter(
+            ProductBatch.product_id == product_id,
+            ProductBatch.warehouse_id == warehouse_id,
+            ProductBatch.quantity > 0,
+            ProductBatch.expiry_date.isnot(None),
+        )
+        .order_by(ProductBatch.expiry_date)
+        .first()
+    )
+    if not b:
+        return None
+    return {
+        "id": b.id,
+        "barcode": b.barcode,
+        "mfg_date": b.mfg_date.isoformat() if b.mfg_date else None,
+        "expiry_date": b.expiry_date.isoformat(),
+        "days": days_until(b.expiry_date),
+        "status": lot_status(b.expiry_date),
+        "quantity": float(b.quantity),
+    }
+
+
+class ShelfLotIn(BaseModel):
+    mfg_date: str | None = None
+    expiry_date: str
+    # Chỉ dùng khi kho đang trống: số hàng có sẵn trong tay, tạo thành lô đầu tiên.
+    quantity: float | None = None
+
+
+@router.put("/products/{product_id}/shelf-lot")
+def set_shelf_lot(product_id: int, body: ShelfLotIn, db: Session = Depends(get_db), user: User = Depends(require("product.write"))):
+    """Ghi NSX / HSD cho hàng đang có trên kệ ngay từ form sửa mặt hàng.
+
+    Hàng tạo ở quầy, hàng chốt giá vốn, tồn đầu kỳ… vào kho không qua phiếu nhập nên
+    chưa có lô mang hạn dùng. Có lô rồi thì sửa lô bán ra trước; chưa có thì gom phần
+    tồn chưa thuộc lô nào thành một lô mới.
+    """
+    from app.core.utils import parse_iso_date, utcnow
+
+    p = db.get(Product, product_id)
+    if not p:
+        raise HTTPException(404, "Không tìm thấy sản phẩm")
+    exp = parse_iso_date(body.expiry_date)
+    mfg = parse_iso_date(body.mfg_date) if body.mfg_date else None
+    if not exp:
+        raise HTTPException(400, "Cần hạn sử dụng")
+    if mfg and mfg > utcnow().date():
+        raise HTTPException(400, "Ngày sản xuất không thể sau hôm nay")
+    if mfg and mfg >= exp:
+        raise HTTPException(400, "Ngày sản xuất phải trước hạn sử dụng")
+
+    inv = db.get(Inventory, (p.id, 1))
+    on_hand = float(inv.quantity) if inv else 0.0
+    if on_hand <= 0 and body.quantity and body.quantity > 0:
+        InventoryService.apply(
+            db,
+            product_id=p.id,
+            warehouse_id=1,
+            qty=float(body.quantity),
+            type_="IMPORT",
+            ref_type="opening",
+            user_id=user.id,
+            unit_cost=float(p.cost_price),
+            note="Tồn có sẵn khi tạo mặt hàng",
+        )
+        on_hand = float(body.quantity)
+    if on_hand <= 0:
+        raise HTTPException(400, "Kho chưa có hàng này — ghi hạn khi lập phiếu Nhập hàng")
+
+    lots = (
+        db.query(ProductBatch)
+        .filter(ProductBatch.product_id == p.id, ProductBatch.warehouse_id == 1, ProductBatch.quantity > 0)
+        .order_by(ProductBatch.expiry_date.is_(None), ProductBatch.expiry_date)
+        .all()
+    )
+    in_lots = sum(float(b.quantity) for b in lots)
+    loose = round(on_hand - in_lots, 3)
+    if lots and loose <= 0:
+        lot = lots[0]
+        lot.expiry_date, lot.mfg_date = exp, mfg
+    else:
+        lot = ProductBatch(
+            product_id=p.id,
+            warehouse_id=1,
+            batch_code=f"TAY-{p.id}-{utcnow():%y%m%d%H%M}",
+            mfg_date=mfg,
+            expiry_date=exp,
+            quantity=loose if lots else on_hand,
+            cost_price=float(p.cost_price),
+        )
+        db.add(lot)
+    give_lot_barcode(db, lot)
+    p.track_expiry = True
+    db.flush()
+    return {"next_lot": _next_lot(db, p.id), "label": lot_label(lot, p)}
+
+
+UPLOAD_DIR = Path(__file__).resolve().parents[2] / "uploads" / "products"
+MAX_IMAGE = 5 * 1024 * 1024
+
+
+@router.post("/products/{product_id}/image")
+async def upload_image(
+    product_id: int,
+    file: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    _: User = Depends(require("product.write")),
+):
+    """Ảnh sản phẩm: chụp bằng camera điện thoại hoặc chọn ảnh có sẵn."""
+    p = db.get(Product, product_id)
+    if not p:
+        raise HTTPException(404, "Không tìm thấy sản phẩm")
+    ext = {"image/jpeg": ".jpg", "image/png": ".png", "image/webp": ".webp"}.get(file.content_type or "")
+    if not ext:
+        raise HTTPException(400, "Chỉ nhận ảnh JPG, PNG hoặc WEBP")
+    data = await file.read()
+    if len(data) > MAX_IMAGE:
+        raise HTTPException(400, "Ảnh quá 5 MB — chụp lại hoặc chọn ảnh nhỏ hơn")
+    UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    name = f"p{p.id}-{uuid.uuid4().hex[:10]}{ext}"
+    (UPLOAD_DIR / name).write_bytes(data)
+    old = p.image_url
+    p.image_url = f"/uploads/products/{name}"
+    _drop_product_image(db, old, keep_id=p.id)
+    return {"image_url": p.image_url}
+
+
+def _drop_product_image(db: Session, url: str | None, keep_id: int) -> None:
+    """Xoá file ảnh cũ trên đĩa khi đã thay — không đụng nếu mặt hàng khác còn dùng."""
+    if not url or not url.startswith("/uploads/products/"):
+        return
+    still = db.query(Product).filter(Product.image_url == url, Product.id != keep_id).first()
+    if still:
+        return
+    prev = (UPLOAD_DIR / Path(url).name).resolve()
+    if prev.parent == UPLOAD_DIR.resolve() and prev.is_file():
+        prev.unlink()
+
+
+def _product_scope(db: Session, q: str | None, category_id: int | None, is_active: bool | None):
+    query = db.query(Product)
+    if is_active is not None:
+        query = query.filter(Product.is_active == is_active)
+    if category_id:
+        query = query.filter(Product.category_id == category_id)
+    if q:
+        folded = fold(q)
+        cond = (Product.name.ilike(f"%{q}%")) | (Product.name_search.ilike(f"%{folded}%")) | (Product.sku.ilike(f"%{q}%"))
+        code = q.strip()
+        if code.isdigit() and len(code) >= 6:
+            # Gõ / quét mã: khớp mã nhà sản xuất hoặc mã tem lô của hệ thống.
+            by_code = {r[0] for r in db.query(ProductBarcode.product_id).filter(ProductBarcode.barcode.like(f"{code}%"))}
+            by_code |= {r[0] for r in db.query(ProductBatch.product_id).filter(ProductBatch.barcode.like(f"{code}%"))}
+            if by_code:
+                cond = cond | Product.id.in_(by_code)
+        query = query.filter(cond)
+    return query
+
+
+def _product_kind(query, kind: str):
+    if kind == "online":
+        return query.filter(Product.is_online.is_(True))
+    if kind == "cost":
+        return query.filter(Product.cost_confirmed.is_(False))
+    if kind == "low":
+        return query.outerjoin(Inventory, (Inventory.product_id == Product.id) & (Inventory.warehouse_id == 1)).filter(
+            func.coalesce(Inventory.quantity, 0) <= Product.min_stock
+        )
+    return query
 
 
 @router.get("/products")
@@ -97,30 +289,57 @@ def list_products(
     category_id: int | None = None,
     is_active: bool | None = True,
     low_stock: bool = False,
+    filter: str | None = None,
+    hide_expired: bool = False,
     page: int = 1,
-    size: int = 50,
+    size: int = 10,
     db: Session = Depends(get_db),
     user: User = Depends(require("product.read")),
 ):
-    query = db.query(Product).options(
-        joinedload(Product.category),
-        joinedload(Product.brand),
-        joinedload(Product.barcodes),
-        joinedload(Product.units).joinedload(ProductUnit.unit),
+    page, size = clamp_page(page, size)
+    kind = filter if filter in {"all", "online", "low", "cost"} else ("low" if low_stock else "all")
+
+    # Màn Hàng hoá bỏ hàng đang có lô quá hạn — những món đó nằm ở Tổng quan → Hết hạn.
+    blocked = expired_on_shelf_ids(db) if hide_expired else set()
+
+    def scoped():
+        query = _product_scope(db, q, category_id, is_active)
+        return query.filter(Product.id.notin_(blocked)) if blocked else query
+
+    counts = {
+        "all": _product_kind(scoped(), "all").count(),
+        "online": _product_kind(scoped(), "online").count(),
+        "low": _product_kind(scoped(), "low").count(),
+        "cost": _product_kind(scoped(), "cost").count(),
+    }
+    filtered = _product_kind(scoped(), kind)
+    total = filtered.count()
+    meta = page_meta(page, size, total)
+    ids = [
+        row[0]
+        for row in filtered.with_entities(Product.id)
+        .order_by(Product.name)
+        .offset((meta["page"] - 1) * size)
+        .limit(size)
+        .all()
+    ]
+    loaded = (
+        db.query(Product)
+        .options(
+            joinedload(Product.category),
+            joinedload(Product.brand),
+            joinedload(Product.barcodes),
+            joinedload(Product.units).joinedload(ProductUnit.unit),
+        )
+        .filter(Product.id.in_(ids))
+        .all()
+        if ids
+        else []
     )
-    if is_active is not None:
-        query = query.filter(Product.is_active == is_active)
-    if category_id:
-        query = query.filter(Product.category_id == category_id)
-    if q:
-        folded = fold(q)
-        query = query.filter((Product.name.ilike(f"%{q}%")) | (Product.name_search.ilike(f"%{folded}%")) | (Product.sku.ilike(f"%{q}%")))
-    items = query.order_by(Product.name).offset((page - 1) * size).limit(size).all()
+    by_id = {p.id: p for p in loaded}
     near_promo = near_expiry_promo(db)
-    out = [serialize_product(db, p, viewer=user, near_promo=near_promo) for p in items]
-    if low_stock:
-        out = [x for x in out if x["low_stock"]]
-    return {"items": out, "page": page, "size": size}
+    out = [serialize_product(db, by_id[i], viewer=user, near_promo=near_promo) for i in ids if i in by_id]
+    return {"items": out, "counts": counts, **meta}
 
 
 @router.get("/products/barcode/{code}")
@@ -131,6 +350,17 @@ def get_by_barcode(code: str, db: Session = Depends(get_db), user: User = Depend
 
         raise AppError("BARCODE_UNKNOWN", "Mã chưa có trong hệ thống", 404, {"can_create": True, "barcode": code})
     data = serialize_product(db, product, viewer=user)
+    lot = find_lot(db, code)
+    if lot:
+        # Quét tem lô: hạn dùng là của chính lô này, không phải lô bán ra trước.
+        data["scanned_lot"] = {
+            "id": lot.id,
+            "barcode": lot.barcode,
+            "expiry_date": lot.expiry_date.isoformat() if lot.expiry_date else None,
+            "days": days_until(lot.expiry_date),
+            "status": lot_status(lot.expiry_date),
+            "quantity": float(lot.quantity),
+        }
     if weight:
         data["weight_kg"] = weight.get("weight_kg")
         data["weight_amount"] = weight.get("amount")
@@ -345,6 +575,13 @@ def _save_product(
     p.category_id = body.category_id
     p.brand_id = body.brand_id
     p.base_unit_id = body.base_unit_id
+    # Kiểu bán suy ra từ đơn vị: bán theo kg là hàng cân, còn lại đếm theo cái/lon/gói…
+    unit = db.get(Unit, body.base_unit_id)
+    by_weight = bool(unit and unit.name.strip().lower() in WEIGHT_UNITS)
+    if by_weight:
+        body.product_type = body.product_type if body.product_type in ("WEIGHTED", "BULK") else "WEIGHTED"
+    else:
+        body.product_type = "STANDARD"
     p.product_type = body.product_type
     p.cost_price = body.cost_price
     if cost_confirmed is not None:
@@ -383,6 +620,30 @@ def _save_product(
             db.add(Inventory(product_id=p.id, warehouse_id=1, quantity=0, reserved=0))
     else:
         db.flush()
+        # Sửa hàng: đổi mã vạch chính nếu người dùng gõ mã khác; hàng cũ chưa có mã thì
+        # tự cấp mã nội bộ để món nào cũng in được tem dán kệ.
+        code = (body.barcode or "").strip()
+        current = next((b for b in p.barcodes if b.is_primary), None) or (p.barcodes[0] if p.barcodes else None)
+        if not code and not current:
+            code = generate_internal_barcode(p.id)
+        if code and (not current or current.barcode != code):
+            taken = db.query(ProductBarcode).filter(ProductBarcode.barcode == code).first()
+            if taken and taken.product_id != p.id:
+                raise HTTPException(409, "Mã này đã gắn cho mặt hàng khác")
+            for b in p.barcodes:
+                b.is_primary = False
+            if taken:
+                taken.is_primary = True
+            else:
+                db.add(
+                    ProductBarcode(
+                        barcode=code,
+                        product_id=p.id,
+                        symbology=detect_symbology(code),
+                        is_primary=True,
+                        source="INTERNAL" if code.startswith("2") else "MANUFACTURER",
+                    )
+                )
         if old_price != body.sale_price:
             db.add(
                 AuditLog(
@@ -462,9 +723,15 @@ def brands(db: Session = Depends(get_db)):
     return [{"id": b.id, "name": b.name} for b in db.query(Brand).all()]
 
 
+WEIGHT_UNITS = {"kg", "g", "gam", "lạng"}
+
+
 @router.get("/units")
 def units(db: Session = Depends(get_db)):
-    return [{"id": u.id, "name": u.name, "is_base": u.is_base} for u in db.query(Unit).all()]
+    return [
+        {"id": u.id, "name": u.name, "is_base": u.is_base, "by_weight": u.name.strip().lower() in WEIGHT_UNITS}
+        for u in db.query(Unit).order_by(Unit.id).all()
+    ]
 
 
 @router.get("/suppliers")
@@ -473,6 +740,28 @@ def suppliers(db: Session = Depends(get_db), _: User = Depends(require("inventor
         {"id": s.id, "code": s.code, "name": s.name, "phone": s.phone, "debt": float(s.debt)}
         for s in db.query(Supplier).filter(Supplier.is_active.is_(True)).all()
     ]
+
+
+class SupplierIn(BaseModel):
+    name: str
+    phone: str | None = None
+    address: str | None = None
+
+
+@router.post("/suppliers")
+def create_supplier(body: SupplierIn, db: Session = Depends(get_db), _: User = Depends(require("inventory.*"))):
+    name = body.name.strip()
+    if not name:
+        raise HTTPException(422, "Cần tên nhà cung cấp")
+    if any(fold(s.name) == fold(name) for s in db.query(Supplier).filter(Supplier.is_active.is_(True)).all()):
+        raise HTTPException(409, "Nhà cung cấp này đã có trong danh sách")
+    phone = (body.phone or "").replace(" ", "") or None
+    # Lấy số lớn nhất đang dùng chứ không đếm dòng — mã cũ có thể nhảy cóc (NCC022).
+    nums = [int(c[3:]) for (c,) in db.query(Supplier.code).filter(Supplier.code.like("NCC%")) if c[3:].isdigit()]
+    s = Supplier(code=f"NCC{max(nums, default=0) + 1:03d}", name=name, phone=phone, address=(body.address or "").strip() or None)
+    db.add(s)
+    db.flush()
+    return {"id": s.id, "code": s.code, "name": s.name, "phone": s.phone, "debt": 0.0}
 
 
 class LabelsIn(BaseModel):

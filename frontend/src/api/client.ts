@@ -50,7 +50,6 @@ api.interceptors.response.use(
       !url.includes("/shop") &&
       !url.includes("/auth/login") &&
       !url.includes("/auth/refresh") &&
-      !url.includes("/auth/login-pin") &&
       !cfg._retry;
     if (staff401) {
       cfg._retry = true;
@@ -62,7 +61,7 @@ api.interceptors.response.use(
       }
       const path = window.location.pathname;
       if (path.startsWith("/pos") || path.startsWith("/admin")) {
-        window.location.assign("/admin/login");
+        window.location.assign("/dang-nhap");
       }
     }
     return Promise.reject(toApiError(err));
@@ -71,16 +70,24 @@ api.interceptors.response.use(
 
 export const staffApi = {
   login: (username: string, password: string) => api.post("/auth/login", { username, password }).then((r) => r.data),
-  pin: (pin: string) => api.post("/auth/login-pin", { pin }).then((r) => r.data),
   me: () => api.get("/auth/me").then((r) => r.data),
   products: (params?: object) => api.get("/products", { params }).then((r) => r.data),
   product: (id: number) => api.get(`/products/${id}`).then((r) => r.data),
   barcode: (code: string) => api.get(`/products/barcode/${encodeURIComponent(code)}`).then((r) => r.data),
   lookup: (code: string) => api.get(`/barcode/lookup/${encodeURIComponent(code)}`).then((r) => r.data),
   quickCreate: (body: object) => api.post("/products/quick-create", body).then((r) => r.data),
+  uploadProductImage: (id: number, image: Blob) => {
+    const fd = new FormData();
+    fd.append("file", image, "anh.jpg");
+    return api.post(`/products/${id}/image`, fd).then((r) => r.data);
+  },
+  setShelfLot: (id: number, body: { mfg_date?: string; expiry_date: string; quantity?: number }) =>
+    api.put(`/products/${id}/shelf-lot`, body).then((r) => r.data),
   saveProduct: (body: object, id?: number) => (id ? api.put(`/products/${id}`, body) : api.post("/products", body)).then((r) => r.data),
   categories: () => api.get("/categories").then((r) => r.data),
+  units: () => api.get("/units").then((r) => r.data),
   suppliers: () => api.get("/suppliers").then((r) => r.data),
+  createSupplier: (body: object) => api.post("/suppliers", body).then((r) => r.data),
   inventory: (params?: object) => api.get("/inventory", { params }).then((r) => r.data),
   history: (id: number) => api.get(`/inventory/${id}/history`).then((r) => r.data),
   adjust: (body: object) => api.post("/inventory/adjust", body).then((r) => r.data),
@@ -88,6 +95,7 @@ export const staffApi = {
   writeOffBatch: (id: number) => api.post(`/inventory/batches/${id}/write-off`).then((r) => r.data),
   receipts: () => api.get("/stock-receipts").then((r) => r.data),
   createReceipt: (body: object) => api.post("/stock-receipts", body).then((r) => r.data),
+  receiptLabels: (id: number) => api.get(`/stock-receipts/${id}/labels`).then((r) => r.data),
   confirmReceipt: (id: number) => api.post(`/stock-receipts/${id}/confirm`).then((r) => r.data),
   cancelReceipt: (id: number) => api.post(`/stock-receipts/${id}/cancel`).then((r) => r.data),
   stockTakes: () => api.get("/stock-takes").then((r) => r.data),
@@ -113,15 +121,29 @@ export const staffApi = {
   revenue: () => api.get("/reports/revenue").then((r) => r.data),
   profit: () => api.get("/reports/profit").then((r) => r.data),
   invValue: () => api.get("/reports/inventory-value").then((r) => r.data),
+  summary: (days: number) => api.get("/reports/summary", { params: { days } }).then((r) => r.data),
+  exportReport: async (days: number) => {
+    const r = await api.get("/reports/export", { params: { days }, responseType: "blob" });
+    const name = /filename="([^"]+)"/.exec(r.headers["content-disposition"] || "")?.[1] || "bao-cao.xlsx";
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(r.data);
+    a.download = name;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  },
   settings: () => api.get("/settings").then((r) => r.data),
-  saveSettings: (values: object) => api.put("/settings", { values }).then((r) => r.data),
+  saveSettings: (values: object, pin?: string) => api.put("/settings", { values, pin }).then((r) => r.data),
+  unlockSettings: (pin: string) => api.post("/settings/unlock", { pin }).then((r) => r.data),
   promotions: () => api.get("/promotions").then((r) => r.data),
   promotionsAvailable: () => api.get("/promotions/available").then((r) => r.data),
   createPromotion: (body: object) => api.post("/promotions", body).then((r) => r.data),
   updatePromotion: (id: number, body: object) => api.put(`/promotions/${id}`, body).then((r) => r.data),
   deletePromotion: (id: number) => api.delete(`/promotions/${id}`).then((r) => r.data),
-  users: () => api.get("/auth/users").then((r) => r.data),
+  users: (params?: object) => api.get("/auth/users", { params }).then((r) => r.data),
   createUser: (body: object) => api.post("/auth/users", body).then((r) => r.data),
+  updateUser: (id: number, body: object) => api.patch(`/auth/users/${id}`, body).then((r) => r.data),
+  resetUserPassword: (id: number, password?: string) =>
+    api.post(`/auth/users/${id}/reset-password`, { password: password || null }).then((r) => r.data),
   onlineOrders: () => api.get("/online-orders").then((r) => r.data),
   confirmOnline: (id: number) => api.post(`/online-orders/${id}/confirm`).then((r) => r.data),
   rejectOnline: (id: number, reason: string) => api.post(`/online-orders/${id}/reject`, { reason }).then((r) => r.data),
@@ -157,6 +179,9 @@ export const shopApi = {
   setQty: (id: number, quantity: number) => api.put(`/shop/cart/items/${id}`, { quantity }).then((r) => r.data),
   addresses: () => api.get("/shop/addresses").then((r) => r.data),
   addAddress: (body: object) => api.post("/shop/addresses", body).then((r) => r.data),
+  locateAddress: (id: number, body: { lat: number; lng: number }) => api.patch(`/shop/addresses/${id}/location`, body).then((r) => r.data),
+  shippingRule: () => api.get("/shop/shipping/rule").then((r) => r.data),
+  shippingQuote: (body: { lat?: number | null; lng?: number | null }) => api.post("/shop/shipping/quote", body).then((r) => r.data),
   placeOrder: (body: object) => api.post("/shop/orders", body).then((r) => r.data),
   orders: () => api.get("/shop/orders").then((r) => r.data),
   cancel: (id: number) => api.post(`/shop/orders/${id}/cancel`).then((r) => r.data),

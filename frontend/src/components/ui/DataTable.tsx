@@ -1,9 +1,12 @@
+import { Info } from "lucide-react";
 import { cn } from "../../lib/cn";
 import { ErrorState, TableSkeleton } from "./Feedback";
 
 export type Column<T> = {
   key: string;
   head: string;
+  /** Giải thích ngắn, hiện khi rê chuột vào tiêu đề cột. */
+  hint?: string;
   cell: (row: T) => React.ReactNode;
   align?: "left" | "right" | "center";
   /** Cột nhận diện hàng — làm tiêu đề thẻ khi xem trên điện thoại. */
@@ -43,6 +46,7 @@ export default function DataTable<T>({
   empty,
   footer,
   className,
+  rowClassName,
 }: {
   rows?: T[];
   columns: Column<T>[];
@@ -54,23 +58,25 @@ export default function DataTable<T>({
   empty?: React.ReactNode;
   footer?: React.ReactNode;
   className?: string;
+  /** Tô cả dòng theo trạng thái, vd. "row-warn" cho hàng sắp hết hạn. */
+  rowClassName?: (row: T) => string | undefined;
 }) {
   if (loading) {
     return (
-      <div className={cn("tbl-wrap", className)}>
+      <div className={cn("tbl-wrap flex min-h-0 flex-1 flex-col", className)}>
         <TableSkeleton rows={6} cols={Math.min(columns.length, 5)} />
       </div>
     );
   }
   if (error) {
     return (
-      <div className={cn("tbl-wrap", className)}>
+      <div className={cn("tbl-wrap flex min-h-0 flex-1 flex-col", className)}>
         <ErrorState error={error} onRetry={onRetry} />
       </div>
     );
   }
   if (!rows?.length) {
-    return <div className={cn("tbl-wrap", className)}>{empty}</div>;
+    return <div className={cn("tbl-wrap flex min-h-0 flex-1 flex-col", className)}>{empty}</div>;
   }
 
   const card = columns.filter((c) => !c.desktopOnly);
@@ -78,15 +84,22 @@ export default function DataTable<T>({
   const actions = columns.filter((c) => c.desktopOnly);
 
   return (
-    <div className={cn("tbl-wrap", className)}>
-      {/* Máy tính */}
-      <div className="hidden overflow-x-auto md:block">
+    <div className={cn("tbl-wrap flex min-h-0 flex-1 flex-col", className)}>
+      {/* Máy tính — tiêu đề dính, chỉ thân bảng cuộn */}
+      <div className="hidden min-h-0 flex-1 overflow-auto md:block">
         <table className="tbl">
           <thead>
             <tr>
               {columns.map((c) => (
-                <th key={c.key} className={cn(ALIGN[c.align || "left"], c.headClassName)}>
-                  {c.head}
+                <th key={c.key} className={cn(ALIGN[c.align || "left"], c.headClassName)} title={c.hint}>
+                  {c.hint ? (
+                    <span className="inline-flex cursor-help items-center gap-1">
+                      {c.head}
+                      <Info className="h-3 w-3 opacity-50" aria-hidden />
+                    </span>
+                  ) : (
+                    c.head
+                  )}
                 </th>
               ))}
             </tr>
@@ -116,7 +129,7 @@ export default function DataTable<T>({
                       }
                     : undefined
                 }
-                className={onRowClick ? "cursor-pointer" : undefined}
+                className={cn(onRowClick && "cursor-pointer", rowClassName?.(row))}
               >
                 {columns.map((c) => (
                   <td key={c.key} className={cn(ALIGN[c.align || "left"], c.className)}>
@@ -130,7 +143,7 @@ export default function DataTable<T>({
       </div>
 
       {/* Điện thoại */}
-      <ul className="list-rows md:hidden">
+      <ul className="list-rows min-h-0 flex-1 overflow-auto md:hidden">
         {rows.map((row) => (
           <li
             key={rowKey(row)}
@@ -142,7 +155,7 @@ export default function DataTable<T>({
                   }
                 : undefined
             }
-            className={cn("px-4 py-3.5", onRowClick && "cursor-pointer active:bg-lime-50")}
+            className={cn("px-4 py-3.5", onRowClick && "cursor-pointer active:bg-lime-50", rowClassName?.(row))}
           >
             <div className="font-bold text-ink-900">{title.cell(row)}</div>
             <dl className="mt-2 grid gap-1.5">
@@ -162,7 +175,7 @@ export default function DataTable<T>({
         ))}
       </ul>
 
-      {footer && <div className="border-t-2 border-ink-200 bg-sand px-4 py-3">{footer}</div>}
+      {footer && <div className="shrink-0 border-t-2 border-ink-200 bg-sand px-4 py-3">{footer}</div>}
     </div>
   );
 }

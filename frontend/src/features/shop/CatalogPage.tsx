@@ -1,17 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import { Link, useSearchParams } from "react-router-dom";
-import { SlidersHorizontal } from "lucide-react";
 import { shopApi } from "../../api/client";
 import ProductCard from "../../components/ui/ProductCard";
-import HScroll from "../../components/ui/HScroll";
 import Button from "../../components/ui/Button";
 import { EmptyState, ErrorState, Skeleton } from "../../components/ui/Feedback";
 import { cn } from "../../lib/cn";
 
-const SORTS = [
-  { value: "-sold_count", label: "Bán chạy" },
-  { value: "price", label: "Giá tăng dần" },
-  { value: "-price", label: "Giá giảm dần" },
+const TINTS = [
+  "bg-[#fff0e6]",
+  "bg-[#fdf4d7]",
+  "bg-[#fbe9e7]",
+  "bg-[#eef1f5]",
+  "bg-[#f3efe4]",
+  "bg-[#fde8ea]",
+  "bg-[#e7f4e4]",
+  "bg-[#eaf1fb]",
+  "bg-[#f6ecdf]",
 ];
 
 export default function CatalogPage() {
@@ -19,117 +23,115 @@ export default function CatalogPage() {
   const cats = useQuery({ queryKey: ["cats"], queryFn: shopApi.categories });
   const category = sp.get("category") || "";
   const q = sp.get("q") || "";
-  const sort = sp.get("sort") || "-sold_count";
   const data = useQuery({
-    queryKey: ["cat", category, q, sort],
-    queryFn: () => shopApi.products({ category_id: category || undefined, q: q || undefined, sort, size: 40 }),
+    queryKey: ["cat", category, q],
+    queryFn: () => shopApi.products({ category_id: category || undefined, q: q || undefined, sort: "-sold_count", size: 40 }),
   });
   const active = cats.data?.find((c: any) => String(c.id) === category);
   const items = data.data?.items || [];
 
+  const apply = (patch: (next: URLSearchParams) => void) => {
+    const next = new URLSearchParams(sp);
+    patch(next);
+    setSp(next);
+  };
+
+  const title = q ? `“${q}”` : active ? active.name : "Tất cả kệ hàng";
+
   return (
-    <div>
-      <div className="bg-forest-900 text-white">
-        <div className="mx-auto flex max-w-6xl flex-col justify-between gap-3 px-3 py-6 sm:flex-row sm:items-end sm:px-4 sm:py-8">
-          <div className="min-w-0">
-            <div className="section-kicker !text-lime-400">Đi chợ</div>
-            <h1 className="mt-1 break-words font-display text-2xl font-black sm:text-3xl md:text-4xl">
-              {q ? `Kết quả “${q}”` : active ? `${active.icon} ${active.name}` : "Tất cả kệ hàng"}
-            </h1>
-            <p className="mt-1 text-sm text-white/60">
-              {data.isPending ? "Đang xem kệ…" : `${items.length} món · giá lấy từ kho quầy`}
-            </p>
-          </div>
-          <label className="flex w-full shrink-0 items-center gap-2 rounded-2xl bg-white/10 px-3 py-2 text-sm sm:w-auto">
-            <SlidersHorizontal className="h-4 w-4 shrink-0 text-lime-400" />
-            <span className="sr-only">Sắp xếp</span>
-            <select
-              className="flex-1 cursor-pointer bg-transparent font-semibold outline-none sm:flex-none"
-              value={sort}
-              onChange={(e) => {
-                const next = new URLSearchParams(sp);
-                next.set("sort", e.target.value);
-                setSp(next);
-              }}
-            >
-              {SORTS.map((s) => (
-                <option key={s.value} className="text-ink-900" value={s.value}>
-                  {s.label}
-                </option>
-              ))}
-            </select>
-          </label>
-        </div>
-      </div>
-
-      <div className="mx-auto max-w-6xl px-3 py-6 sm:px-4">
-        <HScroll className="mb-4">
-          <button
-            onClick={() => {
-              const next = new URLSearchParams();
-              if (q) next.set("q", q);
-              if (sort && sort !== "-sold_count") next.set("sort", sort);
-              setSp(next);
-            }}
-            className={cn(
-              "chip shrink-0 whitespace-nowrap px-4 py-2 transition",
-              !category && !q ? "bg-forest-900 text-white" : "border border-ink-200 bg-white hover:border-lime-400"
-            )}
-          >
-            Tất cả
-          </button>
-          {cats.data?.map((c: any) => (
-            <button
+    <div className="shop-wrap pb-8 pt-4 sm:pt-6">
+      <h1 className="sr-only">{title}</h1>
+      <nav className="overflow-hidden rounded-2xl border border-black/[.07] bg-white p-1.5 shadow-card">
+        <div className="grid grid-cols-5 gap-1 md:grid-cols-10">
+          <CatTile
+            icon="🛒"
+            label="Tất cả"
+            tint="bg-sand"
+            on={!category}
+            onClick={() => apply((next) => next.delete("category"))}
+          />
+          {cats.isPending &&
+            Array.from({ length: 9 }).map((_, i) => <Skeleton key={i} className="h-16 rounded-xl" />)}
+          {cats.data?.map((c: any, i: number) => (
+            <CatTile
               key={c.id}
-              onClick={() => {
-                const next = new URLSearchParams();
-                next.set("category", String(c.id));
-                if (q) next.set("q", q);
-                if (sort && sort !== "-sold_count") next.set("sort", sort);
-                setSp(next);
-              }}
-              className={cn(
-                "chip shrink-0 whitespace-nowrap px-4 py-2 transition",
-                category === String(c.id)
-                  ? "bg-lime-400 font-extrabold text-forest-900"
-                  : "border border-ink-200 bg-white hover:border-lime-400"
-              )}
-            >
-              {c.icon} {c.name}
-            </button>
-          ))}
-        </HScroll>
-
-        {data.isPending ? (
-          <div className="grid grid-cols-2 gap-2.5 pb-10 md:grid-cols-3 lg:grid-cols-4 sm:gap-4">
-            {Array.from({ length: 8 }).map((_, i) => (
-              <Skeleton key={i} className="h-64 rounded-3xl" />
-            ))}
-          </div>
-        ) : data.isError ? (
-          <div className="card">
-            <ErrorState error={data.error} onRetry={data.refetch} />
-          </div>
-        ) : !items.length ? (
-          <div className="card">
-            <EmptyState
-              emoji="🧺"
-              title={q ? `Không có món nào khớp “${q}”` : "Kệ này đang trống"}
-              action={
-                <Link to="/catalog">
-                  <Button onClick={() => setSp({})}>Xem tất cả kệ hàng</Button>
-                </Link>
-              }
+              icon={c.icon}
+              label={c.name}
+              tint={TINTS[i % TINTS.length]}
+              on={category === String(c.id)}
+              onClick={() => apply((next) => next.set("category", String(c.id)))}
             />
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 gap-2.5 pb-10 md:grid-cols-3 lg:grid-cols-4 sm:gap-4">
-            {items.map((p: any) => (
-              <ProductCard key={p.id} p={p} />
-            ))}
-          </div>
-        )}
-      </div>
+          ))}
+        </div>
+      </nav>
+
+      {data.isPending ? (
+        <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <Skeleton key={i} className="aspect-[3/4] rounded-2xl" />
+          ))}
+        </div>
+      ) : data.isError ? (
+        <div className="card mt-5">
+          <ErrorState error={data.error} onRetry={data.refetch} />
+        </div>
+      ) : !items.length ? (
+        <div className="card mt-5">
+          <EmptyState
+            emoji="🧺"
+            title={q ? `Không có món nào khớp “${q}”` : "Kệ này đang trống"}
+            action={
+              <Link to="/catalog">
+                <Button onClick={() => setSp({})}>Xem tất cả</Button>
+              </Link>
+            }
+          />
+        </div>
+      ) : (
+        <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3 sm:gap-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6">
+          {items.map((p: any) => (
+            <ProductCard key={p.id} p={p} />
+          ))}
+        </div>
+      )}
     </div>
+  );
+}
+
+function CatTile({
+  icon,
+  label,
+  tint,
+  on,
+  onClick,
+}: {
+  icon: string;
+  label: string;
+  tint: string;
+  on: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={on}
+      className={cn(
+        "flex min-w-0 flex-col items-center gap-1 rounded-xl px-1 py-2 transition",
+        on ? "bg-coral-500 text-white" : "text-ink-800 hover:bg-sand"
+      )}
+    >
+      <span
+        className={cn(
+          "grid h-8 w-8 place-items-center rounded-lg text-lg",
+          on ? "bg-white/20" : tint
+        )}
+      >
+        {icon}
+      </span>
+      <span className="line-clamp-2 px-0.5 text-center text-[10px] font-extrabold leading-tight sm:text-[11px]">
+        {label}
+      </span>
+    </button>
   );
 }

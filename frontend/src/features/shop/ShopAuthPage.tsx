@@ -1,21 +1,22 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { shopApi, staffApi } from "../../api/client";
 import { useShopAuth } from "../../stores/shopAuthStore";
 import { useAuth } from "../../stores/authStore";
 import { homeFor } from "../../lib/roles";
+import { asciiPassword, digitsOnly, isVnPhone, passwordError } from "../../lib/input";
 import Button from "../../components/ui/Button";
-import { Input } from "../../components/ui/Field";
+import { Input, PasswordInput } from "../../components/ui/Field";
 import { Notice } from "../../components/ui/Feedback";
 import { cn } from "../../lib/cn";
 import BrandLogo from "../../components/ui/BrandLogo";
 
-const STAFF_USERS = new Set(["admin", "cashier", "stocker"]);
+const isPhone = (s: string) => isVnPhone(s);
 
 export default function ShopAuthPage() {
   const [mode, setMode] = useState<"login" | "reg">("login");
-  const [phone, setPhone] = useState("0901234567");
-  const [password, setPassword] = useState("khach123");
+  const [phone, setPhone] = useState("");
+  const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [err, setErr] = useState("");
@@ -28,40 +29,60 @@ export default function ShopAuthPage() {
     setMode(m);
     setErr("");
     setErrors({});
+    setPhone("");
+    setPassword("");
+    setName("");
+  };
+
+  const setIdent = (raw: string) => {
+    if (mode === "reg" || /^\d/.test(raw)) setPhone(digitsOnly(raw).slice(0, 10));
+    else setPhone(raw.replace(/\s/g, "").toLowerCase());
   };
 
   const go = async () => {
     const ident = phone.trim();
-    const staff = STAFF_USERS.has(ident.toLowerCase());
+    const staff = mode === "login" && !isPhone(ident);
+    const pw = asciiPassword(password);
 
-    /* Tài khoản nhân viên gõ vào đây vẫn cho đi tiếp, nên chỉ soát định dạng
-       số điện thoại khi đúng là khách. */
     const next: Record<string, string> = {};
-    if (!staff && !/^0\d{9}$/.test(ident)) next.phone = "Số điện thoại 10 số, bắt đầu bằng 0";
-    if (password.length < 6) next.password = "Mật khẩu từ 6 ký tự";
+    if (!ident) next.phone = mode === "reg" ? "Nhập số điện thoại" : "Nhập số điện thoại hoặc tên đăng nhập";
+    else if (mode === "reg" && !isPhone(ident)) next.phone = "Số điện thoại 10 số, bắt đầu bằng 0";
+    const pwErr = passwordError(pw);
+    if (pwErr) next.password = pwErr;
     if (mode === "reg" && name.trim().length < 2) next.name = "Điền tên để quán gọi cho đúng";
     setErrors(next);
     setErr("");
     if (Object.keys(next).length) return;
 
+    const staffLogin = async (username: string) => {
+      const d = await staffApi.login(username, pw);
+      setStaffAuth(d.access_token, d.user, d.refresh_token);
+      nav(homeFor(d.user.role), { replace: true });
+    };
+
     setBusy(true);
     try {
-      if (mode === "login" && staff) {
-        const d = await staffApi.login(ident.toLowerCase(), password);
-        setStaffAuth(d.access_token, d.user, d.refresh_token);
-        nav(homeFor(d.user.role));
-        return;
+      if (staff) return await staffLogin(ident.toLowerCase());
+      if (mode === "reg") {
+        const data = await shopApi.register({ name: name.trim(), phone: ident, password: pw });
+        setAuth(data.access_token, data.customer);
+        return nav("/");
       }
-      const data =
-        mode === "login"
-          ? await shopApi.login(ident, password)
-          : await shopApi.register({ name: name.trim(), phone: ident, password });
-      setAuth(data.access_token, data.customer);
-      nav("/");
+      try {
+        const data = await shopApi.login(ident, pw);
+        setAuth(data.access_token, data.customer);
+        nav("/");
+      } catch (e) {
+        try {
+          await staffLogin(ident);
+        } catch {
+          throw e;
+        }
+      }
     } catch (e: any) {
       setErr(
         staff
-          ? "Tài khoản nhân viên. Thử admin / admin123 — hoặc vào trang Nhân viên / POS."
+          ? "Sai tên đăng nhập hoặc mật khẩu nhân viên."
           : e.message || "Không vào được, kiểm lại số và mật khẩu nhé"
       );
     } finally {
@@ -70,43 +91,27 @@ export default function ShopAuthPage() {
   };
 
   return (
-    <div className="mx-auto grid max-w-5xl items-center gap-6 px-3 py-8 sm:px-4 sm:py-12 md:grid-cols-2 md:gap-8">
-      <div className="relative min-h-0 overflow-hidden rounded-4xl bg-forest-900 p-6 text-white sm:p-8 md:p-10">
-        <div className="pointer-events-none absolute -right-20 -top-20 h-64 w-64 rounded-full bg-lime-400/20 blur-3xl" />
-        <div className="relative">
-          <BrandLogo size={72} className="h-[4.5rem] w-[4.5rem]" />
-          <h2 className="mt-4 font-display text-2xl font-black sm:text-3xl">
-            Có tài khoản là <span className="text-lime-400">tích điểm</span>
-          </h2>
-          <p className="mt-2 text-sm leading-relaxed text-white/70">
-            Mỗi 10.000đ được 1 điểm, dùng luôn ở quầy. Đơn đặt online là hàng được giữ, tới lấy không sợ hết.
-          </p>
-          <div className="mt-6 rounded-2xl bg-white/10 p-4 text-sm leading-relaxed">
-            <div className="font-bold text-lime-400">Khách hàng (trang này)</div>
-            <div className="mt-1 font-mono text-white/80">0901234567 / khach123</div>
-            <div className="mt-3 font-bold text-lime-400">Nhân viên / POS</div>
-            <div className="mt-1 font-mono text-white/80">admin / admin123</div>
-            <Link to="/admin/login" className="mt-3 inline-block font-bold text-lime-400 hover:underline">
-              → Đăng nhập nhân viên
-            </Link>
-          </div>
-        </div>
-      </div>
+    <div className="mx-auto flex w-full max-w-md flex-col items-center px-3 py-10 sm:px-4 sm:py-14">
+      <BrandLogo size={64} className="h-16 w-16" />
+      <h1 className="mt-4 font-display text-2xl font-black tracking-tight sm:text-3xl">
+        {mode === "login" ? "Vào tiệm" : "Tạo tài khoản"}
+      </h1>
 
       <form
-        className="card min-w-0 p-5 sm:p-8"
+        className="card mt-6 w-full min-w-0 p-5 sm:p-7"
+        autoComplete="on"
         onSubmit={(e) => {
           e.preventDefault();
           go();
         }}
       >
-        <div className="mb-6 flex rounded-2xl bg-sand p-1">
+        <div className="mb-5 flex rounded-2xl bg-sand p-1">
           {(["login", "reg"] as const).map((m) => (
             <button
               key={m}
               type="button"
               className={cn(
-                "flex-1 rounded-xl py-2 font-bold transition",
+                "flex-1 rounded-xl py-2 text-sm font-bold transition",
                 mode === m ? "bg-white shadow-sm" : "text-ink-400 hover:text-ink-600"
               )}
               onClick={() => switchMode(m)}
@@ -116,50 +121,46 @@ export default function ShopAuthPage() {
           ))}
         </div>
 
-        <h1 className="font-display text-2xl font-black">{mode === "login" ? "Vào tiệm" : "Tạo tài khoản"}</h1>
-
-        <div className="mt-5 space-y-3">
+        <div className="space-y-3">
           {mode === "reg" && (
             <Input
               label="Tên bạn"
               required
-              placeholder="Nguyễn An"
+              autoComplete="name"
+              placeholder="Tên sẽ hiện trên đơn"
               value={name}
               error={errors.name}
               onChange={(e) => setName(e.target.value)}
             />
           )}
           <Input
-            label="Số điện thoại"
+            label={mode === "login" ? "Số điện thoại / tên đăng nhập" : "Số điện thoại"}
             required
             className="font-mono"
-            inputMode="tel"
-            autoComplete="username"
-            placeholder="0901234567"
+            digits={mode === "reg"}
+            maxLength={mode === "reg" ? 10 : undefined}
+            autoComplete={mode === "reg" ? "tel" : "username"}
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
+            placeholder={mode === "reg" ? "Số điện thoại 10 số" : "Số điện thoại"}
             value={phone}
             error={errors.phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(e) => setIdent(e.target.value)}
           />
-          <Input
+          <PasswordInput
             label="Mật khẩu"
             required
-            type="password"
             autoComplete={mode === "login" ? "current-password" : "new-password"}
-            placeholder="Ít nhất 6 ký tự"
+            placeholder={mode === "reg" ? "Từ 6 ký tự, không dấu" : "Mật khẩu"}
             value={password}
             error={errors.password}
             onChange={(e) => setPassword(e.target.value)}
           />
           {err && <Notice tone="danger">{err}</Notice>}
-          <Button block size="lg" type="submit" loading={busy}>
+          <Button block size="lg" type="submit" variant="ink" loading={busy}>
             {mode === "login" ? "Đăng nhập" : "Đăng ký"}
           </Button>
-          <p className="text-center text-sm text-ink-400">
-            Nhân viên?{" "}
-            <Link to="/admin/login" className="font-bold text-forest-800 hover:text-coral-500">
-              Vào POS / admin
-            </Link>
-          </p>
         </div>
       </form>
     </div>

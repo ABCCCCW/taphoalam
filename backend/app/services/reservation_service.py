@@ -68,12 +68,22 @@ class ReservationService:
             .filter(StockReservation.order_id == order_id, StockReservation.status == "HELD")
             .all()
         )
+        from app.models import OrderItem
+        from app.services.batch_service import find_lot
+
+        # Đơn quét tem lô (QR ở quầy): trừ đúng lô đã quét.
+        lot_of = {}
+        for item in db.query(OrderItem).filter(OrderItem.order_id == order_id).all():
+            lot = find_lot(db, item.barcode)
+            if lot and lot.product_id == item.product_id:
+                lot_of[item.product_id] = lot.id
         for hold in holds:
             InventoryService.apply(
                 db,
                 product_id=hold.product_id,
                 warehouse_id=hold.warehouse_id,
                 qty=-float(hold.quantity),
+                batch_id=lot_of.get(hold.product_id),
                 type_="SALE",
                 ref_type="order",
                 ref_id=order_id,

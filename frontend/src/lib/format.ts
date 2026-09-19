@@ -10,6 +10,21 @@ export const day = (iso?: string | null) => {
   return d.toLocaleDateString("vi-VN", { day: "numeric", month: "numeric" });
 };
 
+/** Ngày đủ dd/mm/yyyy — dùng cho NSX, HSD. */
+export const dateFull = (iso?: string | null) => {
+  if (!iso) return "";
+  const d = new Date(iso.length <= 10 ? `${iso}T00:00:00` : iso);
+  return d.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" });
+};
+
+/** "Quá hạn 3 ngày" / "Hết hạn hôm nay" / "Còn 5 ngày". */
+export const expiryNote = (days?: number | null) => {
+  if (days == null) return "";
+  if (days < 0) return `Quá hạn ${Math.abs(days)} ngày`;
+  if (days === 0) return "Hết hạn hôm nay";
+  return `Còn ${days} ngày`;
+};
+
 export const when = (iso?: string | null) => {
   if (!iso) return "";
   const d = new Date(iso);

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { LogOut, MapPin, Phone, Search, ShoppingBag, UserRound, X } from "lucide-react";
+import { Clock3, LogOut, MapPin, Phone, Search, ShoppingBag, UserRound, X } from "lucide-react";
 import { shopApi } from "../api/client";
 import { useShopAuth } from "../stores/shopAuthStore";
 import { vnd } from "../lib/format";
@@ -77,34 +77,18 @@ export default function ShopLayout() {
   const isOn = (to: string) => (to === "/" ? loc.pathname === "/" : loc.pathname.startsWith(to));
 
   return (
-    <div className="min-h-dvh min-w-0 overflow-x-hidden pb-20 sm:pb-0">
-      <div className="bg-forest-900 text-[11px] text-white sm:text-[12px]">
-        <div className="mx-auto flex h-9 min-w-0 max-w-6xl items-center justify-between gap-3 px-3 sm:px-4">
-          <span className="flex min-w-0 items-center gap-1.5 truncate opacity-90">
-            <MapPin className="h-3.5 w-3.5 shrink-0 text-lime-400" />
-            <span className="truncate">Giao quanh Thanh Xuân · 15.000đ · lấy tại quầy miễn phí</span>
-          </span>
-          <a href="tel:0901234567" className="hidden shrink-0 items-center gap-1.5 opacity-90 hover:opacity-100 sm:flex">
-            <Phone className="h-3.5 w-3.5 text-lime-400" />
-            0901 234 567
-          </a>
-        </div>
-      </div>
-
-      <header className="sticky top-0 z-30 border-b border-black/[.06] bg-cream/90 backdrop-blur-xl">
-        <div className="mx-auto flex min-w-0 max-w-6xl items-center gap-2 px-3 py-2.5 sm:gap-3 sm:px-4 sm:py-3">
+    <div className="flex min-h-dvh min-w-0 flex-col overflow-x-hidden bg-[#f5f5f4] pb-20 sm:pb-0">
+      <header className="sticky top-0 z-30 border-b border-black/[.06] bg-white/90 backdrop-blur-xl">
+        <div className="shop-wrap flex min-w-0 items-center gap-2 py-2 sm:gap-4 sm:py-2.5">
           <Link to="/" className="flex shrink-0 items-center gap-2">
-            <BrandLogo size={48} className="h-10 w-10 sm:h-12 sm:w-12" />
-            <div className="hidden leading-tight md:block">
-              <div className="font-display text-xl font-black tracking-tight">Lâm Ly Mart</div>
-              <div className="-mt-0.5 text-[11px] font-semibold text-forest-700">tạp hoá online</div>
-            </div>
+            <BrandLogo size={44} className="h-10 w-10 sm:h-11 sm:w-11" />
+            <div className="hidden font-display text-xl font-black tracking-tight md:block">Lâm Ly Mart</div>
           </Link>
 
-          <div ref={box} className="relative min-w-0 max-w-xl flex-1">
+          <div ref={box} className="relative min-w-0 flex-1">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-400" />
             <input
-              className="input bg-white py-2 pl-10 text-sm shadow-sm sm:py-2.5 sm:pl-11"
+              className="input rounded-xl bg-ink-50 py-2 pl-10 text-sm focus:bg-white sm:py-2.5 sm:pl-11"
               placeholder="Tìm mì, sữa, rau…"
               aria-label="Tìm hàng"
               value={q}
@@ -163,7 +147,7 @@ export default function ShopLayout() {
           <Link
             to="/cart"
             aria-label={`Giỏ hàng${cartCount ? `, ${cartCount} món` : ""}`}
-            className="relative grid h-10 w-10 shrink-0 place-items-center rounded-2xl border border-black/[.06] bg-white transition hover:border-lime-400 sm:h-11 sm:w-11"
+            className="relative grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-ink-200 bg-white transition hover:border-forest-900"
           >
             <ShoppingBag className="h-5 w-5" />
             {cartCount > 0 && (
@@ -177,13 +161,13 @@ export default function ShopLayout() {
             <div className="flex shrink-0 items-center gap-1">
               <Link
                 to="/account"
-                className="flex h-10 w-10 items-center justify-center gap-2 rounded-2xl bg-forest-900 font-semibold text-white sm:h-11 sm:w-auto sm:px-3"
+                className="flex h-10 w-10 items-center justify-center gap-2 rounded-xl bg-forest-900 text-sm font-semibold text-white sm:w-auto sm:px-3"
               >
                 <UserRound className="h-4 w-4" />
                 <span className="hidden sm:inline">{customer.name.split(" ").pop()}</span>
               </Link>
               <button
-                className="hidden h-11 w-11 place-items-center text-ink-400 hover:text-coral-500 sm:grid"
+                className="hidden h-10 w-10 place-items-center text-ink-400 hover:text-coral-500 sm:grid"
                 onClick={logout}
                 title="Đăng xuất"
                 aria-label="Đăng xuất"
@@ -193,55 +177,79 @@ export default function ShopLayout() {
             </div>
           ) : (
             <div className="flex shrink-0 items-center gap-2">
-              <Link
-                to="/admin/login"
-                className="hidden whitespace-nowrap text-xs font-bold text-forest-800 hover:text-coral-500 md:inline"
-              >
-                Nhân viên
-              </Link>
-              <Link to="/dang-nhap" className="btn-lime h-10 px-3 text-sm sm:h-11 sm:px-4">
-                Vào
+              <Link to="/dang-nhap" className="btn-ink h-10 rounded-xl px-3 text-sm sm:px-4">
+                Đăng nhập
               </Link>
             </div>
           )}
         </div>
       </header>
 
-      <Outlet />
+      <main className="min-w-0 flex-1">
+        <Outlet />
+      </main>
 
-      <footer className="mt-4 bg-forest-900 text-white">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-10 text-sm sm:grid-cols-3 sm:py-12">
+      <footer className="relative mt-auto shrink-0 overflow-hidden bg-forest-900 text-white">
+        <i className="absolute inset-y-0 left-0 w-1.5 bg-coral-500" aria-hidden />
+        <div className="pointer-events-none absolute -right-16 -top-20 h-64 w-64 rounded-full bg-coral-500/20 blur-3xl" />
+        <div className="pointer-events-none absolute -bottom-24 left-1/3 h-56 w-56 rounded-full bg-white/5 blur-3xl" />
+
+        <div className="shop-wrap relative grid gap-8 py-10 sm:gap-10 sm:py-12 md:grid-cols-[minmax(0,1.4fr)_minmax(0,16rem)] md:items-start">
           <div>
-            <div className="flex items-center gap-2">
-              <BrandLogo size={40} className="h-10 w-10 rounded-full bg-white" />
-              <span className="font-display text-lg font-black">Lâm Ly Mart</span>
+            <div className="flex items-center gap-3">
+              <BrandLogo size={52} className="h-12 w-12 rounded-2xl bg-white p-1 sm:h-[3.25rem] sm:w-[3.25rem]" />
+              <div className="leading-tight">
+                <div className="font-display text-2xl font-black tracking-tight">Lâm Ly Mart</div>
+                <div className="text-[12px] font-semibold text-white/50">Tạp hoá Cầu Diễn</div>
+              </div>
             </div>
-            <p className="mt-3 text-white/70">12 Nguyễn Trãi, Thanh Xuân, Hà Nội</p>
-            <p className="mt-1 text-white/50">Mở 6h30 – 22h, cả thứ bảy chủ nhật</p>
-          </div>
-          <div>
-            <div className="text-xs font-bold uppercase tracking-widest text-lime-400">Mua sắm</div>
-            <Link className="mt-3 block text-white/80 hover:text-white" to="/catalog">
-              Danh mục hàng
-            </Link>
-            <Link className="mt-1 block text-white/80 hover:text-white" to="/orders">
-              Đơn của tôi
-            </Link>
-            <Link className="mt-1 block text-white/80 hover:text-white" to="/account">
-              Điểm thành viên
-            </Link>
-          </div>
-          <div>
-            <div className="text-xs font-bold uppercase tracking-widest text-lime-400">Cửa hàng</div>
-            <Link className="mt-3 block text-white/80 hover:text-white" to="/admin/login">
-              Nhân viên / POS
-            </Link>
-            <Link className="mt-1 block text-white/80 hover:text-white" to="/scan">
-              Điện thoại quét mã
-            </Link>
-            <a className="mt-3 block text-white/70 hover:text-white" href="tel:0901234567">
+
+            <ul className="mt-5 space-y-2.5 text-sm">
+              <li className="flex items-start gap-2.5 text-white/80">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-coral-400" />
+                <span>Cầu Diễn, Bắc Từ Liêm, Hà Nội</span>
+              </li>
+              <li className="flex items-start gap-2.5 text-white/80">
+                <Clock3 className="mt-0.5 h-4 w-4 shrink-0 text-coral-400" />
+                <span>6h30 – 22h · cả tuần</span>
+              </li>
+            </ul>
+
+            <a
+              href="tel:0901234567"
+              className="mt-5 inline-flex h-11 items-center gap-2 rounded-2xl bg-coral-500 px-4 text-sm font-extrabold text-white shadow-sm transition hover:bg-coral-600"
+            >
+              <Phone className="h-4 w-4" />
               0901 234 567
             </a>
+          </div>
+
+          <nav aria-label="Mua sắm">
+            <div className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-white/40">Mua sắm</div>
+            <ul className="mt-3 space-y-1">
+              <li>
+                <Link className="block rounded-xl px-2 py-1.5 text-sm font-semibold text-white/80 transition hover:bg-white/10 hover:text-white" to="/catalog">
+                  Danh mục hàng
+                </Link>
+              </li>
+              <li>
+                <Link className="block rounded-xl px-2 py-1.5 text-sm font-semibold text-white/80 transition hover:bg-white/10 hover:text-white" to="/orders">
+                  Đơn của tôi
+                </Link>
+              </li>
+              <li>
+                <Link className="block rounded-xl px-2 py-1.5 text-sm font-semibold text-white/80 transition hover:bg-white/10 hover:text-white" to="/account">
+                  Điểm thành viên
+                </Link>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <div className="relative border-t border-white/10">
+          <div className="shop-wrap flex flex-wrap items-center justify-between gap-2 py-4 text-xs font-semibold text-white/45">
+            <span>Cảm ơn bạn, hẹn gặp lại nhé!</span>
+            <span>Lâm Ly Mart · Cầu Diễn</span>
           </div>
         </div>
       </footer>

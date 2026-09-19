@@ -4,6 +4,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from sqlalchemy.orm import Session, joinedload
 
+from app.core.paging import clamp_page, page_meta
 from app.core.permissions import require
 from app.core.utils import money, next_code, utcnow
 from app.database import get_db
@@ -116,10 +117,11 @@ def list_orders(
     status: str | None = None,
     q: str | None = None,
     page: int = 1,
-    size: int = 30,
+    size: int = 10,
     db: Session = Depends(get_db),
     user: User = Depends(require("order.read")),
 ):
+    page, size = clamp_page(page, size)
     query = db.query(Order).options(joinedload(Order.items).joinedload(OrderItem.product), joinedload(Order.customer), joinedload(Order.user), joinedload(Order.payments))
     if user.role == "CASHIER":
         query = query.filter(Order.user_id == user.id)
@@ -129,8 +131,10 @@ def list_orders(
         query = query.filter(Order.status == status)
     if q:
         query = query.filter(Order.code.ilike(f"%{q}%"))
-    rows = query.order_by(Order.id.desc()).offset((page - 1) * size).limit(size).all()
-    return {"items": [serialize_order(o) for o in rows]}
+    total = query.count()
+    meta = page_meta(page, size, total)
+    rows = query.order_by(Order.id.desc()).offset((meta["page"] - 1) * size).limit(size).all()
+    return {"items": [serialize_order(o) for o in rows], **meta}
 
 
 @router.get("/orders/{order_id}")
@@ -158,7 +162,7 @@ def receipt(order_id: int, db: Session = Depends(get_db), _: User = Depends(requ
         raise HTTPException(404, "Không tìm thấy đơn")
     return {
         "store_name": (db.get(Setting, "store.name").value if db.get(Setting, "store.name") else "Lâm Ly Mart"),
-        "store_address": (db.get(Setting, "store.address").value if db.get(Setting, "store.address") else "12 Nguyễn Trãi, Thanh Xuân, Hà Nội"),
+        "store_address": (db.get(Setting, "store.address").value if db.get(Setting, "store.address") else "Cầu Diễn, Bắc Từ Liêm, Hà Nội"),
         "store_phone": (db.get(Setting, "store.phone").value if db.get(Setting, "store.phone") else ""),
         "order": serialize_order(order),
     }

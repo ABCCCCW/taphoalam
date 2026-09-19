@@ -8,18 +8,11 @@ import { useToast } from "./Toast";
 import ProductImage from "./ProductImage";
 import { cn } from "../../lib/cn";
 
-const TINTS = [
-  "from-lime-100 to-lime-50",
-  "from-sun-100 to-sun-50",
-  "from-coral-100 to-coral-50",
-];
-
 export default function ProductCard({ p, compact = false }: { p: any; compact?: boolean }) {
   const { customer } = useShopAuth();
   const toast = useToast();
   const nav = useNavigate();
   const [state, setState] = useState<"idle" | "busy" | "added">("idle");
-  const tint = TINTS[(p.id || 0) % TINTS.length];
   const out = Number(p.available || 0) <= 0;
   const step = p.product_type === "WEIGHTED" ? 0.1 : 1;
 
@@ -45,24 +38,26 @@ export default function ProductCard({ p, compact = false }: { p: any; compact?: 
   return (
     <Link
       to={`/p/${p.slug}`}
-      className="group card overflow-hidden transition hover:-translate-y-1 hover:shadow-pop"
+      className="group flex flex-col overflow-hidden rounded-2xl border border-black/[.06] bg-white transition hover:border-black/[.12] hover:shadow-card"
     >
       <div
         className={cn(
-          "relative flex items-center justify-center bg-gradient-to-br",
-          tint,
-          compact ? "h-24 text-4xl" : "h-28 text-4xl sm:h-40 sm:text-6xl"
+          "relative overflow-hidden bg-sand",
+          compact ? "aspect-[5/4] text-4xl" : "aspect-square text-5xl sm:text-6xl"
         )}
       >
-        <ProductImage
-          src={p.image_url}
-          emoji={p.emoji}
-          alt={p.name}
-          className="h-full w-full p-2 transition group-hover:scale-110"
-          emojiClassName="drop-shadow-sm group-hover:scale-110 transition"
-        />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <ProductImage
+            src={p.image_url}
+            emoji={p.emoji}
+            alt={p.name}
+            fit="cover"
+            className="h-full w-full transition duration-300 group-hover:scale-105"
+            emojiClassName="drop-shadow-sm group-hover:scale-105 transition duration-300"
+          />
+        </div>
         {p.sold_count > 20 && !out && (
-          <span className="chip absolute left-2.5 top-2.5 bg-coral-500 text-[10px] font-bold text-white">
+          <span className="absolute left-2 top-2 rounded-md bg-coral-500 px-1.5 py-0.5 text-[10px] font-bold text-white">
             Bán chạy
           </span>
         )}
@@ -73,14 +68,14 @@ export default function ProductCard({ p, compact = false }: { p: any; compact?: 
         )}
       </div>
 
-      <div className="min-w-0 p-2.5 sm:p-3.5">
+      <div className="flex min-w-0 flex-1 flex-col p-2.5 sm:p-3">
         <div className="truncate text-[10px] font-semibold uppercase tracking-wide text-ink-400 sm:text-[11px]">
           {p.category || p.brand || "Tạp hoá"}
         </div>
-        <div className="mt-0.5 line-clamp-2 min-h-[2.5rem] text-sm font-bold leading-snug sm:text-base">{p.name}</div>
-        <div className="mt-2 flex min-w-0 items-end justify-between gap-1.5">
+        <div className="mt-0.5 line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-snug text-ink-900">{p.name}</div>
+        <div className="mt-auto flex min-w-0 items-end justify-between gap-1.5 pt-2">
           <div className="min-w-0">
-            <div className="break-words font-display text-base font-black leading-none text-coral-500 sm:text-lg">
+            <div className="break-words font-display text-base font-black leading-none text-forest-900 sm:text-[17px]">
               {vnd(p.sale_price)}
             </div>
             <div className="mt-1 text-[11px] text-ink-400">
@@ -93,9 +88,9 @@ export default function ProductCard({ p, compact = false }: { p: any; compact?: 
             disabled={out || state === "busy"}
             aria-label={`Thêm ${p.name} vào giỏ`}
             className={cn(
-              "grid h-9 w-9 shrink-0 place-items-center rounded-2xl font-black shadow-sm transition active:scale-90 sm:h-10 sm:w-10",
+              "grid h-9 w-9 shrink-0 place-items-center rounded-xl font-black transition active:scale-90",
               "disabled:pointer-events-none disabled:bg-ink-100 disabled:text-ink-400 disabled:shadow-none",
-              state === "added" ? "bg-forest-900 text-white" : "bg-lime-400 text-forest-900 hover:bg-lime-300"
+              state === "added" ? "bg-coral-500 text-white" : "bg-forest-900 text-white hover:bg-coral-500"
             )}
           >
             {state === "added" ? (

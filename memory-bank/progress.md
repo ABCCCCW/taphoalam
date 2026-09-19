@@ -38,6 +38,44 @@ Fix 2026-09-19: Chân thông báo một hàng Huỷ/Lưu. Quét mã lạ thì H�
 
 Fix 2026-09-19: Header POS bỏ chip «Ca 0001» / «ĐT». Hiện họ tên NV, dưới là mã NV + Ca sáng/Ca đêm.
 
+Fix 2026-09-19: Admin cuộn cả trang. Đổi `AdminLayout` khóa viewport; `PageFrame`/`PageBody`; Tổng quan hai khung cố định, danh sách việc/lô cuộn trong «Cần làm».
+
 Fix 2026-09-19: Bỏ copy giải thích dài (màn tiền mặt và toàn hệ thống): hint, subtitle dạy cách dùng, Notice mẹo. Giữ nhãn, dữ liệu, lỗi.
 
 Fix 2026-09-19: Màn tiền mặt bỏ chip 50k/100k/Đưa đúng và nút máy tính — gõ số khách đưa bằng bàn phím.
+
+Fix 2026-09-19: Phân trang 10 dòng cho Hàng hoá, Tồn kho, Kiểm kê (và Hoá đơn, Khách, In tem). Số trang theo `total`, không cứng dãy `1 2 3 … 6 7`.
+
+Fix 2026-09-19: In tem — bỏ chip 1/10/24/48, nút ± và mũi tên spinner. Gõ số tem. Preview hiện từng tem theo số đã chọn, không gộp ×N.
+
+Fix 2026-09-19: Trụ sở đổi từ 12 Nguyễn Trãi, Thanh Xuân sang Cầu Diễn, Bắc Từ Liêm (shop, hoá đơn, seed, toạ độ phí ship).
+
+Fix 2026-09-19: Chân trang shop — dính đáy viewport khi trang ngắn; bỏ cột POS/quét mã khỏi chân trang khách.
+
+Fix 2026-09-19: Màn đăng nhập/đăng ký — bỏ hộp đen lộ tài khoản mẫu; SĐT chỉ số; mật khẩu có ẩn/hiện, không dấu, không khoảng trắng. Ô số (SĐT, PIN, STK, BIN) lọc chữ số trên toàn form.
+
+Fix 2026-09-19: Kệ hàng shop — bỏ khay chip lệch trái và lưới icon phình. Nhóm hàng một thanh 10 ô, chọn coral. Ảnh thẻ `cover` lấp khung vuông. Bỏ tiêu đề, số món và ô xếp Bán chạy.
+
+Fix 2026-09-19: Header shop — bỏ thanh đen «Giao quanh Cầu Diễn» / SĐT và dòng «tạp hoá online» dưới logo.
+
+Fix 2026-09-19: Modal báo cáo — bỏ subtitle so sánh kỳ trước, dòng phụ dưới KPI, chú thích file Excel 3 sheet.
+
+Fix 2026-09-19: Modal có chân Huỷ/Đóng thì bỏ dấu X trên header. Chi tiết hoá đơn thêm Đóng. Khôi phục `TAB_BAR`/`tabClass` vì KhoTabs import mà Page đã xoá — app trắng.
+
+Fix 2026-09-19: Màn QR POS — bỏ chữ «Đang chờ khách chuyển» và link mô phỏng ngân hàng. Giữ Đã nhận tiền + Nháp.
+
+Fix 2026-09-19: Mã QR POS phóng to (tối đa 20rem) và căn giữa cột phải.
+
+Fix 2026-09-19: Thanh tìm + chip lọc trên mọi màn admin — bỏ viên thuốc xám. `Toolbar` là khay trắng, ô tìm sand, chip chọn tô than. Đơn online dùng chung `Segmented`.
+
+Fix 2026-09-19: Ô `type=date` không hiện «Hôm nay» (Safari/Chrome). Hiện ngày số `19/09/2026`.
+
+Fix 2026-09-19: Bỏ màn Cấu hình. Icon ngân hàng cạnh Đăng xuất; PIN `000000` rồi popup sửa STK. `/admin/settings` về Tổng quan.
+
+Fix 2026-09-19: Bỏ form tên/SĐT/địa chỉ cửa hàng trên màn Tài khoản. POS và hoá đơn vẫn lấy từ settings/seed.
+
+Fix 2026-09-19: Sidebar admin bỏ nhóm «Hôm nay» — Tổng quan / Bán hàng / Đơn online không có chữ + gạch ngang phía trên.
+
+Fix 2026-09-19: Khách hàng đổi lưới thẻ sang `DataTable` như Hàng hoá / Tài khoản. Lần trước chỉ đổi thanh tìm nên màn này vẫn thẻ cũ.
+
+Fix 2026-09-19: Nháp QR giống tiền mặt — bấm chip Chưa TT về giỏ, Xoá đơn trên giỏ mới huỷ + trả tồn. Không thêm nút Xoá trên màn QR.

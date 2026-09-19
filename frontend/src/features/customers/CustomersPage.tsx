@@ -1,26 +1,31 @@
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
-import { Phone, Plus, Sparkles, Users } from "lucide-react";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { Plus, Sparkles, Users } from "lucide-react";
 import { staffApi } from "../../api/client";
 import { num, vnd } from "../../lib/format";
-import { TIER } from "../../lib/labels";
+import { CHANNEL, TIER } from "../../lib/labels";
 import Button from "../../components/ui/Button";
+import DataTable, { type Column } from "../../components/ui/DataTable";
 import Modal from "../../components/ui/Modal";
 import { StatusBadge } from "../../components/ui/Badge";
-import { CardSkeleton, EmptyState, ErrorState } from "../../components/ui/Feedback";
-import { PageHeader, SearchInput, Section, StatCard, Toolbar } from "../../components/ui/Page";
+import { EmptyState } from "../../components/ui/Feedback";
+import { PAGE_SIZE, PageBody, PageFrame, PageHeader, Pager, SearchInput, Section, StatCard, Toolbar } from "../../components/ui/Page";
 import { Input } from "../../components/ui/Field";
 import { useToast } from "../../components/ui/Toast";
 
 export default function CustomersPage() {
   const [term, setTerm] = useState("");
+  const [page, setPage] = useState(1);
   const [adding, setAdding] = useState(false);
 
   const q = useQuery({
-    queryKey: ["customers", term],
-    queryFn: () => staffApi.customers(term ? { q: term } : undefined),
+    queryKey: ["customers", term, page],
+    queryFn: () => staffApi.customers({ q: term || undefined, page, size: PAGE_SIZE }),
+    placeholderData: keepPreviousData,
   });
-  const rows = q.data || [];
+  const rows = q.data?.items || [];
+  const pages = q.data?.pages || 1;
+  const total = q.data?.total || 0;
 
   const totals = useMemo(
     () => ({
@@ -30,38 +35,81 @@ export default function CustomersPage() {
     [rows]
   );
 
+  const columns: Column<any>[] = [
+    {
+      key: "name",
+      head: "Khách",
+      primary: true,
+      cell: (c) => (
+        <div className="min-w-0">
+          <div className="truncate font-bold text-ink-900">{c.name}</div>
+          <div className="font-mono text-[11px] text-ink-400">{c.code}</div>
+        </div>
+      ),
+    },
+    {
+      key: "phone",
+      head: "Số điện thoại",
+      cell: (c) => <span className="font-mono text-sm text-ink-700">{c.phone || "—"}</span>,
+    },
+    { key: "tier", head: "Hạng", cell: (c) => <StatusBadge map={TIER} value={c.tier} /> },
+    { key: "source", head: "Nguồn", cell: (c) => <StatusBadge map={CHANNEL} value={c.source} /> },
+    {
+      key: "points",
+      head: "Điểm",
+      align: "right",
+      cell: (c) => <span className="font-display font-black text-ink-900">{num(c.loyalty_points)}</span>,
+    },
+    {
+      key: "spent",
+      head: "Đã chi",
+      align: "right",
+      cell: (c) => <span className="font-display font-black text-ink-900">{vnd(c.total_spent)}</span>,
+    },
+  ];
+
   return (
-    <div>
+    <PageFrame>
       <PageHeader
+        className="mb-0"
         kicker="Sổ sách"
         title="Khách hàng"
         actions={
-          <Button icon={Plus} onClick={() => setAdding(true)}>
+          <Button variant="ink" icon={Plus} onClick={() => setAdding(true)}>
             Thêm khách
           </Button>
         }
       />
 
+      <PageBody>
+
       <Section title="Tóm tắt sổ khách" className="mb-6">
         <div className="grid gap-3 sm:grid-cols-3">
-          <StatCard label="Khách đang hiện" value={num(rows.length)} icon={Users} sub={term ? "đúng với từ khoá đang tìm" : "50 khách gần nhất"} />
-          <StatCard label="Tổng đã chi" value={vnd(totals.spent)} tone="sun" sub="cộng cả quầy và website" />
-          <StatCard label="Điểm đang giữ" value={num(totals.points)} tone="ink" icon={Sparkles} sub="1 điểm đổi 1đ khi mua tại quầy" />
+          <StatCard label="Khách đang hiện" value={num(total)} icon={Users} />
+          <StatCard label="Tổng đã chi" value={vnd(totals.spent)} tone="sun" />
+          <StatCard label="Điểm đang giữ" value={num(totals.points)} tone="ink" icon={Sparkles} />
         </div>
       </Section>
 
       <Toolbar>
-        <SearchInput value={term} onChange={setTerm} placeholder="Tìm theo tên hoặc số điện thoại…" />
+        <SearchInput
+          value={term}
+          onChange={(v) => {
+            setPage(1);
+            setTerm(v);
+          }}
+          placeholder="Tìm theo tên hoặc số điện thoại…"
+        />
       </Toolbar>
 
-      {q.isPending ? (
-        <CardSkeleton count={6} />
-      ) : q.isError ? (
-        <div className="card">
-          <ErrorState error={q.error} onRetry={q.refetch} />
-        </div>
-      ) : !rows.length ? (
-        <div className="card">
+      <DataTable
+        rows={rows}
+        columns={columns}
+        rowKey={(c) => c.id}
+        loading={q.isPending}
+        error={q.isError ? q.error : undefined}
+        onRetry={q.refetch}
+        empty={
           <EmptyState
             emoji="🙋"
             title={term ? "Không tìm thấy khách nào" : "Sổ khách còn trống"}
@@ -71,47 +119,15 @@ export default function CustomersPage() {
                   Xoá từ khoá
                 </Button>
               ) : (
-                <Button icon={Plus} onClick={() => setAdding(true)}>
+                <Button variant="ink" icon={Plus} onClick={() => setAdding(true)}>
                   Thêm khách
                 </Button>
               )
             }
           />
-        </div>
-      ) : (
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {rows.map((c: any) => (
-            <article key={c.id} className="card p-4 transition hover:-translate-y-0.5 hover:shadow-pop">
-              <div className="flex items-start gap-3">
-                <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-lime-100 font-display text-lg font-black text-forest-800">
-                  {String(c.name || "?").trim().charAt(0).toUpperCase()}
-                </span>
-                <div className="min-w-0 flex-1">
-                  <div className="truncate font-bold text-ink-900">{c.name}</div>
-                  <a
-                    href={c.phone ? `tel:${c.phone}` : undefined}
-                    className="mt-0.5 inline-flex items-center gap-1 font-mono text-xs text-ink-500 hover:text-coral-600"
-                  >
-                    <Phone className="h-3 w-3" />
-                    {c.phone || "chưa có số"}
-                  </a>
-                </div>
-                <StatusBadge map={TIER} value={c.tier} />
-              </div>
-              <dl className="mt-3 grid grid-cols-2 gap-2">
-                <div className="rounded-2xl bg-sand/60 px-3 py-2">
-                  <dt className="text-[10px] font-extrabold uppercase tracking-wider text-ink-400">Điểm</dt>
-                  <dd className="font-display text-lg font-black text-ink-900">{num(c.loyalty_points)}</dd>
-                </div>
-                <div className="rounded-2xl bg-sand/60 px-3 py-2">
-                  <dt className="text-[10px] font-extrabold uppercase tracking-wider text-ink-400">Đã chi</dt>
-                  <dd className="font-display text-lg font-black text-ink-900">{vnd(c.total_spent)}</dd>
-                </div>
-              </dl>
-            </article>
-          ))}
-        </div>
-      )}
+        }
+      />
+      {rows.length > 0 && <Pager className="mt-4" page={page} pages={pages} total={total} onPage={setPage} />}
 
       {adding && (
         <AddCustomer
@@ -122,7 +138,8 @@ export default function CustomersPage() {
           }}
         />
       )}
-    </div>
+      </PageBody>
+    </PageFrame>
   );
 }
 
@@ -185,8 +202,9 @@ function AddCustomer({ onClose, onDone }: { onClose: () => void; onDone: () => v
         <Input
           label="Số điện thoại"
           className="font-mono"
-          inputMode="numeric"
-          placeholder="0901234567"
+          digits
+          maxLength={10}
+          placeholder="Số điện thoại 10 số"
           value={f.phone}
           error={errors.phone}
           onChange={(e) => setF({ ...f, phone: e.target.value })}

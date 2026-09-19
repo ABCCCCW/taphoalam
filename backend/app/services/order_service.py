@@ -30,6 +30,17 @@ def product_snapshot(db: Session, product_id: int, quantity: float, unit_id: int
     product = db.get(Product, product_id)
     if not product or not product.is_active:
         raise AppError("PRODUCT_NOT_FOUND", "Sản phẩm không tồn tại", 404)
+    from app.services.batch_service import ensure_sellable, find_lot, lot_status
+
+    # Quét tem lô: biết đúng hộp thuộc lô nào — chỉ chặn nếu chính lô đó quá hạn,
+    # và lúc trừ kho sẽ trừ vào lô đó trước. Mã nhà sản xuất: xét lô bán ra trước.
+    lot = find_lot(db, barcode)
+    if lot and lot.product_id == product.id:
+        if lot_status(lot.expiry_date) == "expired":
+            raise AppError("EXPIRED_LOT", f"{product.name}: lô này đã quá hạn — không bán, bỏ khỏi kệ", 409)
+    else:
+        lot = None
+        ensure_sellable(db, product)
     conversion = 1
     unit_price = float(product.sale_price)
     product_unit_id = None
@@ -47,6 +58,7 @@ def product_snapshot(db: Session, product_id: int, quantity: float, unit_id: int
         "unit_price": unit_price,
         "quantity": line_qty,
         "barcode": barcode,
+        "batch_id": lot.id if lot else None,
         "line_total": money(unit_price * line_qty),
         "base_qty": line_qty * conversion,
     }
@@ -54,6 +66,11 @@ def product_snapshot(db: Session, product_id: int, quantity: float, unit_id: int
 
 def find_by_barcode(db: Session, code: str):
     from app.services.barcode import parse_weight_barcode
+    from app.services.batch_service import find_lot
+
+    lot = find_lot(db, code)
+    if lot:
+        return db.get(Product, lot.product_id), None
 
     weight = parse_weight_barcode(code)
     if weight:
@@ -181,8 +198,10 @@ def checkout_pos(db: Session, *, user, payload: dict, idempotency_key: str | Non
         db.add(item)
         subtotal += snap["line_total"]
 
-    extra_discount = money(payload.get("discount") or 0)
     promo_discount, promo_id = apply_promo(db, subtotal, payload.get("promo_code"))
+    # Giảm tay ở quầy: thu ngân gõ bao nhiêu trừ bấy nhiêu, nhưng không âm và không
+    # vượt phần còn lại sau mã KM (đơn không thể ra số tiền âm).
+    extra_discount = min(max(0.0, money(payload.get("discount") or 0)), max(0.0, subtotal - promo_discount))
     discount = extra_discount + promo_discount
     points_used = order.points_used
     points_value = 0.0
@@ -298,6 +317,7 @@ def _pos_take_stock(db: Session, order: Order, snapshots: list, user, warehouse_
             user_id=user.id if user else None,
             unit_cost=float(snap["product"].cost_price),
             channel="POS",
+            batch_id=snap.get("batch_id"),
         )
         _inc_sold(snap["product"], snap["quantity"])
 

@@ -54,13 +54,19 @@ canvas.scanner-buf { max-width: none; }
 
   .card { @apply bg-white rounded-3xl border border-black/[.05] shadow-card; }
 
+  /* Khung trang cửa hàng — rộng theo màn lớn, lề co theo màn nhỏ */
+  .shop-wrap { @apply mx-auto w-full max-w-[1680px] px-3 sm:px-5 lg:px-8; }
+
   .input {
-    @apply w-full rounded-2xl border border-ink-200 bg-white px-4 py-2.5 text-ink-900 outline-none transition
+    @apply min-w-0 w-full rounded-2xl border border-ink-200 bg-white px-4 py-2.5 text-ink-900 outline-none transition
            placeholder:text-ink-400
            focus:border-lime-500 focus:ring-4 focus:ring-lime-100
            disabled:bg-ink-50 disabled:text-ink-400;
   }
   .input-err { @apply border-coral-400 focus:border-coral-500 focus:ring-coral-100; }
+  /* Safari/Chrome vi-VN hiện «Hôm nay» — ẩn chữ gốc, Field.tsx đè ngày số. */
+  .input-date { color: transparent; }
+  .input-date::-webkit-calendar-picker-indicator { cursor: pointer; opacity: 1; }
 
   .chip { @apply inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-bold; }
 
@@ -88,6 +94,10 @@ canvas.scanner-buf { max-width: none; }
   .tbl tbody tr:nth-child(even) td { @apply bg-sand/70; }
   .tbl tbody tr:hover td { @apply bg-lime-50; }
   .tbl tbody tr:last-child td { @apply border-b-0; }
+  /* Dòng cảnh báo (hàng sắp hết hạn) — đặt sau kẻ sọc để đè màu nền. */
+  .tbl tbody tr.row-warn td { @apply bg-sun-50; }
+  .tbl tbody tr.row-warn:hover td { @apply bg-sun-100; }
+  .list-rows > li.row-warn { @apply bg-sun-50; }
 
   /* Danh sách dạng bảng (modal, điện thoại) — kẻ dòng rõ, không dính liền */
   .list-rows { @apply divide-y divide-ink-200; }
@@ -141,6 +151,22 @@ canvas.scanner-buf { max-width: none; }
     inset: auto !important;
     visibility: visible !important;
     color: #0f172a;
+  }
+  /* Tờ tem: xếp kín từng hàng 50×30mm trên khổ A4 rồi mới sang trang sau.
+     .print-area ở trên ép display:block (cho hoá đơn) nên phải đặt lại lưới ở đây. */
+  .print-area.label-sheet {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, 50mm);
+    grid-auto-rows: 30mm;
+    gap: 2mm;
+    padding: 0 !important;
+    justify-content: start;
+  }
+  .label-sheet > * {
+    width: 50mm !important;
+    height: 30mm !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
   .print-area.receipt-slip {
     width: 80mm;

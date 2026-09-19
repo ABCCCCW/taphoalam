@@ -88,13 +88,13 @@ export const ADJUST_TYPES = [
 export const PRODUCT_TYPE = dict({
   STANDARD: { label: "Đếm cái", tone: "lime" },
   WEIGHTED: { label: "Cân kg", tone: "sun" },
-  BULK: { label: "Bán xá", tone: "sky" },
+  BULK: { label: "Bán lẻ", tone: "sky" },
 });
 
 export const PRODUCT_TYPES = [
   { value: "STANDARD", label: "Đếm cái — bán theo chiếc/gói" },
   { value: "WEIGHTED", label: "Cân kg — rau, thịt, hoa quả" },
-  { value: "BULK", label: "Bán xá — gạo, đường múc lẻ" },
+  { value: "BULK", label: "Bán lẻ — gạo, đường múc lẻ" },
 ];
 
 export const TIER = dict({

@@ -11,7 +11,6 @@ import CheckoutPage from "./features/shop/CheckoutPage";
 import MyOrdersPage from "./features/shop/MyOrdersPage";
 import ShopAuthPage from "./features/shop/ShopAuthPage";
 import AccountPage from "./features/shop/AccountPage";
-import StaffLogin from "./features/auth/StaffLogin";
 import PosPage from "./features/pos/PosPage";
 import ScannerPage from "./features/scanner/ScannerPage";
 import BankDemo from "./features/pos/BankDemo";
@@ -23,8 +22,7 @@ import StockTakePage from "./features/inventory/StockTakePage";
 import OrdersPage from "./features/orders/OrdersPage";
 import OnlineOrdersPage from "./features/online-orders/OnlineOrdersPage";
 import CustomersPage from "./features/customers/CustomersPage";
-import ReportsPage from "./features/reports/ReportsPage";
-import SettingsPage from "./features/settings/SettingsPage";
+import AccountsPage from "./features/accounts/AccountsPage";
 import LabelsPage from "./features/products/LabelsPage";
 import PromotionsPage from "./features/promotions/PromotionsPage";
 
@@ -36,7 +34,7 @@ import PromotionsPage from "./features/promotions/PromotionsPage";
  */
 function Guard({ roles, children }: { roles?: string[]; children: React.ReactNode }) {
   const { user, access } = useAuth();
-  if (!user || !access) return <Navigate to="/admin/login" replace />;
+  if (!user || !access) return <Navigate to="/dang-nhap" replace />;
   if (roles && !roles.includes(user.role)) return <Navigate to={homeFor(user.role)} replace />;
   return <>{children}</>;
 }
@@ -58,7 +56,8 @@ export default function App() {
         <Route path="/account" element={<AccountPage />} />
         <Route path="/dang-nhap" element={<ShopAuthPage />} />
       </Route>
-      <Route path="/admin/login" element={<StaffLogin />} />
+      {/* Đăng nhập nhân viên đã gộp vào /dang-nhap; giữ đường cũ cho link đã lưu */}
+      <Route path="/admin/login" element={<Navigate to="/dang-nhap" replace />} />
       <Route path="/pos" element={<Guard roles={QUAY}><PosPage /></Guard>} />
       <Route path="/scan" element={<ScannerPage />} />
       <Route path="/demo/bank" element={<BankDemo />} />
@@ -73,8 +72,11 @@ export default function App() {
         <Route path="online" element={<Guard roles={CA_BA}><OnlineOrdersPage /></Guard>} />
         <Route path="customers" element={<Guard roles={QUAY}><CustomersPage /></Guard>} />
         <Route path="promotions" element={<Guard roles={["ADMIN"]}><PromotionsPage /></Guard>} />
-        <Route path="reports" element={<Guard roles={["ADMIN"]}><ReportsPage /></Guard>} />
-        <Route path="settings" element={<Guard roles={["ADMIN"]}><SettingsPage /></Guard>} />
+        {/* Báo cáo giờ là cửa sổ nổi trên Tổng quan */}
+        <Route path="reports" element={<Navigate to="/admin?report=1" replace />} />
+        <Route path="accounts" element={<Guard roles={["ADMIN"]}><AccountsPage /></Guard>} />
+        {/* Cấu hình đã bỏ: ngân hàng mở bằng nút cạnh Đăng xuất */}
+        <Route path="settings" element={<Navigate to="/admin" replace />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
