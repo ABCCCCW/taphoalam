@@ -1,0 +1,20 @@
+.venv/
+__pycache__/
+*.pyc
+taphoa.db
+*.egg-info/
+node_modules/
+dist/
+certs/*.pem
+frontend/certs/*.pem
+frontend/public/taphoa-ca.pem
+frontend/public/taphoa-ca.crt
+.env
+.DS_Store
+frontend/dist
+backend/taphoa.db
+
+# Cache danh mục Open Food Facts — sinh lại được, không cần commit
+backend/seeds/off_catalogue.json
+backend/seeds/off_vn_full.json
+.vercel

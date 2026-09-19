@@ -1,0 +1,80 @@
+{
+  "Rau muống bó": {
+    "image_url": "/uploads/products/fresh-ipomoea-aquatica-water-spinach.jpg",
+    "license": "CC BY-SA 3.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:N_Ipoa_D1600.JPG",
+    "title": "File:N Ipoa D1600.JPG"
+  },
+  "Cải ngọt bó": {
+    "image_url": "/uploads/products/fresh-choy-sum-brassica-vegetable.jpg",
+    "license": "CC0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Choy_sum_for_sale.tif",
+    "title": "File:Choy sum for sale.tif"
+  },
+  "Chuối sứ nải": {
+    "image_url": "/uploads/products/fresh-banana-bunch-fruit.jpg",
+    "license": "CC0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Bunch_of_bananas_on_sale.jpg",
+    "title": "File:Bunch of bananas on sale.jpg"
+  },
+  "Táo Mỹ (kg)": {
+    "image_url": "/uploads/products/fresh-red-apples-fruit.jpg",
+    "license": "CC BY 2.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Red_Apple.jpg",
+    "title": "File:Red Apple.jpg"
+  },
+  "Trứng gà vỉ 10 quả": {
+    "image_url": "/uploads/products/fresh-chicken-eggs-tray.jpg",
+    "license": "CC BY-SA 4.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Chicken_eggs_in_tray.jpg",
+    "title": "File:Chicken eggs in tray.jpg"
+  },
+  "Cà chua (kg)": {
+    "image_url": "/uploads/products/fresh-fresh-tomatoes.jpg",
+    "license": "CC0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Fresh_Tomatoes_and_Cucumber.jpg",
+    "title": "File:Fresh Tomatoes and Cucumber.jpg"
+  },
+  "Đậu hũ trắng": {
+    "image_url": "/uploads/products/fresh-tofu-block.jpg",
+    "license": "CC BY-SA 3.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Milk_tofu.JPG",
+    "title": "File:Milk tofu.JPG"
+  },
+  "Gạo tám Hải Hậu (kg)": {
+    "image_url": "/uploads/products/fresh-white-rice-grains.jpg",
+    "license": "CC BY-SA 4.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Plain_white_rice-min-min.jpg",
+    "title": "File:Plain white rice-min-min.jpg"
+  },
+  "Xôi mặn hộp": {
+    "image_url": "/uploads/products/fresh-xoi-sticky-rice-vietnamese.jpg",
+    "license": "CC BY-SA 4.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Mango_sticky_rice_with_my_friend_-_ESEAPConf2024.png",
+    "title": "File:Mango sticky rice with my friend - ESEAPConf2024.png"
+  },
+  "Cơm gà hộp": {
+    "image_url": "/uploads/products/fresh-com-ga-vietnamese-chicken-rice.jpg",
+    "license": "CC BY-SA 4.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Parboiled_rice_with_chicken,_peppers,_cucurbita,_peas_and_tomato.jpg",
+    "title": "File:Parboiled rice with chicken, peppers, cucurbita, peas and tomato.jpg"
+  },
+  "Ức gà phi lê (kg)": {
+    "image_url": "/uploads/products/fresh-chicken-breast-raw.jpg",
+    "license": "CC0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Raw_chicken_slices.jpg",
+    "title": "File:Raw chicken slices.jpg"
+  },
+  "Cá basa cắt khúc (kg)": {
+    "image_url": "/uploads/products/fresh-fish-fillet-raw.jpg",
+    "license": "CC BY-SA 4.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Raw_frozen_barramundi_fillet_cropped.jpg",
+    "title": "File:Raw frozen barramundi fillet cropped.jpg"
+  },
+  "Thịt ba chỉ (kg)": {
+    "image_url": "/uploads/products/fresh-pork-belly.jpg",
+    "license": "CC BY 2.0",
+    "source_url": "https://commons.wikimedia.org/wiki/File:Grilled_kurobuta_pork_belly_01.jpg",
+    "title": "File:Grilled kurobuta pork belly 01.jpg"
+  }
+}

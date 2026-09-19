@@ -1,0 +1,38 @@
+name: taphoa_lam
+
+services:
+  backend:
+    container_name: BE_taphoa_lam
+    image: python:3.12-slim
+    working_dir: /app
+    environment:
+      PYTHONPATH: /app
+    volumes:
+      - ./backend:/app
+      - taphoa-pip:/root/.cache/pip
+    ports:
+      - "8000:8000"
+    command: >
+      sh -c "pip install -q -r requirements.txt &&
+      uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+
+  frontend:
+    container_name: FE_taphoa_lam
+    image: node:22-alpine
+    working_dir: /app
+    environment:
+      API_PROXY: http://host.docker.internal:8000
+      PUBLIC_HOST: ${PUBLIC_HOST:-}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "5173:5173"
+      - "5174:5174"
+    depends_on:
+      - backend
+    command: npm run dev -- --host 0.0.0.0 --port 5173
+
+volumes:
+  taphoa-pip:

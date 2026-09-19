@@ -1,0 +1,74 @@
+{
+  "Coca-Cola 330ml": {
+    "barcode": "8935049501503",
+    "image_url": "/uploads/products/coca-cola-330ml.jpg",
+    "off_name": "Coca-Cola",
+    "off_brand": "Coca-Cola",
+    "source_url": "https://world.openfoodfacts.org/product/8935049501503",
+    "license": "CC-BY-SA · Open Food Facts"
+  },
+  "Pepsi 330ml": {
+    "barcode": "6111252420059",
+    "image_url": "/uploads/products/pepsi-330ml.jpg",
+    "off_name": "Pepsi 2L",
+    "off_brand": "Pepsi",
+    "source_url": "https://world.openfoodfacts.org/product/6111252420059",
+    "license": "CC-BY-SA · Open Food Facts"
+  },
+  "Sting dâu 330ml": {
+    "barcode": "8934588232114",
+    "image_url": "/uploads/products/sting-dau-330ml.jpg",
+    "off_name": "Sting Energy",
+    "off_brand": "Pepsi, PepsiCo, Sting, Sting Energy, Suntory",
+    "source_url": "https://world.openfoodfacts.org/product/8934588232114",
+    "license": "CC-BY-SA · Open Food Facts"
+  },
+  "Bánh Oreo 137g": {
+    "barcode": "8934680033428",
+    "image_url": "/uploads/products/banh-oreo-137g.jpg",
+    "off_name": "Oreo Wafer Roll with Vanilla Flavored Cream",
+    "off_brand": "Oreo",
+    "source_url": "https://world.openfoodfacts.org/product/8934680033428",
+    "license": "CC-BY-SA · Open Food Facts"
+  },
+  "Kẹo dẻo Haribo": {
+    "barcode": "3103220035214",
+    "image_url": "/uploads/products/keo-deo-haribo.jpg",
+    "off_name": "280G HARIBO CROCO",
+    "off_brand": "Haribo",
+    "source_url": "https://world.openfoodfacts.org/product/3103220035214",
+    "license": "CC-BY-SA · Open Food Facts"
+  },
+  "Chocolate KitKat": {
+    "barcode": "7613035365896",
+    "image_url": "/uploads/products/chocolate-kitkat.jpg",
+    "off_name": "KITKAT 4 Finger Barre au chocolat au Lait, 41,5g en lot de 6",
+    "off_brand": "Kit Kat, Nestlé, Kitkat",
+    "source_url": "https://world.openfoodfacts.org/product/7613035365896",
+    "license": "CC-BY-SA · Open Food Facts"
+  },
+  "Nước rửa chén Sunlight": {
+    "barcode": "6001087397308",
+    "image_url": "/uploads/products/nuoc-rua-chen-sunlight.jpg",
+    "off_name": "sunlight hand wash",
+    "off_brand": "sunlight",
+    "source_url": "https://world.openfoodfacts.org/product/6001087397308",
+    "license": "CC-BY-SA · Open Food Facts"
+  },
+  "Bột giặt Omo 400g": {
+    "barcode": "8710522849699",
+    "image_url": "/uploads/products/bot-giat-omo-400g.jpg",
+    "off_name": "Omo Lessive Liquide Monoï Lot 2x1.925L - 70 Lavages",
+    "off_brand": "Omo",
+    "source_url": "https://world.openfoodfacts.org/product/8710522849699",
+    "license": "CC-BY-SA · Open Food Facts"
+  },
+  "Dầu gội Clear 170g": {
+    "barcode": "6221155058522",
+    "image_url": "/uploads/products/dau-goi-clear-170g.jpg",
+    "off_name": "shampoo",
+    "off_brand": "clear",
+    "source_url": "https://world.openfoodfacts.org/product/6221155058522",
+    "license": "CC-BY-SA · Open Food Facts"
+  }
+}

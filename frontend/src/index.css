@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --lime: #a1a1aa;
+  --coral: #ff5a3c;
+  --forest: #18181b;
+}
+
+html, body, #root { min-height: 100%; min-width: 0; }
+html, body { overflow-x: hidden; }
+
+/* Quầy POS: cỡ chữ gốc co theo màn hình. Mọi kích thước Tailwind (chữ, nút, khoảng
+   cách, icon) đều tính bằng rem nên cả quầy thu nhỏ đều nhau, không phải bẻ bố cục.
+   16px ở màn ≥1280×800, xuống tối thiểu 11px ở iPad mini / màn thấp. */
+html.pos-fluid {
+  font-size: clamp(11px, min(calc(7px + 0.7vw), calc(5px + 1.4vh)), 16px);
+}
+body {
+  background: #fff6ec;
+  color: #0f172a;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, video, canvas { max-width: 100%; height: auto; }
+video.scanner-cam { max-width: none; height: 100%; }
+canvas.scanner-buf { max-width: none; }
+
+.hide-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scroll::-webkit-scrollbar { display: none; }
+
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+
+.font-display { font-family: Nunito, "Be Vietnam Pro", sans-serif; }
+
+/* Lớp component phải nằm trong @layer components, nếu không `px-4` của .input
+   sẽ được xuất sau và đè lên `pl-10` mà ô tìm kiếm thêm vào cho chỗ icon. */
+@layer components {
+  /* Nút — bo mạnh, chữ dày, nhấn xuống khi bấm */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-2xl px-4 py-2.5 font-extrabold transition duration-150 active:scale-[.97]
+           disabled:pointer-events-none disabled:opacity-45
+           focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-lime-300/60;
+  }
+  .btn-lime { @apply btn bg-lime-400 text-forest-900 shadow-sm hover:bg-lime-300; }
+  .btn-coral { @apply btn bg-coral-500 text-white shadow-sm hover:bg-coral-600 focus-visible:ring-coral-200; }
+  .btn-ink { @apply btn bg-forest-900 text-white hover:bg-forest-800; }
+  .btn-ghost { @apply btn border border-ink-200 bg-white text-ink-700 hover:border-ink-300 hover:bg-ink-50; }
+  .btn-soft { @apply btn bg-lime-100 text-forest-800 hover:bg-lime-200; }
+
+  .card { @apply bg-white rounded-3xl border border-black/[.05] shadow-card; }
+
+  .input {
+    @apply w-full rounded-2xl border border-ink-200 bg-white px-4 py-2.5 text-ink-900 outline-none transition
+           placeholder:text-ink-400
+           focus:border-lime-500 focus:ring-4 focus:ring-lime-100
+           disabled:bg-ink-50 disabled:text-ink-400;
+  }
+  .input-err { @apply border-coral-400 focus:border-coral-500 focus:ring-coral-100; }
+
+  .chip { @apply inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-bold; }
+
+  .section-kicker {
+    @apply text-sm font-semibold text-coral-600;
+  }
+
+  /* Khung bảng — viền rõ, không lẫn với nền cream */
+  .tbl-wrap {
+    @apply overflow-hidden rounded-2xl border-2 border-ink-300 bg-white shadow-card;
+  }
+
+  /* Bảng sổ — tiêu đề đậm, kẻ dòng + kẻ cột đủ để đọc từng ô */
+  .tbl { @apply w-full border-separate border-spacing-0 text-sm; }
+  .tbl thead th {
+    @apply sticky top-0 z-10 border-b-2 border-b-lime-400 border-r border-r-ink-200
+           bg-sand px-3.5 py-3 text-left text-[11px] font-extrabold uppercase tracking-wider
+           text-forest-900 whitespace-nowrap;
+  }
+  .tbl thead th:last-child { @apply border-r-0; }
+  .tbl tbody td {
+    @apply border-b border-b-ink-200 border-r border-r-ink-200 bg-white px-3.5 py-3 align-middle text-ink-800;
+  }
+  .tbl tbody td:last-child { @apply border-r-0; }
+  .tbl tbody tr:nth-child(even) td { @apply bg-sand/70; }
+  .tbl tbody tr:hover td { @apply bg-lime-50; }
+  .tbl tbody tr:last-child td { @apply border-b-0; }
+
+  /* Danh sách dạng bảng (modal, điện thoại) — kẻ dòng rõ, không dính liền */
+  .list-rows { @apply divide-y divide-ink-200; }
+  .list-rows > li:nth-child(even) { @apply bg-sand/50; }
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 99px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+.invoice-sheet { background: #fff; border: 1px solid #e7e5e4; }
+.invoice-perforation {
+  height: 10px;
+  background: radial-gradient(circle at 8px 10px, transparent 5px, #fff6ec 5.5px) 0 0 / 16px 10px;
+  border-bottom: 1px dashed #d6d3d1;
+}
+.invoice-stamp {
+  position: absolute;
+  top: 46%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-18deg);
+  border: 3px solid #ff5a3c;
+  color: #ff5a3c;
+  font-weight: 900;
+  font-size: 1.55rem;
+  letter-spacing: .16em;
+  padding: .2rem .7rem;
+  border-radius: .4rem;
+  opacity: .28;
+  pointer-events: none;
+  font-family: Nunito, "Be Vietnam Pro", sans-serif;
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.print-only { display: none; }
+
+@media print {
+  @page { margin: 8mm; }
+  html, body {
+    background: #fff !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+  /* Ẩn UI (kệ POS còn chiếm chỗ nếu chỉ visibility:hidden → preview trắng nhiều trang) */
+  body > *:not(.print-area) { display: none !important; }
+  .print-area {
+    display: block !important;
+    position: static !important;
+    inset: auto !important;
+    visibility: visible !important;
+    color: #0f172a;
+  }
+  .print-area.receipt-slip {
+    width: 80mm;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  .invoice-stamp {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .invoice-perforation { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
+}

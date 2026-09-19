@@ -1,0 +1,4891 @@
+[
+  {
+    "barcode": "8934563138165",
+    "name": "Hao Hao Mi Tom Chua Cay (hot Sour Shrimp Flavor Noodle)",
+    "brand": "Hảo Hảo",
+    "quantity": "75 g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Cereals and potatoes",
+      "Cereals and their products",
+      "Dried products",
+      "Dried products to be rehydrated",
+      "Pastas",
+      "Noodles",
+      "Instant noodles"
+    ],
+    "image_url": "/uploads/products/8934563138165-hao-hao-mi-tom-chua-cay-hot-sour-shrimp-.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934563138165"
+  },
+  {
+    "barcode": "8934588063053",
+    "name": "Aquafina",
+    "brand": "",
+    "quantity": null,
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Waters"
+    ],
+    "image_url": "/uploads/products/8934588063053-aquafina.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588063053"
+  },
+  {
+    "barcode": "8935217400058",
+    "name": "TH -TRUE MILK pure 180ML x 4",
+    "brand": "TH Group",
+    "quantity": "4 x 180ML",
+    "categories": [
+      "Dairies",
+      "Milks (liquid and powder)",
+      "Milks"
+    ],
+    "image_url": "/uploads/products/8935217400058-th-true-milk-pure-180ml-x-4.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935217400058"
+  },
+  {
+    "barcode": "8936193070075",
+    "name": "Number one",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936193070075-number-one.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936193070075"
+  },
+  {
+    "barcode": "8935049501503",
+    "name": "Coca-Cola",
+    "brand": "Coca-Cola",
+    "quantity": "320ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Non-alcoholic beverages",
+      "Carbonated drinks",
+      "Soft drinks",
+      "Sodas",
+      "Colas",
+      "Cola with sugar",
+      "Sweetened beverages"
+    ],
+    "image_url": "/uploads/products/8935049501503-coca-cola.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049501503"
+  },
+  {
+    "barcode": "8934804025766",
+    "name": "Milo",
+    "brand": "Milo",
+    "quantity": "180ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Dairies",
+      "Dairy drinks",
+      "Flavoured milks",
+      "Chocolate milks"
+    ],
+    "image_url": "/uploads/products/8934804025766-milo.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934804025766"
+  },
+  {
+    "barcode": "8935049501718",
+    "name": "Sprite",
+    "brand": "Coca-Cola",
+    "quantity": "320ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Non-alcoholic beverages",
+      "Carbonated drinks",
+      "Soft drinks",
+      "Sodas"
+    ],
+    "image_url": "/uploads/products/8935049501718-sprite.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049501718"
+  },
+  {
+    "barcode": "8936127790017",
+    "name": "Nước lọc th 5000",
+    "brand": "th",
+    "quantity": "500 ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Waters",
+      "Spring waters",
+      "Nước lọc tinh khiết"
+    ],
+    "image_url": "/uploads/products/8936127790017-nuoc-loc-th-5000.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936127790017"
+  },
+  {
+    "barcode": "8934588183133",
+    "name": "Revive Chanh Muối",
+    "brand": "Revive",
+    "quantity": "390ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Artificially sweetened beverages",
+      "Electrolyte-waters",
+      "Isotonic-sport-drink"
+    ],
+    "image_url": "/uploads/products/8934588183133-revive-chanh-muoi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588183133"
+  },
+  {
+    "barcode": "8934673900928",
+    "name": "Processed Cheese",
+    "brand": "Vinamilk",
+    "quantity": "120 g",
+    "categories": [
+      "Dairies",
+      "Fermented foods",
+      "Fermented milk products",
+      "Cheeses",
+      "Fats",
+      "Spreads",
+      "Spreadable fats",
+      "Animal fats",
+      "Dairy spreads",
+      "Milkfat"
+    ],
+    "image_url": "/uploads/products/8934673900928-processed-cheese.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673900928"
+  },
+  {
+    "barcode": "8935049511021",
+    "name": "Nutifood vị cam",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935049511021-nutifood-vi-cam.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049511021"
+  },
+  {
+    "barcode": "8934588063176",
+    "name": "Nước uống đóng chai Aquafina 5L",
+    "brand": "Pepsi",
+    "quantity": "5L",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Waters"
+    ],
+    "image_url": "/uploads/products/8934588063176-nuoc-uong-dong-chai-aquafina-5l.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588063176"
+  },
+  {
+    "barcode": "8934637011523",
+    "name": "Tương Ớt",
+    "brand": "cholimex",
+    "quantity": "270 gr",
+    "categories": [
+      "Condiments",
+      "Sauces",
+      "Hot sauces",
+      "vi:Tương-ớt"
+    ],
+    "image_url": "/uploads/products/8934637011523-tuong-ot.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934637011523"
+  },
+  {
+    "barcode": "8934673701778",
+    "name": "Plant Milk High Protein Zero Sugar",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673701778-plant-milk-high-protein-zero-sugar.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673701778"
+  },
+  {
+    "barcode": "8934588843051",
+    "name": "Nước Uống Điện Giải Revive",
+    "brand": "Revive",
+    "quantity": null,
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Waters"
+    ],
+    "image_url": "/uploads/products/8934588843051-nuoc-uong-dien-giai-revive.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588843051"
+  },
+  {
+    "barcode": "8936136161143",
+    "name": "Chili sauce",
+    "brand": "CHIN-SU",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936136161143-chili-sauce.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936136161143"
+  },
+  {
+    "barcode": "8935012413321",
+    "name": "Bia Saigon Lager",
+    "brand": "",
+    "quantity": null,
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Alcoholic beverages",
+      "Beers",
+      "Industrial beer"
+    ],
+    "image_url": "/uploads/products/8935012413321-bia-saigon-lager.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935012413321"
+  },
+  {
+    "barcode": "8935005800015",
+    "name": "Lavie",
+    "brand": "",
+    "quantity": null,
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Waters"
+    ],
+    "image_url": "/uploads/products/8935005800015-lavie.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935005800015"
+  },
+  {
+    "barcode": "8935217413409",
+    "name": "Yagurt, no sugar",
+    "brand": "TH True Milk",
+    "quantity": null,
+    "categories": [
+      "Dairies",
+      "Fermented foods",
+      "Fermented milk products",
+      "Desserts",
+      "Dairy desserts",
+      "Fermented dairy desserts",
+      "Yogurts",
+      "Low-fat yogurts"
+    ],
+    "image_url": "/uploads/products/8935217413409-yagurt-no-sugar.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935217413409"
+  },
+  {
+    "barcode": "8936036026375",
+    "name": "Custas Tiramisu",
+    "brand": "Orion",
+    "quantity": null,
+    "categories": [
+      "Snacks",
+      "Sweet snacks",
+      "Biscuits and cakes",
+      "Pastries",
+      "Tiramisu"
+    ],
+    "image_url": "/uploads/products/8936036026375-custas-tiramisu.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036026375"
+  },
+  {
+    "barcode": "8935217464548",
+    "name": "True Nut",
+    "brand": "TH Milk",
+    "quantity": "180ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Plant-based foods",
+      "Dairy substitutes",
+      "Milk substitutes",
+      "Nuts and their products",
+      "Plant-based beverages",
+      "Plant-based milk alternatives",
+      "Nut-based drinks"
+    ],
+    "image_url": "/uploads/products/8935217464548-true-nut.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935217464548"
+  },
+  {
+    "barcode": "8936214081325",
+    "name": "Hảo Hảo",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936214081325-hao-hao.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936214081325"
+  },
+  {
+    "barcode": "8934588452116",
+    "name": "Nước tăng lực Sting cú hích hương vị việt quất",
+    "brand": "PepsiCo Inc.",
+    "quantity": "320ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Energy drinks",
+      "Energy drink with sugar"
+    ],
+    "image_url": "/uploads/products/8934588452116-nuoc-tang-luc-sting-cu-hich-huong-vi-vie.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588452116"
+  },
+  {
+    "barcode": "8934804027333",
+    "name": "Trà chanh Nestea",
+    "brand": "",
+    "quantity": "196g",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Hot beverages",
+      "Plant-based beverages",
+      "Teas"
+    ],
+    "image_url": "/uploads/products/8934804027333-tra-chanh-nestea.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934804027333"
+  },
+  {
+    "barcode": "8935005801036",
+    "name": "Nước khoáng Lavi 350ml",
+    "brand": "",
+    "quantity": null,
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Carbonated drinks",
+      "Waters",
+      "Spring waters",
+      "Carbonated waters",
+      "Mineral waters"
+    ],
+    "image_url": "/uploads/products/8935005801036-nuoc-khoang-lavi-350ml.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935005801036"
+  },
+  {
+    "barcode": "8934673576390",
+    "name": "100 % fresh milk",
+    "brand": "Vinamilk",
+    "quantity": "1 l",
+    "categories": [
+      "Dairies",
+      "Milks (liquid and powder)",
+      "Milks",
+      "Homogenized milks",
+      "Pasteurised products",
+      "UHT Milks",
+      "Fresh milks"
+    ],
+    "image_url": "/uploads/products/8934673576390-100-fresh-milk.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673576390"
+  },
+  {
+    "barcode": "8934673501354",
+    "name": "VINAMILK",
+    "brand": "VINAMILK",
+    "quantity": "22 cl",
+    "categories": [
+      "Dairies",
+      "Milks (liquid and powder)",
+      "Milks"
+    ],
+    "image_url": "/uploads/products/8934673501354-vinamilk.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673501354"
+  },
+  {
+    "barcode": "8935049501381",
+    "name": "Coca Cola",
+    "brand": "Coca Cola",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935049501381-coca-cola.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049501381"
+  },
+  {
+    "barcode": "8934588063060",
+    "name": "AQUAFINA",
+    "brand": "Aquafina",
+    "quantity": "",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Waters"
+    ],
+    "image_url": "/uploads/products/8934588063060-aquafina.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588063060"
+  },
+  {
+    "barcode": "8934680025980",
+    "name": "Crunchy crackers",
+    "brand": "Kinh",
+    "quantity": "2 x 200 g + 64 g",
+    "categories": [
+      "Snacks",
+      "Salty snacks",
+      "Sweet snacks",
+      "Appetizers",
+      "Biscuits and cakes",
+      "Biscuits and crackers",
+      "Biscuits",
+      "Crackers (Appetizers)",
+      "banh"
+    ],
+    "image_url": "/uploads/products/8934680025980-crunchy-crackers.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934680025980"
+  },
+  {
+    "barcode": "8934680025973",
+    "name": "Crunchy Crackers",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934680025973-crunchy-crackers.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934680025973"
+  },
+  {
+    "barcode": "8935049501527",
+    "name": "Coca Light",
+    "brand": "",
+    "quantity": null,
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Non-alcoholic beverages",
+      "Carbonated drinks",
+      "Soft drinks",
+      "Artificially sweetened beverages",
+      "Sodas",
+      "Diet beverages",
+      "Colas",
+      "Diet sodas",
+      "Diet cola soft drink"
+    ],
+    "image_url": "/uploads/products/8935049501527-coca-light.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049501527"
+  },
+  {
+    "barcode": "8934637212531",
+    "name": "Cholimex Tomato Sauce",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934637212531-cholimex-tomato-sauce.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934637212531"
+  },
+  {
+    "barcode": "8934804025780",
+    "name": "milo",
+    "brand": "Nestlé",
+    "quantity": "400 g",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverage preparations",
+      "Instant beverages"
+    ],
+    "image_url": "/uploads/products/8934804025780-milo.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934804025780"
+  },
+  {
+    "barcode": "8935049501596",
+    "name": "Schweppes soda water",
+    "brand": "",
+    "quantity": "320",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Waters"
+    ],
+    "image_url": "/uploads/products/8935049501596-schweppes-soda-water.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049501596"
+  },
+  {
+    "barcode": "8936127794107",
+    "name": "True juice milk",
+    "brand": "TH true  juice milk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936127794107-true-juice-milk.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936127794107"
+  },
+  {
+    "barcode": "8934673100458",
+    "name": "Vinamilk Green Farm",
+    "brand": "Vinamilk",
+    "quantity": "180 ml",
+    "categories": [
+      "Dairies",
+      "Milks (liquid and powder)",
+      "Milks",
+      "Pasteurised products",
+      "Pasteurised milks",
+      "Whole milks",
+      "Whole pasteurised milks"
+    ],
+    "image_url": "/uploads/products/8934673100458-vinamilk-green-farm.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673100458"
+  },
+  {
+    "barcode": "8934760122226",
+    "name": "Lương khô hạt dinh dưỡng",
+    "brand": "Daisy",
+    "quantity": "80g/1 cái",
+    "categories": [],
+    "image_url": "/uploads/products/8934760122226-luong-kho-hat-dinh-duong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934760122226"
+  },
+  {
+    "barcode": "8934588132117",
+    "name": "Hương Xá Xị",
+    "brand": "Mirinda",
+    "quantity": "320ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Fruit-based foods and beverages",
+      "Non-alcoholic beverages",
+      "Plant-based beverages",
+      "Carbonated drinks",
+      "Fruit-based beverages",
+      "Soft drinks",
+      "Sodas",
+      "Fruit sodas"
+    ],
+    "image_url": "/uploads/products/8934588132117-huong-xa-xi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588132117"
+  },
+  {
+    "barcode": "8935049501404",
+    "name": "Coca-Cola",
+    "brand": "Coca-Cola",
+    "quantity": "235ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Non-alcoholic beverages",
+      "Carbonated drinks",
+      "Soft drinks",
+      "Sodas",
+      "Colas",
+      "Cola with sugar",
+      "Sweetened beverages"
+    ],
+    "image_url": "/uploads/products/8935049501404-coca-cola.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049501404"
+  },
+  {
+    "barcode": "8935118306428",
+    "name": "Crunchy Peanut Butter",
+    "brand": "Golden Farm",
+    "quantity": null,
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Legumes and their products",
+      "Spreads",
+      "Plant-based spreads",
+      "Oilseed purees",
+      "Legume butters",
+      "Peanut butters",
+      "Crunchy peanut butters"
+    ],
+    "image_url": "/uploads/products/8935118306428-crunchy-peanut-butter.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935118306428"
+  },
+  {
+    "barcode": "8934679840327",
+    "name": "Mì Gà Sợi Phở",
+    "brand": "Gấu Đỏ",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934679840327-mi-ga-soi-pho.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934679840327"
+  },
+  {
+    "barcode": "8936136163017",
+    "name": "Nuoc Tuong",
+    "brand": "Chin-Su",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936136163017-nuoc-tuong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936136163017"
+  },
+  {
+    "barcode": "8938507849094",
+    "name": "Coconut CocoXim",
+    "brand": "Coco Xim",
+    "quantity": "1000g",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Plant-based foods",
+      "Fruits and vegetables based foods",
+      "fruits-based-foods",
+      "Plant-based beverages",
+      "Fruit-based beverages",
+      "Coconuts and their products",
+      "Coconut waters"
+    ],
+    "image_url": "/uploads/products/8938507849094-coconut-cocoxim.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938507849094"
+  },
+  {
+    "barcode": "8936134361040",
+    "name": "Nước tương Nam Dương",
+    "brand": "Con Mèo Đen",
+    "quantity": "500ml",
+    "categories": [
+      "Condiments",
+      "Sauces",
+      "Soy sauces",
+      "vi:Nước-tương"
+    ],
+    "image_url": "/uploads/products/8936134361040-nuoc-tuong-nam-duong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936134361040"
+  },
+  {
+    "barcode": "8934988020021",
+    "name": "Dầu đậu nành",
+    "brand": "Simply",
+    "quantity": null,
+    "categories": [
+      "vi:cooking oil"
+    ],
+    "image_url": "/uploads/products/8934988020021-dau-dau-nanh.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934988020021"
+  },
+  {
+    "barcode": "8935049500131",
+    "name": "Nutifood",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935049500131-nutifood.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049500131"
+  },
+  {
+    "barcode": "8935049500698",
+    "name": "Trà dào & hat chia",
+    "brand": "Coca-Cola",
+    "quantity": "",
+    "categories": [
+      "Snacks"
+    ],
+    "image_url": "/uploads/products/8935049500698-tra-dao-hat-chia.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049500698"
+  },
+  {
+    "barcode": "8938508547562",
+    "name": "Sliced Kimchi",
+    "brand": "Ông Kim's",
+    "quantity": "100g",
+    "categories": [],
+    "image_url": "/uploads/products/8938508547562-sliced-kimchi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938508547562"
+  },
+  {
+    "barcode": "8936048470036",
+    "name": "Mì 3 miền - Chay lá đa",
+    "brand": "3 miền",
+    "quantity": "65g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Cereals and potatoes",
+      "Cereals and their products",
+      "Pastas",
+      "Noodles"
+    ],
+    "image_url": "/uploads/products/8936048470036-mi-3-mien-chay-la-da.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936048470036"
+  },
+  {
+    "barcode": "8936079120092",
+    "name": "Lay vàng",
+    "brand": "Lay's",
+    "quantity": "30g",
+    "categories": [
+      "Snacks"
+    ],
+    "image_url": "/uploads/products/8936079120092-lay-vang.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079120092"
+  },
+  {
+    "barcode": "8935118306114",
+    "name": "Peanut Butter Creamy",
+    "brand": "Golden Farm",
+    "quantity": "340 g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Legumes and their products",
+      "Spreads",
+      "Plant-based spreads",
+      "Oilseed purees",
+      "Legume butters",
+      "Peanut butters"
+    ],
+    "image_url": "/uploads/products/8935118306114-peanut-butter-creamy.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935118306114"
+  },
+  {
+    "barcode": "8934588172113",
+    "name": "Ginseng Sting Energy Drink",
+    "brand": "Pepsico",
+    "quantity": null,
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Energy drinks"
+    ],
+    "image_url": "/uploads/products/8934588172113-ginseng-sting-energy-drink.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588172113"
+  },
+  {
+    "barcode": "8936036027464",
+    "name": "Bánh mì Orion Bon! Vị phô mai",
+    "brand": "Orion",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936036027464-banh-mi-orion-bon-vi-pho-mai.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036027464"
+  },
+  {
+    "barcode": "8934673101097",
+    "name": "Non Sweetened Milk",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673101097-non-sweetened-milk.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673101097"
+  },
+  {
+    "barcode": "8936221043071",
+    "name": "Lẩu Tay Cầm Omachi",
+    "brand": "Omachi",
+    "quantity": "63",
+    "categories": [
+      "vi:Mì ly"
+    ],
+    "image_url": "/uploads/products/8936221043071-lau-tay-cam-omachi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936221043071"
+  },
+  {
+    "barcode": "8935049500155",
+    "name": "CocaCola Zero Sugar",
+    "brand": "Coca-Cola",
+    "quantity": "600 ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages"
+    ],
+    "image_url": "/uploads/products/8935049500155-cocacola-zero-sugar.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049500155"
+  },
+  {
+    "barcode": "8938505722245",
+    "name": "Himalayan Pink Salt",
+    "brand": "Vipep",
+    "quantity": "200 g",
+    "categories": [
+      "Condiments",
+      "Salts",
+      "Himalaya salts",
+      "Himalayan pink salts"
+    ],
+    "image_url": "/uploads/products/8938505722245-himalayan-pink-salt.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938505722245"
+  },
+  {
+    "barcode": "8936036027754",
+    "name": "Boom Jelly - Peach",
+    "brand": "Orion",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936036027754-boom-jelly-peach.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036027754"
+  },
+  {
+    "barcode": "8934673501033",
+    "name": "GREEN FARM MIX Coffee Blossom Honey Yoghurt Granola and Dried Fruits",
+    "brand": "Vinamilk",
+    "quantity": "125g",
+    "categories": [],
+    "image_url": "/uploads/products/8934673501033-green-farm-mix-coffee-blossom-honey-yogh.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673501033"
+  },
+  {
+    "barcode": "8934588462115",
+    "name": "Rasberry",
+    "brand": "Pepsi",
+    "quantity": null,
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages"
+    ],
+    "image_url": "/uploads/products/8934588462115-rasberry.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588462115"
+  },
+  {
+    "barcode": "8936035100403",
+    "name": "Bơ thực vật Trường An",
+    "brand": "Tường An",
+    "quantity": "100g",
+    "categories": [
+      "vi:Phụ gia"
+    ],
+    "image_url": "/uploads/products/8936035100403-bo-thuc-vat-truong-an.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936035100403"
+  },
+  {
+    "barcode": "8936017367169",
+    "name": "Soy Sauce",
+    "brand": "Chin-su Foods",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936017367169-soy-sauce.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936017367169"
+  },
+  {
+    "barcode": "8934588870101",
+    "name": "Oolong Tea+",
+    "brand": "Suntory",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934588870101-oolong-tea.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588870101"
+  },
+  {
+    "barcode": "8934673701228",
+    "name": "Plant Milk 9 Seeds",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673701228-plant-milk-9-seeds.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673701228"
+  },
+  {
+    "barcode": "8934822101336",
+    "name": "Tiger-beer-330ml-vietnam",
+    "brand": "",
+    "quantity": "",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Alcoholic beverages",
+      "Beers"
+    ],
+    "image_url": "/uploads/products/8934822101336-tiger-beer-330ml-vietnam.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934822101336"
+  },
+  {
+    "barcode": "8935118310210",
+    "name": "Bơ Hạt Phỉ",
+    "brand": "Golden Farm",
+    "quantity": "340 g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Spreads",
+      "Plant-based spreads",
+      "Nuts and their products",
+      "Oilseed purees",
+      "Nut butters",
+      "Hazelnut butters"
+    ],
+    "image_url": "/uploads/products/8935118310210-bo-hat-phi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935118310210"
+  },
+  {
+    "barcode": "8934680012652",
+    "name": "Snack vị cua",
+    "brand": "Kinh Do",
+    "quantity": "29g",
+    "categories": [
+      "Snacks",
+      "Salty snacks",
+      "Appetizers",
+      "Chips and fries",
+      "Crisps"
+    ],
+    "image_url": "/uploads/products/8934680012652-snack-vi-cua.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934680012652"
+  },
+  {
+    "barcode": "8935217400324",
+    "name": "Sữa TH true milk ít đường hộp 1L",
+    "brand": "th true milk",
+    "quantity": "1 l",
+    "categories": [
+      "Dairies",
+      "Milks (liquid and powder)",
+      "Milks"
+    ],
+    "image_url": "/uploads/products/8935217400324-sua-th-true-milk-it-duong-hop-1l.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935217400324"
+  },
+  {
+    "barcode": "8935005801012",
+    "name": "La vie",
+    "brand": "Nestlé",
+    "quantity": "",
+    "categories": [],
+    "image_url": "/uploads/products/8935005801012-la-vie.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935005801012"
+  },
+  {
+    "barcode": "8934588012112",
+    "name": "Pepsi",
+    "brand": "Pepsi",
+    "quantity": "320ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Non-alcoholic beverages",
+      "Carbonated drinks",
+      "Soft drinks",
+      "Sodas",
+      "Colas"
+    ],
+    "image_url": "/uploads/products/8934588012112-pepsi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588012112"
+  },
+  {
+    "barcode": "8934588022111",
+    "name": "7Up hương chanh",
+    "brand": "7Up",
+    "quantity": "320ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Fruit-based foods and beverages",
+      "Non-alcoholic beverages",
+      "Plant-based beverages",
+      "Carbonated drinks",
+      "Fruit-based beverages",
+      "Soft drinks",
+      "Sodas",
+      "Fruit sodas"
+    ],
+    "image_url": "/uploads/products/8934588022111-7up-huong-chanh.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588022111"
+  },
+  {
+    "barcode": "8938503131971",
+    "name": "Yahourt Nature",
+    "brand": "Dalat Milk",
+    "quantity": null,
+    "categories": [
+      "Dairies",
+      "Fermented foods",
+      "Fermented milk products",
+      "Desserts",
+      "Dairy desserts",
+      "Fermented dairy desserts",
+      "Yogurts",
+      "Plain fermented dairy desserts",
+      "Plain yogurts"
+    ],
+    "image_url": "/uploads/products/8938503131971-yahourt-nature.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938503131971"
+  },
+  {
+    "barcode": "8936036023633",
+    "name": "Choco Pie",
+    "brand": "Orion",
+    "quantity": "33g / 1,16 oz",
+    "categories": [
+      "Snacks",
+      "Sweet snacks",
+      "Biscuits and cakes",
+      "Cakes"
+    ],
+    "image_url": "/uploads/products/8936036023633-choco-pie.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036023633"
+  },
+  {
+    "barcode": "8934673736916",
+    "name": "Alpha",
+    "brand": "Dielac",
+    "quantity": "900g",
+    "categories": [],
+    "image_url": "/uploads/products/8934673736916-alpha.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673736916"
+  },
+  {
+    "barcode": "8935012413338",
+    "name": "Bia 333",
+    "brand": "",
+    "quantity": null,
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Alcoholic beverages",
+      "Beers"
+    ],
+    "image_url": "/uploads/products/8935012413338-bia-333.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935012413338"
+  },
+  {
+    "barcode": "8936000440039",
+    "name": "Bia Hanoi",
+    "brand": "HABECO",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936000440039-bia-hanoi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936000440039"
+  },
+  {
+    "barcode": "8934841901863",
+    "name": "Strawberry Milk",
+    "brand": "",
+    "quantity": null,
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Dairies",
+      "Dairy drinks",
+      "Flavoured milks",
+      "Strawberry milks"
+    ],
+    "image_url": "/uploads/products/8934841901863-strawberry-milk.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934841901863"
+  },
+  {
+    "barcode": "8935049510161",
+    "name": "Coca light",
+    "brand": "Coca-Cola",
+    "quantity": null,
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Non-alcoholic beverages",
+      "Carbonated drinks",
+      "Soft drinks",
+      "Artificially sweetened beverages",
+      "Sodas",
+      "Diet beverages",
+      "Colas",
+      "Diet sodas"
+    ],
+    "image_url": "/uploads/products/8935049510161-coca-light.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049510161"
+  },
+  {
+    "barcode": "8936017368111",
+    "name": "Omachi",
+    "brand": "",
+    "quantity": "",
+    "categories": [],
+    "image_url": "/uploads/products/8936017368111-omachi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936017368111"
+  },
+  {
+    "barcode": "8936079121761",
+    "name": "Wavy texas tenderloin steak favor",
+    "brand": "Lay's",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936079121761-wavy-texas-tenderloin-steak-favor.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079121761"
+  },
+  {
+    "barcode": "8936079120733",
+    "name": "Đậu Phộng Da Cá Chese Flavor",
+    "brand": "Poca",
+    "quantity": "30g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Legumes and their products",
+      "Snacks",
+      "Legumes",
+      "Salty snacks",
+      "Nuts and their products",
+      "Nuts",
+      "Peanuts",
+      "fr:Cacahuetes-au-fromage",
+      "fr:Snack-fromage"
+    ],
+    "image_url": "/uploads/products/8936079120733-dau-phong-da-ca-chese-flavor.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079120733"
+  },
+  {
+    "barcode": "8935118306312",
+    "name": "Peanut Butter",
+    "brand": "",
+    "quantity": "170 g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Legumes and their products",
+      "Spreads",
+      "Plant-based spreads",
+      "Oilseed purees",
+      "Legume butters",
+      "Peanut butters"
+    ],
+    "image_url": "/uploads/products/8935118306312-peanut-butter.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935118306312"
+  },
+  {
+    "barcode": "8934822201210",
+    "name": "Heineken bạc",
+    "brand": "",
+    "quantity": "",
+    "categories": [],
+    "image_url": "/uploads/products/8934822201210-heineken-bac.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934822201210"
+  },
+  {
+    "barcode": "8934563651138",
+    "name": "Hao Hao",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934563651138-hao-hao.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934563651138"
+  },
+  {
+    "barcode": "8935049501534",
+    "name": "Coca-Cola",
+    "brand": "Coca-Cola",
+    "quantity": "320ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Sweetened beverages"
+    ],
+    "image_url": "/uploads/products/8935049501534-coca-cola.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049501534"
+  },
+  {
+    "barcode": "8936036029819",
+    "name": "masita",
+    "brand": "Masita",
+    "quantity": "60g",
+    "categories": [
+      "Snacks",
+      "Salty snacks",
+      "Appetizers",
+      "Chips and fries",
+      "Crisps",
+      "Corn chips"
+    ],
+    "image_url": "/uploads/products/8936036029819-masita.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036029819"
+  },
+  {
+    "barcode": "8935024163504",
+    "name": "Cà Phê Trung Nguyên - Sáng Tạo 1",
+    "brand": "Trung Nguyên",
+    "quantity": "340g",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Beverage preparations",
+      "Coffees",
+      "Ground coffees"
+    ],
+    "image_url": "/uploads/products/8935024163504-ca-phe-trung-nguyen-sang-tao-1.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935024163504"
+  },
+  {
+    "barcode": "8938503131988",
+    "name": "Dalat yoghurt",
+    "brand": "Dalat Milk",
+    "quantity": null,
+    "categories": [
+      "Dairies",
+      "Fermented foods",
+      "Fermented milk products",
+      "Desserts",
+      "Dairy desserts",
+      "Fermented dairy desserts",
+      "Yogurts",
+      "Cow milk yogurts"
+    ],
+    "image_url": "/uploads/products/8938503131988-dalat-yoghurt.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938503131988"
+  },
+  {
+    "barcode": "8936036028225",
+    "name": "Family Party",
+    "brand": "O'Star",
+    "quantity": "152g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Snacks",
+      "Cereals and potatoes",
+      "Salty snacks",
+      "Appetizers",
+      "Chips and fries",
+      "Potatoes and their products",
+      "Crisps",
+      "Salty snacks made from potato",
+      "Potato crisps"
+    ],
+    "image_url": "/uploads/products/8936036028225-family-party.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036028225"
+  },
+  {
+    "barcode": "8936079120061",
+    "name": "Lay xanh lá",
+    "brand": "Poca",
+    "quantity": "",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Snacks",
+      "Cereals and potatoes",
+      "Salty snacks",
+      "Appetizers",
+      "Chips and fries",
+      "Potatoes and their products",
+      "Crisps",
+      "Salty snacks made from potato",
+      "Potato crisps",
+      "fr:Chips goût nori"
+    ],
+    "image_url": "/uploads/products/8936079120061-lay-xanh-la.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079120061"
+  },
+  {
+    "barcode": "8935049510277",
+    "name": "Soda Water",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935049510277-soda-water.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049510277"
+  },
+  {
+    "barcode": "8936017367046",
+    "name": "tương cà",
+    "brand": "chin su",
+    "quantity": "250g",
+    "categories": [],
+    "image_url": "/uploads/products/8936017367046-tuong-ca.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936017367046"
+  },
+  {
+    "barcode": "8936079140014",
+    "name": "Cà Phê Sữa Vietnamese Coffee with Milk",
+    "brand": "Highlands Coffee",
+    "quantity": "235.0g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Coffees"
+    ],
+    "image_url": "/uploads/products/8936079140014-ca-phe-sua-vietnamese-coffee-with-milk.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079140014"
+  },
+  {
+    "barcode": "8934840000130",
+    "name": "Nước khoáng không ga tự nhiên Vĩnh Hảo",
+    "brand": "Vĩnh Hảo",
+    "quantity": "0,5 l",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Waters",
+      "Spring waters",
+      "Mineral waters",
+      "Natural mineral waters"
+    ],
+    "image_url": "/uploads/products/8934840000130-nuoc-khoang-khong-ga-tu-nhien-vinh-hao.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934840000130"
+  },
+  {
+    "barcode": "8934822901332",
+    "name": "Bia larue",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934822901332-bia-larue.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934822901332"
+  },
+  {
+    "barcode": "8938500525070",
+    "name": "ớt bằm có tỏi",
+    "brand": "vi hao",
+    "quantity": "250 g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Condiments",
+      "Herbs and spices",
+      "Spices",
+      "groceries"
+    ],
+    "image_url": "/uploads/products/8938500525070-ot-bam-co-toi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938500525070"
+  },
+  {
+    "barcode": "8935049510055",
+    "name": "Coca-Cola 600ml",
+    "brand": "Coca-Cola",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935049510055-coca-cola-600ml.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049510055"
+  },
+  {
+    "barcode": "8935036300041",
+    "name": "NGUYÊNHUÖNG",
+    "brand": "",
+    "quantity": "320 g",
+    "categories": [],
+    "image_url": "/uploads/products/8935036300041-nguyenhuong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935036300041"
+  },
+  {
+    "barcode": "8936036020403",
+    "name": "Choco Pie",
+    "brand": "Orion",
+    "quantity": "33 g x 2",
+    "categories": [
+      "Snacks",
+      "Sweet snacks",
+      "Cocoa and its products",
+      "Confectioneries",
+      "Chocolate candies",
+      "Pies",
+      "Sweet pies",
+      "Marshmallows coated with chocolate"
+    ],
+    "image_url": "/uploads/products/8936036020403-choco-pie.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036020403"
+  },
+  {
+    "barcode": "8934680011204",
+    "name": "Potato crisps barbecue flavor",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934680011204-potato-crisps-barbecue-flavor.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934680011204"
+  },
+  {
+    "barcode": "8938503131957",
+    "name": "sữa tươi tiệt trùng",
+    "brand": "Dakar Milk",
+    "quantity": "220ml",
+    "categories": [
+      "vi:Sữa tươi"
+    ],
+    "image_url": "/uploads/products/8938503131957-sua-tuoi-tiet-trung.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938503131957"
+  },
+  {
+    "barcode": "8936079120252",
+    "name": "Salt And Chili Squid Snack",
+    "brand": "Poca",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936079120252-salt-and-chili-squid-snack.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079120252"
+  },
+  {
+    "barcode": "8935118306411",
+    "name": "Peanut Butter Creamy",
+    "brand": "Golden Farm",
+    "quantity": "510g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Legumes and their products",
+      "Spreads",
+      "Plant-based spreads",
+      "Nuts and their products",
+      "Oilseed purees",
+      "Legume butters",
+      "Peanut butters",
+      "Nut butters"
+    ],
+    "image_url": "/uploads/products/8935118306411-peanut-butter-creamy.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935118306411"
+  },
+  {
+    "barcode": "8936047443444",
+    "name": "Richy Karo Trứng tươi chà bông",
+    "brand": "",
+    "quantity": "",
+    "categories": [],
+    "image_url": "/uploads/products/8936047443444-richy-karo-trung-tuoi-cha-bong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936047443444"
+  },
+  {
+    "barcode": "8938508547500",
+    "name": "kimchi bibigo",
+    "brand": "bibigo",
+    "quantity": "1,2 kg",
+    "categories": [
+      "vi:Cải thảo"
+    ],
+    "image_url": "/uploads/products/8938508547500-kimchi-bibigo.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938508547500"
+  },
+  {
+    "barcode": "8935217412013",
+    "name": "Sữa TH true yogurt vị cam 180",
+    "brand": "TH true milk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935217412013-sua-th-true-yogurt-vi-cam-180.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935217412013"
+  },
+  {
+    "barcode": "8938526259027",
+    "name": "dấu đậu nành tự nhiên",
+    "brand": "Coba",
+    "quantity": "1 l",
+    "categories": [
+      "vegeteble oil"
+    ],
+    "image_url": "/uploads/products/8938526259027-dau-dau-nanh-tu-nhien.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938526259027"
+  },
+  {
+    "barcode": "8934588873058",
+    "name": "Oolong Tea",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934588873058-oolong-tea.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588873058"
+  },
+  {
+    "barcode": "8935001775577",
+    "name": "kẹo",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935001775577-keo.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935001775577"
+  },
+  {
+    "barcode": "8935001715511",
+    "name": "kẹo nho",
+    "brand": "sinh tố",
+    "quantity": "90g",
+    "categories": [],
+    "image_url": "/uploads/products/8935001715511-keo-nho.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935001715511"
+  },
+  {
+    "barcode": "8934614015025",
+    "name": "Sữa Fami 200ml",
+    "brand": "Fami",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934614015025-sua-fami-200ml.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934614015025"
+  },
+  {
+    "barcode": "8936014319574",
+    "name": "Pia Cake",
+    "brand": "Tan Hue Vien",
+    "quantity": "55 g",
+    "categories": [
+      "Snacks",
+      "Sweet snacks",
+      "Biscuits and cakes",
+      "Confectioneries",
+      "Cakes"
+    ],
+    "image_url": "/uploads/products/8936014319574-pia-cake.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936014319574"
+  },
+  {
+    "barcode": "8934684026167",
+    "name": "Mì thịt xào A-One",
+    "brand": "A-One",
+    "quantity": "85 g",
+    "categories": [
+      "vi:Mì ăn liền"
+    ],
+    "image_url": "/uploads/products/8934684026167-mi-thit-xao-a-one.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934684026167"
+  },
+  {
+    "barcode": "8934588192227",
+    "name": "Tropicana Twister",
+    "brand": "Pepsi",
+    "quantity": "320 ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Fruit-based foods and beverages",
+      "Plant-based beverages",
+      "Fruit-based beverages",
+      "Juices and nectars",
+      "Fruit juices",
+      "Orange juices"
+    ],
+    "image_url": "/uploads/products/8934588192227-tropicana-twister.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588192227"
+  },
+  {
+    "barcode": "8934588232114",
+    "name": "Sting Energy",
+    "brand": "Pepsi",
+    "quantity": "320ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Energy drinks",
+      "Energy drink with sugar"
+    ],
+    "image_url": "/uploads/products/8934588232114-sting-energy.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588232114"
+  },
+  {
+    "barcode": "8935049510895",
+    "name": "Nutrition boost",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935049510895-nutrition-boost.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049510895"
+  },
+  {
+    "barcode": "8935217413201",
+    "name": "True Yogurt Aloe Vera",
+    "brand": "TH True",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935217413201-true-yogurt-aloe-vera.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935217413201"
+  },
+  {
+    "barcode": "8934804034058",
+    "name": "Sữa Lúa Mạch",
+    "brand": "Nestlé MILO",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934804034058-sua-lua-mach.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934804034058"
+  },
+  {
+    "barcode": "8936127790246",
+    "name": "True rice",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936127790246-true-rice.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936127790246"
+  },
+  {
+    "barcode": "8934680113007",
+    "name": "Bánh Cracker vị lúa mì",
+    "brand": "",
+    "quantity": null,
+    "categories": [
+      "Snacks",
+      "Sweet snacks",
+      "Biscuits and cakes"
+    ],
+    "image_url": "/uploads/products/8934680113007-banh-cracker-vi-lua-mi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934680113007"
+  },
+  {
+    "barcode": "8934803044270",
+    "name": "Snack Tôm Cay Dặc Biệt",
+    "brand": "Oishi",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934803044270-snack-tom-cay-dac-biet.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934803044270"
+  },
+  {
+    "barcode": "8934760212903",
+    "name": "Staff - bánh mì sandwich 110g",
+    "brand": "Staff",
+    "quantity": "110g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Cereals and potatoes",
+      "Cereals and their products",
+      "Breads"
+    ],
+    "image_url": "/uploads/products/8934760212903-staff-banh-mi-sandwich-110g.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934760212903"
+  },
+  {
+    "barcode": "8936036024166",
+    "name": "Corn Chip",
+    "brand": "Orion",
+    "quantity": "35g",
+    "categories": [],
+    "image_url": "/uploads/products/8936036024166-corn-chip.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036024166"
+  },
+  {
+    "barcode": "8938530494018",
+    "name": "Granola",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8938530494018-granola.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938530494018"
+  },
+  {
+    "barcode": "8936134363631",
+    "name": "Mayonnaise",
+    "brand": "Simply",
+    "quantity": "230g",
+    "categories": [
+      "Condiments",
+      "Sauces",
+      "Dips",
+      "Salad dressings",
+      "Mayonnaises",
+      "Dressings and Dips (Shelf Stable)"
+    ],
+    "image_url": "/uploads/products/8936134363631-mayonnaise.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936134363631"
+  },
+  {
+    "barcode": "8934588362118",
+    "name": "Mirinda Soda Kem",
+    "brand": "Mirinda",
+    "quantity": "320 ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Non-alcoholic beverages",
+      "Carbonated drinks",
+      "Soft drinks",
+      "Carbonated soft drinks without fruit juice",
+      "Carbonated soft drinks without fruit juice with sugar",
+      "Sweetened beverages"
+    ],
+    "image_url": "/uploads/products/8934588362118-mirinda-soda-kem.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588362118"
+  },
+  {
+    "barcode": "8935001714682",
+    "name": "Kẹo Hương Xoài Nhân Muối Ớt",
+    "brand": "Alpenliebe",
+    "quantity": "87 g",
+    "categories": [],
+    "image_url": "/uploads/products/8935001714682-keo-huong-xoai-nhan-muoi-ot.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935001714682"
+  },
+  {
+    "barcode": "8934841900446",
+    "name": "Sữa lựu",
+    "brand": "Yomost",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934841900446-sua-luu.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934841900446"
+  },
+  {
+    "barcode": "8936036024692",
+    "name": "Swing vị gà Teriyaki Osaka",
+    "brand": "Orion",
+    "quantity": "63g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Snacks",
+      "Cereals and potatoes",
+      "Salty snacks",
+      "Appetizers",
+      "Chips and fries",
+      "Potatoes and their products",
+      "Crisps",
+      "Salty snacks made from potato",
+      "Potato crisps",
+      "Flavoured potato crisps"
+    ],
+    "image_url": "/uploads/products/8936036024692-swing-vi-ga-teriyaki-osaka.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036024692"
+  },
+  {
+    "barcode": "8936081298000",
+    "name": "Instant Oat Porridge",
+    "brand": "Xuan oats",
+    "quantity": "40g",
+    "categories": [
+      "fr:Avoine séché"
+    ],
+    "image_url": "/uploads/products/8936081298000-instant-oat-porridge.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936081298000"
+  },
+  {
+    "barcode": "8934588692116",
+    "name": "Aquafina Soda",
+    "brand": "Aquafina",
+    "quantity": "320ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Carbonated drinks",
+      "Waters",
+      "Spring waters",
+      "Carbonated waters",
+      "Mineral waters",
+      "Natural mineral waters",
+      "Carbonated natural mineral waters"
+    ],
+    "image_url": "/uploads/products/8934588692116-aquafina-soda.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588692116"
+  },
+  {
+    "barcode": "8936135445183",
+    "name": "Corn Snacks Vị phô mai cay",
+    "brand": "Kara Mucho",
+    "quantity": "60g",
+    "categories": [
+      "Snacks",
+      "Salty snacks",
+      "Appetizers",
+      "Chips and fries",
+      "Crisps",
+      "Corn chips"
+    ],
+    "image_url": "/uploads/products/8936135445183-corn-snacks-vi-pho-mai-cay.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936135445183"
+  },
+  {
+    "barcode": "8935049501671",
+    "name": "Fanta Nho Hương",
+    "brand": "Fanta",
+    "quantity": "1,5L",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Fruit-based foods and beverages",
+      "Non-alcoholic beverages",
+      "Plant-based beverages",
+      "Carbonated drinks",
+      "Fruit-based beverages",
+      "Soft drinks",
+      "Sodas",
+      "Fruit sodas"
+    ],
+    "image_url": "/uploads/products/8935049501671-fanta-nho-huong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049501671"
+  },
+  {
+    "barcode": "8934588732119",
+    "name": "Mirinda vi soda kem việt quất",
+    "brand": "Mirinda",
+    "quantity": "320ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Fruit-based foods and beverages",
+      "Non-alcoholic beverages",
+      "Plant-based beverages",
+      "Carbonated drinks",
+      "Fruit-based beverages",
+      "Soft drinks",
+      "Sodas",
+      "Fruit sodas"
+    ],
+    "image_url": "/uploads/products/8934588732119-mirinda-vi-soda-kem-viet-quat.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588732119"
+  },
+  {
+    "barcode": "8934588023064",
+    "name": "7Up",
+    "brand": "7up",
+    "quantity": "1,5L",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Non-alcoholic beverages",
+      "Carbonated drinks",
+      "Soft drinks",
+      "Sodas"
+    ],
+    "image_url": "/uploads/products/8934588023064-7up.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588023064"
+  },
+  {
+    "barcode": "8936013680033",
+    "name": "TRỨNG GÀ",
+    "brand": "V. Food",
+    "quantity": "600g",
+    "categories": [
+      "Eggs and their products",
+      "Farming products",
+      "Eggs",
+      "Chicken eggs"
+    ],
+    "image_url": "/uploads/products/8936013680033-trung-ga.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936013680033"
+  },
+  {
+    "barcode": "8934588133060",
+    "name": "Xá Xị Hương",
+    "brand": "Mirinda",
+    "quantity": "1,5L",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Non-alcoholic beverages",
+      "Carbonated drinks",
+      "Soft drinks",
+      "Sodas"
+    ],
+    "image_url": "/uploads/products/8934588133060-xa-xi-huong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588133060"
+  },
+  {
+    "barcode": "8936079121112",
+    "name": "Wavy Cheddar Cheese",
+    "brand": "Lay's",
+    "quantity": "56g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Snacks",
+      "Cereals and potatoes",
+      "Salty snacks",
+      "Appetizers",
+      "Chips and fries",
+      "Potatoes and their products",
+      "Crisps",
+      "Salty snacks made from potato",
+      "Potato crisps",
+      "Flavoured potato crisps"
+    ],
+    "image_url": "/uploads/products/8936079121112-wavy-cheddar-cheese.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079121112"
+  },
+  {
+    "barcode": "8935057102778",
+    "name": "zaizai trân châu",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935057102778-zaizai-tran-chau.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935057102778"
+  },
+  {
+    "barcode": "8935128710086",
+    "name": "Unsalted Creamy Butter",
+    "brand": "Bottega Zelachi",
+    "quantity": "250g",
+    "categories": [
+      "Dairies",
+      "Spreads",
+      "Fats",
+      "Spreadable fats",
+      "Animal fats",
+      "Dairy spreads",
+      "Milkfat",
+      "Butters"
+    ],
+    "image_url": "/uploads/products/8935128710086-unsalted-creamy-butter.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935128710086"
+  },
+  {
+    "barcode": "8936036028409",
+    "name": "Family Party",
+    "brand": "O'Star",
+    "quantity": "152g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Snacks",
+      "Cereals and potatoes",
+      "Salty snacks",
+      "Appetizers",
+      "Chips and fries",
+      "Potatoes and their products",
+      "Crisps",
+      "Salty snacks made from potato",
+      "Potato crisps"
+    ],
+    "image_url": "/uploads/products/8936036028409-family-party.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036028409"
+  },
+  {
+    "barcode": "8934803044638",
+    "name": "Tomato Snack Ca Chua",
+    "brand": "Oishi",
+    "quantity": null,
+    "categories": [
+      "Snacks"
+    ],
+    "image_url": "/uploads/products/8934803044638-tomato-snack-ca-chua.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934803044638"
+  },
+  {
+    "barcode": "8934588672118",
+    "name": "Pepsi Zero Lime",
+    "brand": "Pepsi",
+    "quantity": null,
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Non-alcoholic beverages",
+      "Carbonated drinks",
+      "Soft drinks",
+      "Artificially sweetened beverages",
+      "Sodas",
+      "Diet beverages",
+      "Colas",
+      "Diet sodas"
+    ],
+    "image_url": "/uploads/products/8934588672118-pepsi-zero-lime.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588672118"
+  },
+  {
+    "barcode": "8936036027389",
+    "name": "C'est Bon! Baguette",
+    "brand": "Orion",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936036027389-c-est-bon-baguette.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036027389"
+  },
+  {
+    "barcode": "8935217413508",
+    "name": "Sữa chua TH ít đường",
+    "brand": "Th",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935217413508-sua-chua-th-it-duong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935217413508"
+  },
+  {
+    "barcode": "8934614031322",
+    "name": "Sữa đậu nành Fami",
+    "brand": "Fami Vinasoy",
+    "quantity": null,
+    "categories": [
+      "vi:Sữa đậu nành"
+    ],
+    "image_url": "/uploads/products/8934614031322-sua-dau-nanh-fami.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934614031322"
+  },
+  {
+    "barcode": "8936028641104",
+    "name": "Volcano",
+    "brand": "Paldo",
+    "quantity": "118g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Pastas",
+      "Noodles"
+    ],
+    "image_url": "/uploads/products/8936028641104-volcano.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936028641104"
+  },
+  {
+    "barcode": "8934673605823",
+    "name": "Yagourt No Sugar",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673605823-yagourt-no-sugar.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673605823"
+  },
+  {
+    "barcode": "8934673701075",
+    "name": "Super soy gold",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673701075-super-soy-gold.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673701075"
+  },
+  {
+    "barcode": "8935118306329",
+    "name": "Peanut butter crunchy",
+    "brand": "Bo dau phong hat",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935118306329-peanut-butter-crunchy.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935118306329"
+  },
+  {
+    "barcode": "8936028641616",
+    "name": "Koreno Chajang Mì Trộn Tương Đen",
+    "brand": "Koreno",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936028641616-koreno-chajang-mi-tron-tuong-den.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936028641616"
+  },
+  {
+    "barcode": "8936071070340",
+    "name": "Spicy noodles Nissan",
+    "brand": "Nissan",
+    "quantity": null,
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Dried products",
+      "Dried products to be rehydrated",
+      "Pastas",
+      "Noodles",
+      "Instant noodles",
+      "vi:Fast-food"
+    ],
+    "image_url": "/uploads/products/8936071070340-spicy-noodles-nissan.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936071070340"
+  },
+  {
+    "barcode": "8935049510833",
+    "name": "Hương Xá Xị chai",
+    "brand": "Fanta",
+    "quantity": "390ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Non-alcoholic beverages",
+      "Carbonated drinks",
+      "Soft drinks",
+      "Sodas"
+    ],
+    "image_url": "/uploads/products/8935049510833-huong-xa-xi-chai.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049510833"
+  },
+  {
+    "barcode": "8938506170939",
+    "name": "Thousand-layer Chrysanthemum Cake Fe'sta",
+    "brand": "Ricky",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8938506170939-thousand-layer-chrysanthemum-cake-fe-sta.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938506170939"
+  },
+  {
+    "barcode": "8935047670263",
+    "name": "hộp thăng long cứng 120",
+    "brand": "",
+    "quantity": null,
+    "categories": [
+      "vi:Thuốc lá"
+    ],
+    "image_url": "/uploads/products/8935047670263-hop-thang-long-cung-120.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935047670263"
+  },
+  {
+    "barcode": "8936012061321",
+    "name": "Milk without sugar",
+    "brand": "Sữa Mộc Châu",
+    "quantity": "1 lít",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Dairies",
+      "Fruit-based foods and beverages",
+      "Plant-based beverages",
+      "Dairy drinks",
+      "Fruit-based beverages",
+      "Fruit and milk beverages"
+    ],
+    "image_url": "/uploads/products/8936012061321-milk-without-sugar.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936012061321"
+  },
+  {
+    "barcode": "8936025773181",
+    "name": "sữa kun trái cây KUN hương nho",
+    "brand": "",
+    "quantity": null,
+    "categories": [
+      "vi:sữa trái cây KUN hương nho"
+    ],
+    "image_url": "/uploads/products/8936025773181-sua-kun-trai-cay-kun-huong-nho.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936025773181"
+  },
+  {
+    "barcode": "8936134362320",
+    "name": "Nam Dương Tương ớt",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936134362320-nam-duong-tuong-ot.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936134362320"
+  },
+  {
+    "barcode": "8938532962546",
+    "name": "8938532962546",
+    "brand": "",
+    "quantity": null,
+    "categories": [
+      "Snacks"
+    ],
+    "image_url": "/uploads/products/8938532962546-8938532962546.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938532962546"
+  },
+  {
+    "barcode": "8934572174413",
+    "name": "Xúc Xích Heo",
+    "brand": "Nissan",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934572174413-xuc-xich-heo.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934572174413"
+  },
+  {
+    "barcode": "8934588172229",
+    "name": "Nước Giải Khát Sting Gold Sleek",
+    "brand": "",
+    "quantity": "330 ml",
+    "categories": [],
+    "image_url": "/uploads/products/8934588172229-nuoc-giai-khat-sting-gold-sleek.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588172229"
+  },
+  {
+    "barcode": "8934804027388",
+    "name": "Nescafé Viet",
+    "brand": "Café Viêt",
+    "quantity": "15x16g",
+    "categories": [],
+    "image_url": "/uploads/products/8934804027388-nescafe-viet.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934804027388"
+  },
+  {
+    "barcode": "8934822102333",
+    "name": "Lager beer",
+    "brand": "Tiger",
+    "quantity": "330ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Alcoholic beverages",
+      "Beers",
+      "Lagers",
+      "Lager beer"
+    ],
+    "image_url": "/uploads/products/8934822102333-lager-beer.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934822102333"
+  },
+  {
+    "barcode": "8935006531956",
+    "name": "sữa rửa mặt Oxy tác động sâu",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935006531956-sua-rua-mat-oxy-tac-dong-sau.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935006531956"
+  },
+  {
+    "barcode": "8935024123287",
+    "name": "G7 coffee",
+    "brand": "Trung Nguyên",
+    "quantity": "21 x 16g",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Plant-based foods",
+      "Beverage preparations",
+      "Coffees",
+      "Instant beverages",
+      "Instant coffees"
+    ],
+    "image_url": "/uploads/products/8935024123287-g7-coffee.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935024123287"
+  },
+  {
+    "barcode": "8935024163542",
+    "name": "Sang tao 5",
+    "brand": "Trung nguyen",
+    "quantity": "340 g",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Beverage preparations",
+      "Coffees",
+      "Ground coffees"
+    ],
+    "image_url": "/uploads/products/8935024163542-sang-tao-5.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935024163542"
+  },
+  {
+    "barcode": "8935039511024",
+    "name": "Nước tương Phú Sĩ",
+    "brand": "Ajinomoto",
+    "quantity": "500 ml",
+    "categories": [],
+    "image_url": "/uploads/products/8935039511024-nuoc-tuong-phu-si.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935039511024"
+  },
+  {
+    "barcode": "8938503000017",
+    "name": "Water bottle - i-on Life - 450mL",
+    "brand": "i-on Life",
+    "quantity": "450mL",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Waters",
+      "Unsweetened beverages"
+    ],
+    "image_url": "/uploads/products/8938503000017-water-bottle-i-on-life-450ml.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938503000017"
+  },
+  {
+    "barcode": "8938508108015",
+    "name": "café",
+    "brand": "chong huong",
+    "quantity": "500g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Coffees"
+    ],
+    "image_url": "/uploads/products/8938508108015-cafe.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938508108015"
+  },
+  {
+    "barcode": "8936124137990",
+    "name": "snack rong biển vị truyền thống",
+    "brand": "Lucy's Crunch",
+    "quantity": "20 g",
+    "categories": [
+      "Snacks"
+    ],
+    "image_url": "/uploads/products/8936124137990-snack-rong-bien-vi-truyen-thong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936124137990"
+  },
+  {
+    "barcode": "8934988021028",
+    "name": "dầu gạo",
+    "brand": "simply",
+    "quantity": "1l",
+    "categories": [],
+    "image_url": "/uploads/products/8934988021028-dau-gao.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934988021028"
+  },
+  {
+    "barcode": "8935001200468",
+    "name": "coconut cream",
+    "brand": "wonderfarm",
+    "quantity": "160ml",
+    "categories": [],
+    "image_url": "/uploads/products/8935001200468-coconut-cream.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935001200468"
+  },
+  {
+    "barcode": "8936079560447",
+    "name": "coconut cream",
+    "brand": "vietcoco",
+    "quantity": "400ml",
+    "categories": [],
+    "image_url": "/uploads/products/8936079560447-coconut-cream.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079560447"
+  },
+  {
+    "barcode": "8934572003003",
+    "name": "Heo Hầm",
+    "brand": "Vissan",
+    "quantity": "150g",
+    "categories": [],
+    "image_url": "/uploads/products/8934572003003-heo-ham.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934572003003"
+  },
+  {
+    "barcode": "8938501141040",
+    "name": "mackerel in tomato sauce",
+    "brand": "three lady cooks",
+    "quantity": "190g",
+    "categories": [],
+    "image_url": "/uploads/products/8938501141040-mackerel-in-tomato-sauce.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938501141040"
+  },
+  {
+    "barcode": "8936006880082",
+    "name": "diet sugar",
+    "brand": "isonalt",
+    "quantity": "6.17 oz",
+    "categories": [],
+    "image_url": "/uploads/products/8936006880082-diet-sugar.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936006880082"
+  },
+  {
+    "barcode": "8934673819398",
+    "name": "apple fruit",
+    "brand": "vinamill",
+    "quantity": "1 l",
+    "categories": [],
+    "image_url": "/uploads/products/8934673819398-apple-fruit.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673819398"
+  },
+  {
+    "barcode": "8934588012228",
+    "name": "Pepsi",
+    "brand": "Pepsi-Cola",
+    "quantity": "330 ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Non-alcoholic beverages",
+      "Carbonated drinks",
+      "Soft drinks",
+      "Sodas",
+      "Colas",
+      "Sweetened beverages"
+    ],
+    "image_url": "/uploads/products/8934588012228-pepsi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588012228"
+  },
+  {
+    "barcode": "8935001214274",
+    "name": "Winter Melon Tea",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935001214274-winter-melon-tea.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935001214274"
+  },
+  {
+    "barcode": "8936113000014",
+    "name": "Sữa bắp nếp Thái Sơn",
+    "brand": "Thái Sơn",
+    "quantity": "9999",
+    "categories": [
+      "vi:Nước giải khát"
+    ],
+    "image_url": "/uploads/products/8936113000014-sua-bap-nep-thai-son.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936113000014"
+  },
+  {
+    "barcode": "8938506854082",
+    "name": "Virgin Coconut Oil",
+    "brand": "Vietcoco",
+    "quantity": "1 l",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Fruit-based foods and beverages",
+      "Fruits and vegetables based foods",
+      "Fats",
+      "Fruit-based foods",
+      "Vegetable fats",
+      "Vegetable oils",
+      "Coconuts and their products",
+      "Fruit and fruit seed oils",
+      "Coconut oils"
+    ],
+    "image_url": "/uploads/products/8938506854082-virgin-coconut-oil.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938506854082"
+  },
+  {
+    "barcode": "8938508547326",
+    "name": "Rong Biển Ăn Liền Vị BBQ",
+    "brand": "b!b!go",
+    "quantity": "5 g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Seafood",
+      "Seaweeds and their products",
+      "Seaweed products"
+    ],
+    "image_url": "/uploads/products/8938508547326-rong-bien-an-lien-vi-bbq.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938508547326"
+  },
+  {
+    "barcode": "8938504445954",
+    "name": "Roasted Cashew Nuts with Skin",
+    "brand": "Coop",
+    "quantity": "200 g",
+    "categories": [],
+    "image_url": "/uploads/products/8938504445954-roasted-cashew-nuts-with-skin.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938504445954"
+  },
+  {
+    "barcode": "8935024140147",
+    "name": "G7 Instant Coffee",
+    "brand": "Trung Nguyen",
+    "quantity": "30g",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Plant-based foods",
+      "Beverage preparations",
+      "Coffees",
+      "Instant beverages",
+      "Instant coffees"
+    ],
+    "image_url": "/uploads/products/8935024140147-g7-instant-coffee.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935024140147"
+  },
+  {
+    "barcode": "8934572260543",
+    "name": "Lạp xưởng Mai Quế Lộ",
+    "brand": "vissan",
+    "quantity": "500G",
+    "categories": [],
+    "image_url": "/uploads/products/8934572260543-lap-xuong-mai-que-lo.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934572260543"
+  },
+  {
+    "barcode": "8935000567098",
+    "name": "Tropical juice",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935000567098-tropical-juice.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935000567098"
+  },
+  {
+    "barcode": "8936017363505",
+    "name": "Chin-Su Tương Ớt",
+    "brand": "Chin-Su",
+    "quantity": "250g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Condiments",
+      "Herbs and spices",
+      "Spices",
+      "Sauces",
+      "Chili peppers",
+      "Hot sauces",
+      "fr:Piment vietnamien"
+    ],
+    "image_url": "/uploads/products/8936017363505-chin-su-tuong-ot.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936017363505"
+  },
+  {
+    "barcode": "8936079120702",
+    "name": "Đậu Phộng Da Cá",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936079120702-dau-phong-da-ca.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079120702"
+  },
+  {
+    "barcode": "8936036021318",
+    "name": "Gouté",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936036021318-goute.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036021318"
+  },
+  {
+    "barcode": "8935210913159",
+    "name": "Hong Lam 11 Apricot",
+    "brand": "Hong Lam",
+    "quantity": "300gr",
+    "categories": [],
+    "image_url": "/uploads/products/8935210913159-hong-lam-11-apricot.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935210913159"
+  },
+  {
+    "barcode": "8934673502351",
+    "name": "Strawberry vinamilk",
+    "brand": "",
+    "quantity": "220.0g",
+    "categories": [],
+    "image_url": "/uploads/products/8934673502351-strawberry-vinamilk.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673502351"
+  },
+  {
+    "barcode": "8934680113083",
+    "name": "Butter cookies",
+    "brand": "Lu",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934680113083-butter-cookies.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934680113083"
+  },
+  {
+    "barcode": "8934680113694",
+    "name": "Wheat cracker",
+    "brand": "Ritz",
+    "quantity": "",
+    "categories": [],
+    "image_url": "/uploads/products/8934680113694-wheat-cracker.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934680113694"
+  },
+  {
+    "barcode": "8934717401305",
+    "name": "Mandu bibigo",
+    "brand": "",
+    "quantity": "175.0g",
+    "categories": [],
+    "image_url": "/uploads/products/8934717401305-mandu-bibigo.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934717401305"
+  },
+  {
+    "barcode": "8935217410309",
+    "name": "TH true yogurt vi trai cay tu nhien",
+    "brand": "TH True Yogurt",
+    "quantity": "100.0g",
+    "categories": [],
+    "image_url": "/uploads/products/8935217410309-th-true-yogurt-vi-trai-cay-tu-nhien.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935217410309"
+  },
+  {
+    "barcode": "8936061260218",
+    "name": "Premium Beer",
+    "brand": "Sapporo",
+    "quantity": "",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Alcoholic beverages",
+      "Beers"
+    ],
+    "image_url": "/uploads/products/8936061260218-premium-beer.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936061260218"
+  },
+  {
+    "barcode": "8936079120276",
+    "name": "vi BO LUC LAC",
+    "brand": "Poca",
+    "quantity": "30g",
+    "categories": [
+      "Snacks",
+      "Salty snacks",
+      "Appetizers",
+      "Chips and fries",
+      "Crisps"
+    ],
+    "image_url": "/uploads/products/8936079120276-vi-bo-luc-lac.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079120276"
+  },
+  {
+    "barcode": "8934609202447",
+    "name": "Goody chips",
+    "brand": "Bibica",
+    "quantity": "144g",
+    "categories": [
+      "Snacks",
+      "Sweet snacks",
+      "Biscuits and cakes",
+      "Biscuits and crackers",
+      "Biscuits"
+    ],
+    "image_url": "/uploads/products/8934609202447-goody-chips.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934609202447"
+  },
+  {
+    "barcode": "8934588232220",
+    "name": "Sting",
+    "brand": "Pepsi",
+    "quantity": "33 cl",
+    "categories": [],
+    "image_url": "/uploads/products/8934588232220-sting.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588232220"
+  },
+  {
+    "barcode": "8936017569426",
+    "name": "Bánh Piá Durian cake",
+    "brand": "Bao Minh",
+    "quantity": "300g",
+    "categories": [],
+    "image_url": "/uploads/products/8936017569426-banh-pia-durian-cake.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936017569426"
+  },
+  {
+    "barcode": "8934743032917",
+    "name": "Banana chips",
+    "brand": "Vinamit",
+    "quantity": "100 g (3.5 oz)",
+    "categories": [
+      "Snacks",
+      "Salty snacks",
+      "Appetizers",
+      "Chips and fries",
+      "Crisps",
+      "Banana crisps"
+    ],
+    "image_url": "/uploads/products/8934743032917-banana-chips.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934743032917"
+  },
+  {
+    "barcode": "8936160626120",
+    "name": "TRÀ MỘC NGUYÊN, LOẠI ĐẶC BIỆT, 8936160626120",
+    "brand": "Mộc Nguyên",
+    "quantity": "100GR",
+    "categories": [
+      "vi:Trà khô"
+    ],
+    "image_url": "/uploads/products/8936160626120-tra-moc-nguyen-loai-dac-biet-89361606261.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936160626120"
+  },
+  {
+    "barcode": "8935024115121",
+    "name": "House Blend",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935024115121-house-blend.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935024115121"
+  },
+  {
+    "barcode": "8936036021639",
+    "name": "Premium Potato Chips",
+    "brand": "O'Star",
+    "quantity": "58g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Snacks",
+      "Cereals and potatoes",
+      "Salty snacks",
+      "Appetizers",
+      "Chips and fries",
+      "Potatoes and their products",
+      "Crisps",
+      "Salty snacks made from potato",
+      "Potato crisps"
+    ],
+    "image_url": "/uploads/products/8936036021639-premium-potato-chips.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036021639"
+  },
+  {
+    "barcode": "8936150060583",
+    "name": "Dried Fresh Mango",
+    "brand": "Lavifood",
+    "quantity": "110g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Fruit-based foods and beverages",
+      "Fruits and vegetables based foods",
+      "Fruit-based foods",
+      "Dried products",
+      "Dried plant-based foods",
+      "Dried fruits",
+      "Dried mangoes"
+    ],
+    "image_url": "/uploads/products/8936150060583-dried-fresh-mango.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936150060583"
+  },
+  {
+    "barcode": "8936013566726",
+    "name": "Milk chocolate with macadamia",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936013566726-milk-chocolate-with-macadamia.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936013566726"
+  },
+  {
+    "barcode": "8938506010723",
+    "name": "Dried mango",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8938506010723-dried-mango.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938506010723"
+  },
+  {
+    "barcode": "8935118412426",
+    "name": "Mango & star fruit jam",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935118412426-mango-star-fruit-jam.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935118412426"
+  },
+  {
+    "barcode": "8938508547623",
+    "name": "KIMCHI",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8938508547623-kimchi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938508547623"
+  },
+  {
+    "barcode": "8934673719391",
+    "name": "Coco Fresh",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673719391-coco-fresh.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673719391"
+  },
+  {
+    "barcode": "8934673100069",
+    "name": "Lait",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673100069-lait.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673100069"
+  },
+  {
+    "barcode": "8934563308117",
+    "name": "Good Minced Pork Flavour",
+    "brand": "Ace Cook",
+    "quantity": "57g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Cereals and potatoes",
+      "Cereals and their products",
+      "Dried products",
+      "Dried products to be rehydrated",
+      "Pastas",
+      "Noodles",
+      "Instant noodles"
+    ],
+    "image_url": "/uploads/products/8934563308117-good-minced-pork-flavour.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934563308117"
+  },
+  {
+    "barcode": "8936079560553",
+    "name": "Vietcoco Organic",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936079560553-vietcoco-organic.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079560553"
+  },
+  {
+    "barcode": "8938538775027",
+    "name": "Sữa Bắp Nếp Hương Việt",
+    "brand": "Hương Việt Foods",
+    "quantity": "9999",
+    "categories": [
+      "vi:Bắp",
+      "vi:Hương việt",
+      "vi:Nước",
+      "vi:Nước ngọt",
+      "vi:Nếp",
+      "vi:Sữa",
+      "vi:Sữa hương việt"
+    ],
+    "image_url": "/uploads/products/8938538775027-sua-bap-nep-huong-viet.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938538775027"
+  },
+  {
+    "barcode": "8938538775034",
+    "name": "Sữa bò tươi Hương Việt",
+    "brand": "Hương Việt Foods",
+    "quantity": "9999",
+    "categories": [
+      "vi:Hương việt",
+      "vi:Nước ngọt",
+      "vi:Sữa hương việt"
+    ],
+    "image_url": "/uploads/products/8938538775034-sua-bo-tuoi-huong-viet.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938538775034"
+  },
+  {
+    "barcode": "8938538775010",
+    "name": "Sữa Hạt Sen Hương Việt",
+    "brand": "Hương Việt Foods",
+    "quantity": "9999",
+    "categories": [
+      "vi:Hương việt",
+      "vi:Nước ngọt",
+      "vi:Sữa hương việt"
+    ],
+    "image_url": "/uploads/products/8938538775010-sua-hat-sen-huong-viet.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938538775010"
+  },
+  {
+    "barcode": "8938538775003",
+    "name": "Nước Hạt Sen Nha Đam Hương Việt",
+    "brand": "Hương Việt Foods",
+    "quantity": "9999",
+    "categories": [
+      "vi:Hương việt",
+      "vi:Nước ngọt",
+      "vi:Sữa hương việt"
+    ],
+    "image_url": "/uploads/products/8938538775003-nuoc-hat-sen-nha-dam-huong-viet.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938538775003"
+  },
+  {
+    "barcode": "8936093330576",
+    "name": "Vegan grilles steak",
+    "brand": "annhien",
+    "quantity": "150g",
+    "categories": [
+      "Meat alternatives",
+      "Meat analogues"
+    ],
+    "image_url": "/uploads/products/8936093330576-vegan-grilles-steak.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936093330576"
+  },
+  {
+    "barcode": "8934680114288",
+    "name": "Toasted chips",
+    "brand": "Ritz",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934680114288-toasted-chips.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934680114288"
+  },
+  {
+    "barcode": "8932514138363",
+    "name": "Rice paper",
+    "brand": "Choysco Palmtree",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8932514138363-rice-paper.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8932514138363"
+  },
+  {
+    "barcode": "8936036021783",
+    "name": "Choco Pie",
+    "brand": "Delfi orion",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936036021783-choco-pie.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036021783"
+  },
+  {
+    "barcode": "8935217464647",
+    "name": "Sữa hạt và gạo lứt đỏ",
+    "brand": "TH true milk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935217464647-sua-hat-va-gao-lut-do.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935217464647"
+  },
+  {
+    "barcode": "8934673100441",
+    "name": "Vinamilk Less Sugar",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673100441-vinamilk-less-sugar.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673100441"
+  },
+  {
+    "barcode": "8935217400195",
+    "name": "Sữa TH true milk có đường bịch 220ml",
+    "brand": "TH TRUE MILK",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935217400195-sua-th-true-milk-co-duong-bich-220ml.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935217400195"
+  },
+  {
+    "barcode": "8934673312530",
+    "name": "Vinamilk yo milk",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673312530-vinamilk-yo-milk.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673312530"
+  },
+  {
+    "barcode": "8936028640787",
+    "name": "MÌ VỊ BÒ CAY",
+    "brand": "Koreno",
+    "quantity": null,
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Pastas",
+      "Noodles"
+    ],
+    "image_url": "/uploads/products/8936028640787-mi-vi-bo-cay.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936028640787"
+  },
+  {
+    "barcode": "8936046120063",
+    "name": "Muối chanh ớt",
+    "brand": "DASAVI",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936046120063-muoi-chanh-ot.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936046120063"
+  },
+  {
+    "barcode": "8934804039220",
+    "name": "milo",
+    "brand": "Nestlé",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934804039220-milo.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934804039220"
+  },
+  {
+    "barcode": "8934804028415",
+    "name": "Oyster Sauce",
+    "brand": "Maggi",
+    "quantity": "30g",
+    "categories": [],
+    "image_url": "/uploads/products/8934804028415-oyster-sauce.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934804028415"
+  },
+  {
+    "barcode": "8936199400203",
+    "name": "Bún",
+    "brand": "Hoa hồng",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936199400203-bun.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936199400203"
+  },
+  {
+    "barcode": "8935234143174",
+    "name": "Coconut & sesame cracker",
+    "brand": "Japan",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935234143174-coconut-sesame-cracker.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935234143174"
+  },
+  {
+    "barcode": "8936047443406",
+    "name": "Bánh  Karo",
+    "brand": "Richy",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936047443406-banh-karo.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936047443406"
+  },
+  {
+    "barcode": "8934572183392",
+    "name": "Sausage",
+    "brand": "Vissan",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934572183392-sausage.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934572183392"
+  },
+  {
+    "barcode": "8934717401350",
+    "name": "Mandu",
+    "brand": "Bibigo",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934717401350-mandu.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934717401350"
+  },
+  {
+    "barcode": "8936136161501",
+    "name": "Omachi noodles",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936136161501-omachi-noodles.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936136161501"
+  },
+  {
+    "barcode": "8935049501558",
+    "name": "Fanta viet quat",
+    "brand": "Fanta",
+    "quantity": "320ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Plant-based beverages",
+      "Carbonated drinks",
+      "Fruit-based beverages",
+      "Sodas",
+      "Fruit sodas",
+      "Colas",
+      "Sweetened beverages"
+    ],
+    "image_url": "/uploads/products/8935049501558-fanta-viet-quat.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049501558"
+  },
+  {
+    "barcode": "8936078570669",
+    "name": "Bánh mỳ đậu đỏ",
+    "brand": "Bảo Ngọc",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936078570669-banh-my-dau-do.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936078570669"
+  },
+  {
+    "barcode": "8936010780019",
+    "name": "VINAGA",
+    "brand": "",
+    "quantity": "100",
+    "categories": [],
+    "image_url": "/uploads/products/8936010780019-vinaga.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936010780019"
+  },
+  {
+    "barcode": "8936007200926",
+    "name": "Nước súc miệng Thái Dương",
+    "brand": "",
+    "quantity": "1",
+    "categories": [],
+    "image_url": "/uploads/products/8936007200926-nuoc-suc-mieng-thai-duong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936007200926"
+  },
+  {
+    "barcode": "8934841901870",
+    "name": "Sữa CGHL Socola 180 Bao bì mới",
+    "brand": "",
+    "quantity": "1",
+    "categories": [],
+    "image_url": "/uploads/products/8934841901870-sua-cghl-socola-180-bao-bi-moi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934841901870"
+  },
+  {
+    "barcode": "8934760212347",
+    "name": "Sweet bread",
+    "brand": "Staff",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934760212347-sweet-bread.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934760212347"
+  },
+  {
+    "barcode": "8936011779791",
+    "name": "Sữa chua dẻo Phô mai Đường đen",
+    "brand": "Merino",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936011779791-sua-chua-deo-pho-mai-duong-den.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936011779791"
+  },
+  {
+    "barcode": "8936011779784",
+    "name": "Sữa chua dẻo Phô mai Phúc bồn tử",
+    "brand": "Merino",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936011779784-sua-chua-deo-pho-mai-phuc-bon-tu.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936011779784"
+  },
+  {
+    "barcode": "8934579100156",
+    "name": "Instant Rice Noodles",
+    "brand": "Miliket",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934579100156-instant-rice-noodles.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934579100156"
+  },
+  {
+    "barcode": "8936010680951",
+    "name": "Mi khoai Tay",
+    "brand": "Bo Ham",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936010680951-mi-khoai-tay.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936010680951"
+  },
+  {
+    "barcode": "8936183450733",
+    "name": "Nouilles instantanées",
+    "brand": "Eurasie",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936183450733-nouilles-instantanees.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936183450733"
+  },
+  {
+    "barcode": "8935311172066",
+    "name": "Nouille",
+    "brand": "Vifon",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935311172066-nouille.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935311172066"
+  },
+  {
+    "barcode": "8938506009512",
+    "name": "Rice Noodles",
+    "brand": "Lotus Grand",
+    "quantity": "400g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Cereals and potatoes",
+      "Cereals and their products",
+      "Pastas",
+      "Noodles",
+      "Rice vermicelli",
+      "Dried rice noodles"
+    ],
+    "image_url": "/uploads/products/8938506009512-rice-noodles.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938506009512"
+  },
+  {
+    "barcode": "8936061355020",
+    "name": "Filet de pangasus",
+    "brand": "",
+    "quantity": "1 kg",
+    "categories": [
+      "Seafood",
+      "Fishes and their products",
+      "Fishes",
+      "Frozen foods",
+      "Frozen seafood",
+      "Frozen fishes"
+    ],
+    "image_url": "/uploads/products/8936061355020-filet-de-pangasus.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936061355020"
+  },
+  {
+    "barcode": "8935049013426",
+    "name": "Sữa tươi tiệt trùng không đường 100% sữa New Zealand",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935049013426-sua-tuoi-tiet-trung-khong-duong-100-sua-.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049013426"
+  },
+  {
+    "barcode": "8936183450740",
+    "name": "Nouilles instantanées",
+    "brand": "Eurasie",
+    "quantity": "1 kg",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Cereals and potatoes",
+      "Cereals and their products",
+      "Dried products",
+      "Dried products to be rehydrated",
+      "Pastas",
+      "Noodles",
+      "Instant noodles"
+    ],
+    "image_url": "/uploads/products/8936183450740-nouilles-instantanees.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936183450740"
+  },
+  {
+    "barcode": "8936183451020",
+    "name": "Galette de riz 28cm",
+    "brand": "Eurasie",
+    "quantity": "1 kg",
+    "categories": [],
+    "image_url": "/uploads/products/8936183451020-galette-de-riz-28cm.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936183451020"
+  },
+  {
+    "barcode": "8939963300013",
+    "name": "Oat milk",
+    "brand": "Oat-ly",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8939963300013-oat-milk.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8939963300013"
+  },
+  {
+    "barcode": "8935789964873",
+    "name": "Nouilles japonaises Udon",
+    "brand": "Tanoshi",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935789964873-nouilles-japonaises-udon.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935789964873"
+  },
+  {
+    "barcode": "8930965487450",
+    "name": "VÉGAN PROTEIN",
+    "brand": "Foodspring",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8930965487450-vegan-protein.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8930965487450"
+  },
+  {
+    "barcode": "8938515387052",
+    "name": "Argeta Salt",
+    "brand": "GHL",
+    "quantity": "480 g",
+    "categories": [
+      "Condiments",
+      "Salts"
+    ],
+    "image_url": "/uploads/products/8938515387052-argeta-salt.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938515387052"
+  },
+  {
+    "barcode": "8936093330026",
+    "name": "Vegan pork slices",
+    "brand": "AnKhren",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936093330026-vegan-pork-slices.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936093330026"
+  },
+  {
+    "barcode": "8935270807009",
+    "name": "Soonta White Tea",
+    "brand": "Soonta",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935270807009-soonta-white-tea.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935270807009"
+  },
+  {
+    "barcode": "8938506009574",
+    "name": "Annatto",
+    "brand": "Lotus Grand",
+    "quantity": "100g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Seeds",
+      "Achiote"
+    ],
+    "image_url": "/uploads/products/8938506009574-annatto.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938506009574"
+  },
+  {
+    "barcode": "8936017367107",
+    "name": "Soyasaus",
+    "brand": "Chin-Su Foods",
+    "quantity": "650ml",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Condiments",
+      "Sauces",
+      "Soy sauces"
+    ],
+    "image_url": "/uploads/products/8936017367107-soyasaus.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936017367107"
+  },
+  {
+    "barcode": "8936079120108",
+    "name": "BBQ pork rib chips",
+    "brand": "Lay's",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936079120108-bbq-pork-rib-chips.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079120108"
+  },
+  {
+    "barcode": "8935217407156",
+    "name": "STTT TH - TRUE MILK HILO KĐ 180ml*4",
+    "brand": "TH milk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935217407156-sttt-th-true-milk-hilo-kd-180ml-4.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935217407156"
+  },
+  {
+    "barcode": "8936096621930",
+    "name": "Gnocchi di Patate",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936096621930-gnocchi-di-patate.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936096621930"
+  },
+  {
+    "barcode": "8935217407255",
+    "name": "UHT Fresh Milk With Cereal",
+    "brand": "TH true Milk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935217407255-uht-fresh-milk-with-cereal.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935217407255"
+  },
+  {
+    "barcode": "8932392548063",
+    "name": "Lait végétal soja",
+    "brand": "Pâturages",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8932392548063-lait-vegetal-soja.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8932392548063"
+  },
+  {
+    "barcode": "8936036020977",
+    "name": "snack Swing vị Bít tết",
+    "brand": "Orion",
+    "quantity": "35g",
+    "categories": [
+      "Snacks",
+      "Salty snacks",
+      "Appetizers",
+      "Chips and fries",
+      "Crisps"
+    ],
+    "image_url": "/uploads/products/8936036020977-snack-swing-vi-bit-tet.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036020977"
+  },
+  {
+    "barcode": "8935049039600",
+    "name": "Poulet au curry et noix de coco riz aux éclats de légumes",
+    "brand": "Weight watchers",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935049039600-poulet-au-curry-et-noix-de-coco-riz-aux-.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049039600"
+  },
+  {
+    "barcode": "8934683007785",
+    "name": "café hương chồn",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934683007785-cafe-huong-chon.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934683007785"
+  },
+  {
+    "barcode": "8936036024135",
+    "name": "Gouté",
+    "brand": "Orion",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936036024135-goute.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036024135"
+  },
+  {
+    "barcode": "8935001282310",
+    "name": "Ice+ peach flavor",
+    "brand": "KIRIN",
+    "quantity": "490ml",
+    "categories": [
+      "vi:Nước giải khát"
+    ],
+    "image_url": "/uploads/products/8935001282310-ice-peach-flavor.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935001282310"
+  },
+  {
+    "barcode": "8934683002162",
+    "name": "Vinacafe",
+    "brand": "Vinacafe",
+    "quantity": "800g",
+    "categories": [
+      "Arabia Robusta coffee"
+    ],
+    "image_url": "/uploads/products/8934683002162-vinacafe.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934683002162"
+  },
+  {
+    "barcode": "8935118307210",
+    "name": "Spaghetti sauce",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935118307210-spaghetti-sauce.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935118307210"
+  },
+  {
+    "barcode": "8934760019250",
+    "name": "Chocochip Cookies",
+    "brand": "",
+    "quantity": "75 g",
+    "categories": [],
+    "image_url": "/uploads/products/8934760019250-chocochip-cookies.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934760019250"
+  },
+  {
+    "barcode": "8934680015172",
+    "name": "Slide potato crisps",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934680015172-slide-potato-crisps.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934680015172"
+  },
+  {
+    "barcode": "8937200011579",
+    "name": "Quả đào sấy khô",
+    "brand": "Tuan ANH",
+    "quantity": "500g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Fruit-based foods and beverages",
+      "Fruits and vegetables based foods",
+      "Fruit-based foods",
+      "Dried products",
+      "Dried plant-based foods",
+      "Dried fruits",
+      "Dried peaches"
+    ],
+    "image_url": "/uploads/products/8937200011579-qua-dao-say-kho.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8937200011579"
+  },
+  {
+    "barcode": "8936079562496",
+    "name": "Crème de coco",
+    "brand": "Vietcoco",
+    "quantity": "330 ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Plant-based foods",
+      "Fruit-based foods and beverages",
+      "Fruits and vegetables based foods",
+      "Dairy substitutes",
+      "Fruit-based foods",
+      "Milk substitutes",
+      "Plant-based beverages",
+      "Plant-based milk alternatives",
+      "Coconuts and their products",
+      "Plant-based creams",
+      "Coconut milks and creams",
+      "Plant-based creams for cooking"
+    ],
+    "image_url": "/uploads/products/8936079562496-creme-de-coco.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079562496"
+  },
+  {
+    "barcode": "8935118301119",
+    "name": "Strawberry",
+    "brand": "Golden farm",
+    "quantity": "210g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Fruit-based foods and beverages",
+      "Fruits and vegetables based foods",
+      "Fruit-based foods",
+      "Fruits",
+      "Berries",
+      "Strawberries"
+    ],
+    "image_url": "/uploads/products/8935118301119-strawberry.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935118301119"
+  },
+  {
+    "barcode": "8935006356337",
+    "name": "Otto",
+    "brand": "Pham nguyen",
+    "quantity": "220g",
+    "categories": [
+      "Sandwiches",
+      "Breakfast sandwich"
+    ],
+    "image_url": "/uploads/products/8935006356337-otto.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935006356337"
+  },
+  {
+    "barcode": "8934673218368",
+    "name": "southern star",
+    "brand": "vinamilk",
+    "quantity": "380g",
+    "categories": [
+      "Dairies",
+      "Condensed milks"
+    ],
+    "image_url": "/uploads/products/8934673218368-southern-star.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673218368"
+  },
+  {
+    "barcode": "8938501141477",
+    "name": "sardines in tomatoes sauces",
+    "brand": "royal food",
+    "quantity": "155g",
+    "categories": [
+      "Seafood",
+      "Fishes and their products",
+      "Canned foods",
+      "Fishes",
+      "Fatty fishes",
+      "Canned fishes",
+      "Sardines",
+      "Canned sardines"
+    ],
+    "image_url": "/uploads/products/8938501141477-sardines-in-tomatoes-sauces.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938501141477"
+  },
+  {
+    "barcode": "8936079561833",
+    "name": "Vietcoco Coconut Milk Beverage",
+    "brand": "Vietcoco",
+    "quantity": null,
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Fruit-based foods and beverages",
+      "Fruits and vegetables based foods",
+      "Dairy substitutes",
+      "Fruit-based foods",
+      "Coconuts and their products",
+      "Plant-based creams",
+      "Coconut milks and creams",
+      "Plant-based creams for cooking"
+    ],
+    "image_url": "/uploads/products/8936079561833-vietcoco-coconut-milk-beverage.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079561833"
+  },
+  {
+    "barcode": "8936079561826",
+    "name": "Vietcoco Coconut Milk Beverage",
+    "brand": "vietcoco",
+    "quantity": null,
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Dairy substitutes",
+      "Milk substitutes",
+      "Plant-based beverages",
+      "Plant-based milk alternatives"
+    ],
+    "image_url": "/uploads/products/8936079561826-vietcoco-coconut-milk-beverage.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079561826"
+  },
+  {
+    "barcode": "8938511803129",
+    "name": "Cashew butter",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8938511803129-cashew-butter.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938511803129"
+  },
+  {
+    "barcode": "8935132523825",
+    "name": "Organic spinach noodles",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935132523825-organic-spinach-noodles.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935132523825"
+  },
+  {
+    "barcode": "8936067212891",
+    "name": "Grand-place",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936067212891-grand-place.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936067212891"
+  },
+  {
+    "barcode": "8934804039053",
+    "name": "Rice cracker",
+    "brand": "",
+    "quantity": "48 g",
+    "categories": [],
+    "image_url": "/uploads/products/8934804039053-rice-cracker.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934804039053"
+  },
+  {
+    "barcode": "8938508932467",
+    "name": "Curcumin & Honey Royal Jelly Tablets",
+    "brand": "Honeyland",
+    "quantity": "",
+    "categories": [
+      "Snacks",
+      "Sweet snacks",
+      "Confectioneries",
+      "Candies"
+    ],
+    "image_url": "/uploads/products/8938508932467-curcumin-honey-royal-jelly-tablets.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938508932467"
+  },
+  {
+    "barcode": "8938516195175",
+    "name": "Yongchi",
+    "brand": "Wewell",
+    "quantity": "33 cl",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages"
+    ],
+    "image_url": "/uploads/products/8938516195175-yongchi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938516195175"
+  },
+  {
+    "barcode": "8936394112635",
+    "name": "Le Paris",
+    "brand": "Monique ranou",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936394112635-le-paris.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936394112635"
+  },
+  {
+    "barcode": "8935297101876",
+    "name": "Korean Style Spicy Rice",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935297101876-korean-style-spicy-rice.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935297101876"
+  },
+  {
+    "barcode": "8936079282585",
+    "name": "Nha Trang Passion Chilli Sauce",
+    "brand": "Dh",
+    "quantity": "",
+    "categories": [],
+    "image_url": "/uploads/products/8936079282585-nha-trang-passion-chilli-sauce.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079282585"
+  },
+  {
+    "barcode": "8936016140060",
+    "name": "Bảo Hiên Rồng Vàng",
+    "brand": "",
+    "quantity": "300g",
+    "categories": [
+      "Snacks",
+      "Sweet snacks",
+      "Confectioneries"
+    ],
+    "image_url": "/uploads/products/8936016140060-bao-hien-rong-vang.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936016140060"
+  },
+  {
+    "barcode": "8938532962515",
+    "name": "kenju, premium nougat crackers",
+    "brand": "Merry",
+    "quantity": "186g",
+    "categories": [],
+    "image_url": "/uploads/products/8938532962515-kenju-premium-nougat-crackers.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938532962515"
+  },
+  {
+    "barcode": "8938513302071",
+    "name": "Noix de cajoux",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8938513302071-noix-de-cajoux.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938513302071"
+  },
+  {
+    "barcode": "8938539928217",
+    "name": "Salted peanut Protein Bar",
+    "brand": "",
+    "quantity": "55 g",
+    "categories": [],
+    "image_url": "/uploads/products/8938539928217-salted-peanut-protein-bar.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938539928217"
+  },
+  {
+    "barcode": "8936040368348",
+    "name": "Shredded Young Coconut",
+    "brand": "Lotus Grand",
+    "quantity": "400g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Fruit-based foods and beverages",
+      "Fruits and vegetables based foods",
+      "Fruit-based foods",
+      "Fruits",
+      "Tropical fruits",
+      "Coconuts and their products",
+      "Coconuts"
+    ],
+    "image_url": "/uploads/products/8936040368348-shredded-young-coconut.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936040368348"
+  },
+  {
+    "barcode": "8935000904114",
+    "name": "Pickled Salted Papaya",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935000904114-pickled-salted-papaya.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935000904114"
+  },
+  {
+    "barcode": "8936115211319",
+    "name": "Fried red onion",
+    "brand": "Nt dragon",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936115211319-fried-red-onion.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936115211319"
+  },
+  {
+    "barcode": "8938505640303",
+    "name": "Rice Macaroni",
+    "brand": "Duy Anh",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8938505640303-rice-macaroni.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938505640303"
+  },
+  {
+    "barcode": "8934588873553",
+    "name": "Tea +",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934588873553-tea.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588873553"
+  },
+  {
+    "barcode": "8934673608824",
+    "name": "Fruit Yogurt",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673608824-fruit-yogurt.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673608824"
+  },
+  {
+    "barcode": "8938505644691",
+    "name": "Rice Paper",
+    "brand": "Mr Rice",
+    "quantity": "400g",
+    "categories": [],
+    "image_url": "/uploads/products/8938505644691-rice-paper.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938505644691"
+  },
+  {
+    "barcode": "8935311100656",
+    "name": "Snack noodles",
+    "brand": "Vifon",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935311100656-snack-noodles.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935311100656"
+  },
+  {
+    "barcode": "8934680045421",
+    "name": "Sandwich cha bong",
+    "brand": "Kinh do",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934680045421-sandwich-cha-bong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934680045421"
+  },
+  {
+    "barcode": "8938540313699",
+    "name": "Banh Dua Nuong",
+    "brand": "Quy Thu",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8938540313699-banh-dua-nuong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938540313699"
+  },
+  {
+    "barcode": "8936124240218",
+    "name": "Sandwich Lat",
+    "brand": "Le Pain Doré",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936124240218-sandwich-lat.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936124240218"
+  },
+  {
+    "barcode": "8938508055029",
+    "name": "Sandwich",
+    "brand": "Vela",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8938508055029-sandwich.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938508055029"
+  },
+  {
+    "barcode": "8934614030066",
+    "name": "Original soy milk",
+    "brand": "Fami",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934614030066-original-soy-milk.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934614030066"
+  },
+  {
+    "barcode": "8935049000242",
+    "name": "Avoine Vietnam",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935049000242-avoine-vietnam.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049000242"
+  },
+  {
+    "barcode": "8938529659626",
+    "name": "Reisnudeln",
+    "brand": "Tung Thuý",
+    "quantity": "500g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Pastas",
+      "Noodles"
+    ],
+    "image_url": "/uploads/products/8938529659626-reisnudeln.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938529659626"
+  },
+  {
+    "barcode": "8936131480041",
+    "name": "Vietnamese Black Coffee - Cà Phê Đen Gói",
+    "brand": "Viet Nam",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936131480041-vietnamese-black-coffee-ca-phe-den-goi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936131480041"
+  },
+  {
+    "barcode": "8934344293069",
+    "name": "Fetta",
+    "brand": "Pâturages",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934344293069-fetta.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934344293069"
+  },
+  {
+    "barcode": "8936028641487",
+    "name": "Koreno Nguyên Bản",
+    "brand": "Paldo",
+    "quantity": "65g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Dried products",
+      "Dried products to be rehydrated",
+      "Pastas",
+      "Noodles",
+      "Instant noodles"
+    ],
+    "image_url": "/uploads/products/8936028641487-koreno-nguyen-ban.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936028641487"
+  },
+  {
+    "barcode": "8936028641081",
+    "name": "Volcano Vi ga Mi Xao Koreno",
+    "brand": "Paldo",
+    "quantity": "118g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Dried products",
+      "Meals",
+      "Dried products to be rehydrated",
+      "Pasta dishes",
+      "Pastas",
+      "Noodles",
+      "Instant noodles",
+      "Instant pasta",
+      "Instant udon"
+    ],
+    "image_url": "/uploads/products/8936028641081-volcano-vi-ga-mi-xao-koreno.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936028641081"
+  },
+  {
+    "barcode": "8936122200276",
+    "name": "Cà Phê Sữa Blue Mountain Blend",
+    "brand": "Mr. Brown",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936122200276-ca-phe-sua-blue-mountain-blend.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936122200276"
+  },
+  {
+    "barcode": "8934614030424",
+    "name": "Sữa Fami Canxi hộp 200ml",
+    "brand": "",
+    "quantity": null,
+    "categories": [
+      "vi:Sữa"
+    ],
+    "image_url": "/uploads/products/8934614030424-sua-fami-canxi-hop-200ml.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934614030424"
+  },
+  {
+    "barcode": "8936136164694",
+    "name": "Omachi",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936136164694-omachi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936136164694"
+  },
+  {
+    "barcode": "8936036029888",
+    "name": "La fruit orion",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936036029888-la-fruit-orion.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936036029888"
+  },
+  {
+    "barcode": "8938506854846",
+    "name": "Crème de Coco",
+    "brand": "Vietcoco",
+    "quantity": "400 ml",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Plant-based foods",
+      "Fruit-based foods and beverages",
+      "Fruits and vegetables based foods",
+      "Dairy substitutes",
+      "Fruit-based foods",
+      "Milk substitutes",
+      "Plant-based beverages",
+      "Plant-based milk alternatives",
+      "Coconuts and their products",
+      "Plant-based creams",
+      "Coconut milks and creams",
+      "Plant-based creams for cooking"
+    ],
+    "image_url": "/uploads/products/8938506854846-creme-de-coco.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938506854846"
+  },
+  {
+    "barcode": "8934637515212",
+    "name": "Sauce rouleaux de printemps",
+    "brand": "Cholimex",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934637515212-sauce-rouleaux-de-printemps.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934637515212"
+  },
+  {
+    "barcode": "8935330210015",
+    "name": "100% Mango Juice",
+    "brand": "Vinut",
+    "quantity": "500 mL",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Fruit-based foods and beverages",
+      "Plant-based beverages",
+      "Fruit-based beverages",
+      "Juices and nectars",
+      "Fruit nectars",
+      "Mango nectars"
+    ],
+    "image_url": "/uploads/products/8935330210015-100-mango-juice.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935330210015"
+  },
+  {
+    "barcode": "8932390305163",
+    "name": "Coppa",
+    "brand": "Itinéraire des saveurs",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8932390305163-coppa.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8932390305163"
+  },
+  {
+    "barcode": "8935024172360",
+    "name": "Classic 3 in 1 instant coffee",
+    "brand": "Trung Nguyên",
+    "quantity": "204 g",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Plant-based foods and beverages",
+      "Beverages",
+      "Plant-based foods",
+      "Beverage preparations",
+      "Coffees",
+      "Instant beverages",
+      "Instant coffees"
+    ],
+    "image_url": "/uploads/products/8935024172360-classic-3-in-1-instant-coffee.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935024172360"
+  },
+  {
+    "barcode": "8934595050220",
+    "name": "Sonata Cookies",
+    "brand": "HaiHaCo",
+    "quantity": "250g",
+    "categories": [
+      "Snacks",
+      "Sweet snacks",
+      "Biscuits and cakes",
+      "Biscuits and crackers",
+      "Biscuits"
+    ],
+    "image_url": "/uploads/products/8934595050220-sonata-cookies.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934595050220"
+  },
+  {
+    "barcode": "8936150380674",
+    "name": "Rice paper",
+    "brand": "",
+    "quantity": "",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Cereals and potatoes",
+      "Cereals and their products",
+      "Rice paper"
+    ],
+    "image_url": "/uploads/products/8936150380674-rice-paper.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936150380674"
+  },
+  {
+    "barcode": "8936191280025",
+    "name": "Spring Roll Rice Paper - Sen Foods - Sen Foods - Sen Foods",
+    "brand": "Sen Foods",
+    "quantity": "400 g",
+    "categories": [],
+    "image_url": "/uploads/products/8936191280025-spring-roll-rice-paper-sen-foods-sen-foo.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936191280025"
+  },
+  {
+    "barcode": "8938540799394",
+    "name": "Nước Clara",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8938540799394-nuoc-clara.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938540799394"
+  },
+  {
+    "barcode": "8938505644448",
+    "name": "Rice Stick",
+    "brand": "Mr Rice",
+    "quantity": "400g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Pastas",
+      "Rice pasta"
+    ],
+    "image_url": "/uploads/products/8938505644448-rice-stick.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938505644448"
+  },
+  {
+    "barcode": "8936079280208",
+    "name": "DH Natural Spice",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936079280208-dh-natural-spice.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936079280208"
+  },
+  {
+    "barcode": "8935005300126",
+    "name": "Vegetarian noodles",
+    "brand": "Fraternity",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935005300126-vegetarian-noodles.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935005300126"
+  },
+  {
+    "barcode": "8936011775724",
+    "name": "Watermelon Icecream",
+    "brand": "Merino",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936011775724-watermelon-icecream.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936011775724"
+  },
+  {
+    "barcode": "8934952005511",
+    "name": "Chà bông xốt Singapore",
+    "brand": "Kido",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934952005511-cha-bong-xot-singapore.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934952005511"
+  },
+  {
+    "barcode": "8936023310142",
+    "name": "Minh dung",
+    "brand": "Banh pia",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936023310142-minh-dung.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936023310142"
+  },
+  {
+    "barcode": "8934563185152",
+    "name": "HaoHao Kimchi Ramen",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934563185152-haohao-kimchi-ramen.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934563185152"
+  },
+  {
+    "barcode": "8935049005834",
+    "name": "Nuti Soy Milk",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935049005834-nuti-soy-milk.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935049005834"
+  },
+  {
+    "barcode": "8939075300338",
+    "name": "Creme de cacao",
+    "brand": "For di luna",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8939075300338-creme-de-cacao.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8939075300338"
+  },
+  {
+    "barcode": "8930760880043",
+    "name": "Gratin duo de chou-fleur brocolis",
+    "brand": "Picard",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8930760880043-gratin-duo-de-chou-fleur-brocolis.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8930760880043"
+  },
+  {
+    "barcode": "8938510335386",
+    "name": "Coconut Marshmellow",
+    "brand": "Tastée",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8938510335386-coconut-marshmellow.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938510335386"
+  },
+  {
+    "barcode": "8933373400752",
+    "name": "BURRATA",
+    "brand": "Fromager",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8933373400752-burrata.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8933373400752"
+  },
+  {
+    "barcode": "8935270800307",
+    "name": "Basil Seeds",
+    "brand": "Basil seed drink",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935270800307-basil-seeds.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935270800307"
+  },
+  {
+    "barcode": "8934588743054",
+    "name": "Revive Ze4o Calo",
+    "brand": "PepsiCo",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934588743054-revive-ze4o-calo.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588743054"
+  },
+  {
+    "barcode": "8934760213092",
+    "name": "Momiji Sandwich",
+    "brand": "Huu Nghi Food",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934760213092-momiji-sandwich.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934760213092"
+  },
+  {
+    "barcode": "8936045081310",
+    "name": "Sugus",
+    "brand": "Sugus",
+    "quantity": "210g",
+    "categories": [
+      "Snacks",
+      "Sweet snacks",
+      "Confectioneries",
+      "Candies"
+    ],
+    "image_url": "/uploads/products/8936045081310-sugus.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936045081310"
+  },
+  {
+    "barcode": "8936203640588",
+    "name": "Rice cracker with onion",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936203640588-rice-cracker-with-onion.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936203640588"
+  },
+  {
+    "barcode": "8934680114820",
+    "name": "Baked",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934680114820-baked.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934680114820"
+  },
+  {
+    "barcode": "8938552395232",
+    "name": "Snack cách gà nướngg",
+    "brand": "Phien",
+    "quantity": "55 g",
+    "categories": [],
+    "image_url": "/uploads/products/8938552395232-snack-cach-ga-nuongg.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938552395232"
+  },
+  {
+    "barcode": "8938504946123",
+    "name": "Mihoen",
+    "brand": "Jimmy food",
+    "quantity": null,
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Pastas",
+      "Noodles",
+      "Rice vermicelli"
+    ],
+    "image_url": "/uploads/products/8938504946123-mihoen.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938504946123"
+  },
+  {
+    "barcode": "8935297103122",
+    "name": "Hot jang",
+    "brand": "Bibigo",
+    "quantity": "260g",
+    "categories": [
+      "Condiments",
+      "Sauces",
+      "Hot sauces",
+      "fr:Sauce Chili Coréenne"
+    ],
+    "image_url": "/uploads/products/8935297103122-hot-jang.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935297103122"
+  },
+  {
+    "barcode": "8938529459127",
+    "name": "Khô gà lá chanh",
+    "brand": "THIÊN NGA Food",
+    "quantity": "350g",
+    "categories": [
+      "Meats and their products",
+      "Meats",
+      "Prepared meats",
+      "Chicken and its products",
+      "Poultries",
+      "Chickens",
+      "Dried meats"
+    ],
+    "image_url": "/uploads/products/8938529459127-kho-ga-la-chanh.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938529459127"
+  },
+  {
+    "barcode": "8932390012030",
+    "name": "Lait demi écrémé",
+    "brand": "Paturages",
+    "quantity": null,
+    "categories": [
+      "Dairies",
+      "Milks (liquid and powder)",
+      "Milks",
+      "Homogenized milks",
+      "Pasteurised products",
+      "Semi-skimmed milks",
+      "UHT Milks"
+    ],
+    "image_url": "/uploads/products/8932390012030-lait-demi-ecreme.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8932390012030"
+  },
+  {
+    "barcode": "8938507045052",
+    "name": "Riz jasmin",
+    "brand": "Kingo Brand",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8938507045052-riz-jasmin.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938507045052"
+  },
+  {
+    "barcode": "8936386957664",
+    "name": "Frisches Rinder-Steak",
+    "brand": "Metzgerfrisch",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936386957664-frisches-rinder-steak.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936386957664"
+  },
+  {
+    "barcode": "8938503131742",
+    "name": "Fresh Milk Pasteurized",
+    "brand": "Dalat Milk",
+    "quantity": "450ml",
+    "categories": [
+      "Dairies",
+      "Milks (liquid and powder)",
+      "Milks"
+    ],
+    "image_url": "/uploads/products/8938503131742-fresh-milk-pasteurized.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938503131742"
+  },
+  {
+    "barcode": "8935118422326",
+    "name": "Confiture de mangue",
+    "brand": "",
+    "quantity": null,
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Breakfasts",
+      "Fruit-based foods and beverages",
+      "Fruits and vegetables based foods",
+      "Spreads",
+      "Fruit-based foods",
+      "Plant-based spreads",
+      "Sweet spreads",
+      "Fruit and vegetable preserves",
+      "Fruit preserves",
+      "Jams",
+      "Fruit jams",
+      "Tropical fruit jams",
+      "Mango jams"
+    ],
+    "image_url": "/uploads/products/8935118422326-confiture-de-mangue.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935118422326"
+  },
+  {
+    "barcode": "8935330210589",
+    "name": "Coconut Water Chocolate",
+    "brand": "Once upon a coconut",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935330210589-coconut-water-chocolate.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935330210589"
+  },
+  {
+    "barcode": "8935001410140",
+    "name": "Bo lat",
+    "brand": "Au lac",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935001410140-bo-lat.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935001410140"
+  },
+  {
+    "barcode": "8938263048670",
+    "name": "Marrakech tea",
+    "brand": "Nescafé dolce gusto",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8938263048670-marrakech-tea.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938263048670"
+  },
+  {
+    "barcode": "8934767010137",
+    "name": "Dac san hue",
+    "brand": "THIEN HUONG",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934767010137-dac-san-hue.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934767010137"
+  },
+  {
+    "barcode": "8938506009093",
+    "name": "Ricepaper",
+    "brand": "Lotus grand",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8938506009093-ricepaper.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938506009093"
+  },
+  {
+    "barcode": "8938523050696",
+    "name": "Dao Kombucha",
+    "brand": "BÀN",
+    "quantity": "40g",
+    "categories": [
+      "Beverages and beverages preparations",
+      "Beverages",
+      "Fermented foods",
+      "Fermented drinks",
+      "Tea-based beverages",
+      "Kombuchas"
+    ],
+    "image_url": "/uploads/products/8938523050696-dao-kombucha.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938523050696"
+  },
+  {
+    "barcode": "8934734012034",
+    "name": "Tapioca Starch",
+    "brand": "",
+    "quantity": "400g",
+    "categories": [],
+    "image_url": "/uploads/products/8934734012034-tapioca-starch.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934734012034"
+  },
+  {
+    "barcode": "8936004886895",
+    "name": "Black grass jelly",
+    "brand": "3K Producing Co. Ltd",
+    "quantity": "60g",
+    "categories": [],
+    "image_url": "/uploads/products/8936004886895-black-grass-jelly.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936004886895"
+  },
+  {
+    "barcode": "8934588653551",
+    "name": "Oolong Không Đường",
+    "brand": "Tea+",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934588653551-oolong-khong-duong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934588653551"
+  },
+  {
+    "barcode": "8930650110007",
+    "name": "Tempura de crevette",
+    "brand": "",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8930650110007-tempura-de-crevette.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8930650110007"
+  },
+  {
+    "barcode": "8935243488495",
+    "name": "Anchovy Fish Sauce",
+    "brand": "Vasifood",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935243488495-anchovy-fish-sauce.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935243488495"
+  },
+  {
+    "barcode": "8935311140041",
+    "name": "Pho",
+    "brand": "Vifon",
+    "quantity": "60 g",
+    "categories": [
+      "Plant-based foods and beverages",
+      "Plant-based foods",
+      "Pastas",
+      "Noodles",
+      "Rice vermicelli"
+    ],
+    "image_url": "/uploads/products/8935311140041-pho.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935311140041"
+  },
+  {
+    "barcode": "8936144481400",
+    "name": "Rice - Organic brown jasmine",
+    "brand": "Ecoba",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936144481400-rice-organic-brown-jasmine.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936144481400"
+  },
+  {
+    "barcode": "8934563681142",
+    "name": "IPPIN TOKYO SHOYU RAMEN - ACECOOK",
+    "brand": "Acecook",
+    "quantity": "73 g",
+    "categories": [],
+    "image_url": "/uploads/products/8934563681142-ippin-tokyo-shoyu-ramen-acecook.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934563681142"
+  },
+  {
+    "barcode": "8935297103887",
+    "name": "Prawn and chives dumplins - Bibigo Mandu",
+    "brand": "Bibigo Mandu",
+    "quantity": "280 g",
+    "categories": [],
+    "image_url": "/uploads/products/8935297103887-prawn-and-chives-dumplins-bibigo-mandu.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935297103887"
+  },
+  {
+    "barcode": "8934803004427",
+    "name": "Snack Tôm",
+    "brand": "Oishi",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934803004427-snack-tom.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934803004427"
+  },
+  {
+    "barcode": "8938535541038",
+    "name": "Vietnamese Rice Paper",
+    "brand": "Chanh Khang Food",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8938535541038-vietnamese-rice-paper.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938535541038"
+  },
+  {
+    "barcode": "8935270816629",
+    "name": "Gold lime cola",
+    "brand": "Sparkling",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8935270816629-gold-lime-cola.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935270816629"
+  },
+  {
+    "barcode": "8932390576648",
+    "name": "Jus d’ananas",
+    "brand": "Paquito",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8932390576648-jus-d-ananas.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8932390576648"
+  },
+  {
+    "barcode": "8935311171021",
+    "name": "Huhn instantsuppe - Vifon",
+    "brand": "Vifon",
+    "quantity": "60 g",
+    "categories": [],
+    "image_url": "/uploads/products/8935311171021-huhn-instantsuppe-vifon.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8935311171021"
+  },
+  {
+    "barcode": "8936177705467",
+    "name": "Basil seed strawberry",
+    "brand": "Nawon",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936177705467-basil-seed-strawberry.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936177705467"
+  },
+  {
+    "barcode": "8936137560532",
+    "name": "绿豆糕",
+    "brand": "黄龙",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936137560532-.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936137560532"
+  },
+  {
+    "barcode": "8936127150385",
+    "name": "Roasted Unsalted Cashew Nuts",
+    "brand": "Nuts Fami",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936127150385-roasted-unsalted-cashew-nuts.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936127150385"
+  },
+  {
+    "barcode": "8936127150620",
+    "name": "Almonds",
+    "brand": "Fami Nuts",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8936127150620-almonds.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936127150620"
+  },
+  {
+    "barcode": "8934673574341",
+    "name": "Sữa Vinamilk 100% Vị dâu",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673574341-sua-vinamilk-100-vi-dau.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673574341"
+  },
+  {
+    "barcode": "8938507729303",
+    "name": "Khan giay 2 lop",
+    "brand": "VinaTissue",
+    "quantity": "280 tờ",
+    "categories": [],
+    "image_url": "/uploads/products/8938507729303-khan-giay-2-lop.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938507729303"
+  },
+  {
+    "barcode": "8934677013310",
+    "name": "Xylitol lime mint nhỏ",
+    "brand": "Lotte",
+    "quantity": "26.1g",
+    "categories": [
+      "Chewing gum"
+    ],
+    "image_url": "/uploads/products/8934677013310-xylitol-lime-mint-nho.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934677013310"
+  },
+  {
+    "barcode": "8936104220575",
+    "name": "Ben Tre Coconut Lip Balm",
+    "brand": "Cocoon",
+    "quantity": "5g",
+    "categories": [
+      "Face",
+      "Lip balms"
+    ],
+    "image_url": "/uploads/products/8936104220575-ben-tre-coconut-lip-balm.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8936104220575"
+  },
+  {
+    "barcode": "8938510049191",
+    "name": "pomelo shampoo",
+    "brand": "Vi Jully",
+    "quantity": "280 ml",
+    "categories": [
+      "Hair",
+      "Shampoos"
+    ],
+    "image_url": "/uploads/products/8938510049191-pomelo-shampoo.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8938510049191"
+  },
+  {
+    "barcode": "8934868133391",
+    "name": "nước rửa tay",
+    "brand": "Lifebuoy",
+    "quantity": null,
+    "categories": [
+      "Hand wash"
+    ],
+    "image_url": "/uploads/products/8934868133391-nuoc-rua-tay.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934868133391"
+  },
+  {
+    "barcode": "8934673101424",
+    "name": "Green Farm Cao Dam",
+    "brand": "Vinamilk",
+    "quantity": "250ml",
+    "categories": [
+      "Dairies",
+      "Milks (liquid and powder)",
+      "Milks"
+    ],
+    "image_url": "/uploads/products/8934673101424-green-farm-cao-dam.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673101424"
+  },
+  {
+    "barcode": "8934673576345",
+    "name": "UHT Fresh Milk Plain",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673576345-uht-fresh-milk-plain.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673576345"
+  },
+  {
+    "barcode": "8934673500432",
+    "name": "Vinamilk sữa chua trân châu",
+    "brand": "Vinamilk",
+    "quantity": "100g",
+    "categories": [],
+    "image_url": "/uploads/products/8934673500432-vinamilk-sua-chua-tran-chau.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673500432"
+  },
+  {
+    "barcode": "8934673538824",
+    "name": "Rice Yogurt",
+    "brand": "Vinamilk",
+    "quantity": "",
+    "categories": [
+      "Dairies",
+      "Fermented foods",
+      "Fermented milk products",
+      "Desserts",
+      "Dairy desserts",
+      "Fermented dairy desserts",
+      "Yogurts"
+    ],
+    "image_url": "/uploads/products/8934673538824-rice-yogurt.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673538824"
+  },
+  {
+    "barcode": "8934673500548",
+    "name": "Low Sugar Yogurt",
+    "brand": "Vinamilk",
+    "quantity": "4 x 100 g",
+    "categories": [],
+    "image_url": "/uploads/products/8934673500548-low-sugar-yogurt.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673500548"
+  },
+  {
+    "barcode": "8934673701204",
+    "name": "Plant Milk 9 Seeds Less Sugar",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673701204-plant-milk-9-seeds-less-sugar.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673701204"
+  },
+  {
+    "barcode": "8934673573344",
+    "name": "Sữa Vinamilk 100% Có đường",
+    "brand": "Vinamilk",
+    "quantity": "180mL",
+    "categories": [
+      "Dairies",
+      "Milks (liquid and powder)",
+      "Milks",
+      "Fresh milks"
+    ],
+    "image_url": "/uploads/products/8934673573344-sua-vinamilk-100-co-duong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673573344"
+  },
+  {
+    "barcode": "8934673314909",
+    "name": "Creamer Đặc Có Đường",
+    "brand": "Vinamilk",
+    "quantity": "1,2kg",
+    "categories": [],
+    "image_url": "/uploads/products/8934673314909-creamer-dac-co-duong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673314909"
+  },
+  {
+    "barcode": "8934673613828",
+    "name": "Vinamilk Sữa chua ít đường",
+    "brand": "Vinamilk",
+    "quantity": "100g",
+    "categories": [],
+    "image_url": "/uploads/products/8934673613828-vinamilk-sua-chua-it-duong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673613828"
+  },
+  {
+    "barcode": "8934673607827",
+    "name": "Vinamilk sữa chua dâu",
+    "brand": "Vinamilk",
+    "quantity": "100g",
+    "categories": [],
+    "image_url": "/uploads/products/8934673607827-vinamilk-sua-chua-dau.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673607827"
+  },
+  {
+    "barcode": "8934673701235",
+    "name": "sưa",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673701235-sua.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673701235"
+  },
+  {
+    "barcode": "8934673101387",
+    "name": "Green Farm Nguyên Chất",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673101387-green-farm-nguyen-chat.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673101387"
+  },
+  {
+    "barcode": "8934673101493",
+    "name": "Ca Phe Latte",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673101493-ca-phe-latte.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673101493"
+  },
+  {
+    "barcode": "8934673702089",
+    "name": "Susu Juicy Milk - Peach Lychee",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673702089-susu-juicy-milk-peach-lychee.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673702089"
+  },
+  {
+    "barcode": "8934673701334",
+    "name": "Orange Juice",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673701334-orange-juice.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673701334"
+  },
+  {
+    "barcode": "8934673701938",
+    "name": "Kiwi Táo Giòn",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673701938-kiwi-tao-gion.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673701938"
+  },
+  {
+    "barcode": "8934673300964",
+    "name": "VINAMILK YOGURT DRINK GREEN FARM 200M",
+    "brand": "Vinamilk",
+    "quantity": "200ml",
+    "categories": [
+      "Dairies",
+      "Fermented foods",
+      "Fermented milk products",
+      "Desserts",
+      "Dairy desserts",
+      "Fermented dairy desserts",
+      "Yogurts"
+    ],
+    "image_url": "/uploads/products/8934673300964-vinamilk-yogurt-drink-green-farm-200m.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673300964"
+  },
+  {
+    "barcode": "8934673701433",
+    "name": "Atiso Cao Đặc (Ít Đường)",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673701433-atiso-cao-dac-it-duong.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673701433"
+  },
+  {
+    "barcode": "8934673301084",
+    "name": "Probiotic Drinking Yogurt (Pomelo Orange)",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673301084-probiotic-drinking-yogurt-pomelo-orange.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673301084"
+  },
+  {
+    "barcode": "8934673400275",
+    "name": "Ridielac Gold Oat And Milk",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673400275-ridielac-gold-oat-and-milk.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673400275"
+  },
+  {
+    "barcode": "8934673300179",
+    "name": "Probiotic Milk Drink Turmeric And Honey",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673300179-probiotic-milk-drink-turmeric-and-honey.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673300179"
+  },
+  {
+    "barcode": "8934673701754",
+    "name": "Sparkling Lychee and Rose Kombucha",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673701754-sparkling-lychee-and-rose-kombucha.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673701754"
+  },
+  {
+    "barcode": "8934673101257",
+    "name": "Lait bio",
+    "brand": "Vinamilk",
+    "quantity": "180ml",
+    "categories": [
+      "Dairies",
+      "Milks (liquid and powder)",
+      "Milks"
+    ],
+    "image_url": "/uploads/products/8934673101257-lait-bio.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673101257"
+  },
+  {
+    "barcode": "8934673301060",
+    "name": "VINAMILK probi",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [
+      "Probiotic yogurt drink"
+    ],
+    "image_url": "/uploads/products/8934673301060-vinamilk-probi.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673301060"
+  },
+  {
+    "barcode": "8934673600378",
+    "name": "Taro Ice cream",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673600378-taro-ice-cream.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673600378"
+  },
+  {
+    "barcode": "8934673290883",
+    "name": "Ice Cream Cone",
+    "brand": "Vinamilk",
+    "quantity": null,
+    "categories": [],
+    "image_url": "/uploads/products/8934673290883-ice-cream-cone.jpg",
+    "source_url": "https://world.openfoodfacts.org/product/8934673290883"
+  }
+]

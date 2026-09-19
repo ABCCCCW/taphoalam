@@ -1,0 +1,19 @@
+{
+  "remote.portsAttributes": {
+    "5173": {
+      "label": "Tạp hoá (HTTP — mở trong Cursor)",
+      "protocol": "http",
+      "onAutoForward": "notify"
+    },
+    "5174": {
+      "label": "Tạp hoá camera điện thoại (HTTPS)",
+      "protocol": "https",
+      "onAutoForward": "ignore"
+    },
+    "8000": {
+      "label": "Tạp hoá API",
+      "protocol": "http",
+      "onAutoForward": "silent"
+    }
+  }
+}

@@ -1,0 +1,2307 @@
+<title>Tạp Hoá POS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Be+Vietnam+Pro:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<style>
+:root{
+  --bg:#F5F6F9; --panel:#FFFFFF; --panel2:#EEF1F6; --sunk:#F8F9FB;
+  --ink:#141821; --ink2:#4D5765; --ink3:#7B8492;
+  --line:#E0E4EB; --line2:#C9D1DC;
+  --primary:#2440C4; --primary-soft:#E8ECFC;
+  --accent:#C93C1B; --accent-soft:#FBEAE5;
+  --ok:#116B56; --ok-soft:#E1F0EB;
+  --warn:#8F5C05; --warn-soft:#F8EFDC;
+  --shadow:0 1px 2px rgba(20,24,33,.05), 0 8px 24px -16px rgba(20,24,33,.25);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1117; --panel:#151A22; --panel2:#1B212B; --sunk:#11161D;
+    --ink:#E7EBF1; --ink2:#9AA4B3; --ink3:#6C7687;
+    --line:#252D39; --line2:#333D4C;
+    --primary:#8399FF; --primary-soft:#1A2242;
+    --accent:#FF7B5B; --accent-soft:#33201B;
+    --ok:#46C69C; --ok-soft:#123028;
+    --warn:#E0A741; --warn-soft:#302510;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1117; --panel:#151A22; --panel2:#1B212B; --sunk:#11161D;
+  --ink:#E7EBF1; --ink2:#9AA4B3; --ink3:#6C7687;
+  --line:#252D39; --line2:#333D4C;
+  --primary:#8399FF; --primary-soft:#1A2242;
+  --accent:#FF7B5B; --accent-soft:#33201B;
+  --ok:#46C69C; --ok-soft:#123028;
+  --warn:#E0A741; --warn-soft:#302510;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 8px 24px -16px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Be Vietnam Pro", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size:15.5px; line-height:1.68; margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:"Archivo", ui-sans-serif, system-ui, sans-serif; text-wrap:balance; margin:0; line-height:1.2;}
+code,kbd,pre,.mono{font-family:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;}
+a{color:var(--primary)}
+:focus-visible{outline:2px solid var(--primary); outline-offset:2px; border-radius:3px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+
+/* ---------- barcode motif ---------- */
+.barcode{
+  height:26px; width:100%;
+  background-image:
+    repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 7px),
+    repeating-linear-gradient(90deg, var(--ink) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, var(--ink) 0 4px, transparent 4px 19px);
+  opacity:.82;
+}
+
+/* ---------- shell ---------- */
+.shell{display:grid; grid-template-columns:262px minmax(0,1fr); align-items:start; max-width:1420px; margin:0 auto;}
+.toc{position:sticky; top:0; height:100vh; overflow-y:auto; padding:34px 20px 40px 28px; border-right:1px solid var(--line);}
+.toc .brand{font-family:"Archivo"; font-weight:700; font-size:15px; letter-spacing:-.01em; display:flex; align-items:center; gap:8px;}
+.toc .brand span{width:9px;height:9px;background:var(--accent);border-radius:2px; display:inline-block}
+.toc ol{list-style:none; margin:20px 0 0; padding:0; counter-reset:s;}
+.toc li{counter-increment:s;}
+.toc a{
+  display:grid; grid-template-columns:26px 1fr; gap:2px; align-items:baseline;
+  padding:5px 8px 5px 0; text-decoration:none; color:var(--ink2); font-size:13.4px; line-height:1.35;
+  border-radius:5px;
+}
+.toc a::before{content:counter(s,decimal-leading-zero); font-family:"JetBrains Mono"; font-size:10.5px; color:var(--ink3);}
+.toc a:hover{color:var(--ink)}
+.toc a.on{color:var(--primary); font-weight:600}
+.toc a.on::before{color:var(--primary)}
+.mobile-toc{display:none}
+
+main{padding:0 40px 120px; min-width:0;}
+.wrap{max-width:880px; margin:0 auto;}
+
+/* ---------- hero ---------- */
+header.hero{padding:44px 0 30px;}
+.eyebrow{font-family:"JetBrains Mono"; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); font-weight:500;}
+h1{font-size:clamp(34px,5vw,52px); font-weight:700; letter-spacing:-.028em; margin:14px 0 0;}
+.lede{font-size:17.5px; color:var(--ink2); max-width:64ch; margin:16px 0 0;}
+.chips{display:flex; flex-wrap:wrap; gap:7px; margin:24px 0 0;}
+.chip{
+  font-family:"JetBrains Mono"; font-size:11.5px; padding:4px 9px; border-radius:5px;
+  background:var(--panel); border:1px solid var(--line); color:var(--ink2);
+}
+.stats{display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); border-radius:9px; overflow:hidden; margin:30px 0 0;}
+.stat{background:var(--panel); padding:14px 16px;}
+.stat b{display:block; font-family:"Archivo"; font-size:25px; font-weight:700; letter-spacing:-.02em; font-variant-numeric:tabular-nums;}
+.stat small{color:var(--ink3); font-size:11.5px; letter-spacing:.03em; text-transform:uppercase; font-family:"JetBrains Mono";}
+
+/* ---------- sections ---------- */
+section{padding-top:52px; scroll-margin-top:20px;}
+section > h2{
+  font-size:12px; font-family:"JetBrains Mono"; font-weight:500; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--ink3); padding-bottom:10px; border-bottom:1px solid var(--line); display:flex; gap:10px;
+}
+section > h2 em{font-style:normal; color:var(--accent)}
+section > h3.title{font-size:clamp(23px,3vw,30px); font-weight:600; letter-spacing:-.022em; margin:18px 0 0;}
+section p{color:var(--ink2); max-width:66ch;}
+section p strong, li strong{color:var(--ink); font-weight:600}
+h4{font-size:16.5px; font-weight:600; letter-spacing:-.01em; margin:30px 0 8px;}
+ul,ol{color:var(--ink2); padding-left:20px;}
+li{margin:5px 0}
+li::marker{color:var(--ink3)}
+hr{border:0; border-top:1px solid var(--line); margin:36px 0}
+
+/* ---------- panels ---------- */
+.card{background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:18px 20px; margin:18px 0; box-shadow:var(--shadow);}
+.card > :first-child{margin-top:0}
+.note{border-left:3px solid var(--primary); background:var(--primary-soft); border-radius:0 8px 8px 0; padding:14px 18px; margin:18px 0;}
+.note.warn{border-left-color:var(--accent); background:var(--accent-soft)}
+.note p{margin:0; color:var(--ink); max-width:none; font-size:14.5px}
+.note b{font-family:"Archivo"; font-weight:600}
+
+.grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; margin:18px 0;}
+
+/* ---------- pills ---------- */
+.pill{display:inline-block; font-family:"JetBrains Mono"; font-size:10.5px; font-weight:500; padding:2px 7px; border-radius:4px; letter-spacing:.04em; white-space:nowrap; vertical-align:middle;}
+.p-mvp{background:var(--ok-soft); color:var(--ok)}
+.p-2{background:var(--warn-soft); color:var(--warn)}
+.p-3{background:var(--panel2); color:var(--ink3)}
+.m-get{background:var(--ok-soft); color:var(--ok)}
+.m-post{background:var(--primary-soft); color:var(--primary)}
+.m-put{background:var(--warn-soft); color:var(--warn)}
+.m-del{background:var(--accent-soft); color:var(--accent)}
+
+/* ---------- tables ---------- */
+.tw{overflow-x:auto; margin:16px 0; border:1px solid var(--line); border-radius:9px; background:var(--panel);}
+table{border-collapse:collapse; width:100%; font-size:13.6px; min-width:520px;}
+th{
+  text-align:left; font-family:"JetBrains Mono"; font-weight:500; font-size:10.5px; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--ink3); padding:10px 14px; background:var(--sunk);
+  border-bottom:1px solid var(--line); white-space:nowrap;
+}
+td{padding:9px 14px; border-bottom:1px solid var(--line); color:var(--ink2); vertical-align:top;}
+tr:last-child td{border-bottom:0}
+td:first-child{color:var(--ink); font-weight:500}
+td code, th code{font-size:12.4px}
+code:not(pre code){background:var(--panel2); padding:1px 5px; border-radius:4px; font-size:12.6px; color:var(--ink);}
+.num{font-variant-numeric:tabular-nums; text-align:right}
+
+/* ---------- code ---------- */
+pre{
+  background:var(--sunk); border:1px solid var(--line); border-radius:9px;
+  padding:16px 18px; overflow-x:auto; font-size:12.7px; line-height:1.62; margin:16px 0; color:var(--ink);
+}
+pre b{font-weight:500; color:var(--primary)}
+pre i{font-style:normal; color:var(--ink3)}
+pre u{text-decoration:none; color:var(--accent)}
+.filename{
+  font-family:"JetBrains Mono"; font-size:11px; color:var(--ink3); letter-spacing:.03em;
+  margin:18px 0 -8px; display:block;
+}
+
+/* ---------- architecture diagram ---------- */
+.arch{display:grid; gap:10px; margin:20px 0;}
+.tier{background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px 16px;}
+.tier > h5{margin:0 0 10px; font-family:"JetBrains Mono"; font-size:10.5px; letter-spacing:.11em; text-transform:uppercase; color:var(--ink3); font-weight:500;}
+.boxes{display:flex; flex-wrap:wrap; gap:8px}
+.box{flex:1 1 150px; background:var(--sunk); border:1px solid var(--line); border-radius:7px; padding:9px 12px; font-size:13px;}
+.box b{display:block; font-family:"Archivo"; font-weight:600; font-size:13.5px; color:var(--ink)}
+.box span{color:var(--ink3); font-size:11.5px; font-family:"JetBrains Mono"}
+.arrow{text-align:center; color:var(--ink3); font-size:11px; font-family:"JetBrains Mono"; letter-spacing:.1em}
+
+/* ---------- flow steps ---------- */
+.flow{counter-reset:f; list-style:none; padding:0; margin:18px 0; display:grid; gap:0;}
+.flow li{counter-increment:f; display:grid; grid-template-columns:30px 1fr; gap:14px; padding:0 0 16px; margin:0; position:relative;}
+.flow li::before{
+  content:counter(f); font-family:"JetBrains Mono"; font-size:11px; font-weight:500;
+  width:24px; height:24px; border-radius:50%; display:grid; place-items:center;
+  background:var(--primary-soft); color:var(--primary); border:1px solid var(--line);
+}
+.flow li::after{content:""; position:absolute; left:11.5px; top:26px; bottom:0; width:1px; background:var(--line);}
+.flow li:last-child{padding-bottom:0}
+.flow li:last-child::after{display:none}
+.flow div{padding-top:1px}
+.flow b{display:block; color:var(--ink); font-weight:600; font-size:14.5px; font-family:"Archivo"}
+.flow p{margin:2px 0 0; font-size:13.8px}
+
+/* ---------- roadmap ---------- */
+.weeks{display:grid; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden; margin:18px 0;}
+.week{background:var(--panel); padding:14px 18px; display:grid; grid-template-columns:76px 1fr; gap:16px; align-items:start;}
+.week .w{font-family:"JetBrains Mono"; font-size:11px; color:var(--accent); letter-spacing:.06em; padding-top:3px;}
+.week b{font-family:"Archivo"; font-weight:600; font-size:15px; display:block}
+.week p{margin:3px 0 0; font-size:13.6px; max-width:none}
+
+@media (max-width:1080px){
+  .shell{grid-template-columns:1fr}
+  .toc{display:none}
+  main{padding:0 22px 90px}
+  .mobile-toc{display:block; margin:26px 0 0; background:var(--panel); border:1px solid var(--line); border-radius:9px; padding:12px 16px;}
+  .mobile-toc summary{cursor:pointer; font-family:"JetBrains Mono"; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink3)}
+  .mobile-toc ol{margin:12px 0 4px; padding-left:20px; font-size:13.5px; columns:2; column-gap:22px}
+  .mobile-toc a{color:var(--ink2); text-decoration:none}
+}
+</style>
+
+<div class="shell">
+<nav class="toc">
+  <div class="brand"><span></span>TẠP HOÁ POS</div>
+  <ol>
+    <li><a href="#s1">Phạm vi &amp; mục tiêu</a></li>
+    <li><a href="#s2">Vai trò &amp; tài khoản</a></li>
+    <li><a href="#s3">Kiến trúc hệ thống</a></li>
+    <li><a href="#s4">Công nghệ sử dụng</a></li>
+    <li><a href="#s5">Thiết kế cơ sở dữ liệu</a></li>
+    <li><a href="#s6">Quy tắc tồn kho</a></li>
+    <li><a href="#s7">Luồng bán hàng tại quầy</a></li>
+    <li><a href="#s8">Thanh toán quét mã QR</a></li>
+    <li><a href="#s9">Mã vạch — hiểu cho đúng</a></li>
+    <li><a href="#s10">Điện thoại làm máy quét</a></li>
+    <li><a href="#s11">Hàng không mã &amp; hàng cân ký</a></li>
+    <li><a href="#s12">Nhập kho &amp; kiểm kê</a></li>
+    <li><a href="#s13">Thương mại điện tử</a></li>
+    <li><a href="#s14">Danh sách API</a></li>
+    <li><a href="#s15">Cấu trúc thư mục</a></li>
+    <li><a href="#s16">Màn hình giao diện</a></li>
+    <li><a href="#s17">Báo cáo &amp; thống kê</a></li>
+    <li><a href="#s18">Bảo mật &amp; kiểm thử</a></li>
+    <li><a href="#s19">Lộ trình 12 tuần</a></li>
+  </ol>
+</nav>
+
+<main><div class="wrap">
+
+<header class="hero">
+  <div class="barcode"></div>
+  <div class="eyebrow" style="margin-top:22px">Bản thiết kế hệ thống · Đồ án</div>
+  <h1>Tạp Hoá POS</h1>
+  <p class="lede">Hệ thống bán hàng cho cửa hàng tiện lợi với hai mặt tiền trên cùng một kho: quầy thu ngân quét mã vạch bằng máy quét USB hoặc bằng điện thoại, và website cho khách tự đặt hàng. Khách thanh toán bằng cách quét mã QR ngân hàng, tồn kho trừ theo từng đơn, có giữ hàng cho đơn online và sổ cái kho đối soát được. Backend Python, frontend React, dữ liệu MySQL.</p>
+  <div class="chips">
+    <span class="chip">FastAPI</span><span class="chip">SQLAlchemy 2</span><span class="chip">MySQL 8</span>
+    <span class="chip">React 18 + Vite</span><span class="chip">TypeScript</span><span class="chip">TailwindCSS</span>
+    <span class="chip">WebSocket</span><span class="chip">ZXing</span><span class="chip">JWT</span><span class="chip">Docker Compose</span><span class="chip">100% miễn phí</span>
+  </div>
+  <div class="stats">
+    <div class="stat"><b>37</b><small>Bảng dữ liệu</small></div>
+    <div class="stat"><b>2</b><small>Kênh bán, 1 kho</small></div>
+    <div class="stat"><b>29</b><small>Màn hình</small></div>
+    <div class="stat"><b>12</b><small>Tuần triển khai</small></div>
+  </div>
+  <details class="mobile-toc">
+    <summary>Mục lục</summary>
+    <ol>
+      <li><a href="#s1">Phạm vi</a></li>
+      <li><a href="#s2">Vai trò</a></li>
+      <li><a href="#s3">Kiến trúc</a></li>
+      <li><a href="#s4">Công nghệ</a></li>
+      <li><a href="#s5">Cơ sở dữ liệu</a></li>
+      <li><a href="#s6">Tồn kho</a></li>
+      <li><a href="#s7">Bán tại quầy</a></li>
+      <li><a href="#s8">Thanh toán QR</a></li>
+      <li><a href="#s9">Mã vạch</a></li>
+      <li><a href="#s10">Quét bằng ĐT</a></li>
+      <li><a href="#s11">Hàng không mã</a></li>
+      <li><a href="#s12">Nhập kho</a></li>
+      <li><a href="#s13">Bán online</a></li>
+      <li><a href="#s14">API</a></li>
+      <li><a href="#s15">Thư mục</a></li>
+      <li><a href="#s16">Giao diện</a></li>
+      <li><a href="#s17">Báo cáo</a></li>
+      <li><a href="#s18">Bảo mật</a></li>
+      <li><a href="#s19">Lộ trình</a></li>
+    </ol>
+  </details>
+</header>
+
+<!-- ============ 01 ============ -->
+<section id="s1">
+  <h2><em>01</em> Phạm vi &amp; mục tiêu</h2>
+  <h3 class="title">Hai mặt tiền, một kho hàng</h3>
+  <p>Hệ thống có <strong>hai cửa vào</strong>: quầy thu ngân tại cửa hàng và website bán hàng online cho khách tự đặt. Cả hai <strong>dùng chung một kho</strong> — đây là chỗ khó nhất và cũng là chỗ đáng làm nhất: bán hết hàng ở quầy thì website phải hết hàng ngay, và đơn online đang chờ giao phải giữ được hàng để thu ngân không bán mất.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4 style="margin-top:0">A · Bán tại quầy (POS)</h4>
+      <ul style="padding-left:18px; font-size:14px; margin-bottom:0">
+        <li>Quét mã vạch bằng máy quét USB <strong>hoặc điện thoại</strong></li>
+        <li>Giỏ hàng, phím tắt, giữ đơn, in hoá đơn</li>
+        <li>Thanh toán tiền mặt hoặc quét QR ngân hàng</li>
+        <li>Ca làm việc &amp; đối soát tiền két</li>
+        <li>Hàng cân ký, hàng không có mã vạch</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">B · Bán online (TMĐT)</h4>
+      <ul style="padding-left:18px; font-size:14px; margin-bottom:0">
+        <li>Khách tự đăng ký, duyệt hàng theo danh mục, tìm kiếm</li>
+        <li>Giỏ hàng lưu theo tài khoản, đặt hàng</li>
+        <li>Nhận tại cửa hàng hoặc giao tận nơi</li>
+        <li>Thanh toán khi nhận hàng hoặc chuyển khoản QR trước</li>
+        <li>Theo dõi đơn, xem lại lịch sử, đánh giá sản phẩm</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h4 style="margin-top:0">C · Kho &amp; hàng hoá</h4>
+      <ul style="padding-left:18px; font-size:14px; margin-bottom:0">
+        <li>Tồn kho thời gian thực + sổ cái kho bất biến</li>
+        <li>Nhiều mã vạch cho một mặt hàng</li>
+        <li>Tra thông tin sản phẩm từ mã vạch ngoài thị trường</li>
+        <li>Sinh mã nội bộ + in tem hàng loạt</li>
+        <li>Nhập hàng, trả nhà cung cấp, kiểm kê, hạn sử dụng theo lô</li>
+        <li>Giữ hàng cho đơn online chưa giao</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">D · Quản trị</h4>
+      <ul style="padding-left:18px; font-size:14px; margin-bottom:0">
+        <li>Ba loại tài khoản nội bộ, ma trận quyền cố định</li>
+        <li>Khách hàng thân thiết, điểm tích luỹ, khuyến mãi</li>
+        <li>Trả hàng, hoàn tiền</li>
+        <li>Báo cáo doanh thu / lợi nhuận / tồn kho, tách theo kênh bán</li>
+        <li>Nhật ký thao tác</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4>Ngoài phạm vi</h4>
+  <div class="tw"><table>
+    <thead><tr><th>Không làm</th><th>Vì sao &amp; đã chừa chỗ ra sao</th></tr></thead>
+    <tbody>
+      <tr><td>Nhiều chi nhánh đồng bộ hai chiều</td><td>Bảng <code>warehouses</code> đã đa kho sẵn, thêm chi nhánh chỉ là thêm dòng — không phải sửa schema</td></tr>
+      <tr><td>Tích hợp hãng vận chuyển (GHN, GHTK)</td><td>Bảng <code>shipments</code> đã có <code>carrier</code> và <code>tracking_code</code>, hiện nhập tay; sau này thay bằng gọi API</td></tr>
+      <tr><td>Hoá đơn điện tử ký số theo chuẩn thuế</td><td>Cần chữ ký số và hợp đồng với nhà cung cấp, ngoài khả năng đồ án</td></tr>
+      <tr><td>Máy POS quẹt thẻ vật lý</td><td>Cần thiết bị và hợp đồng ngân hàng; <code>payments.method</code> đã có sẵn giá trị <code>CARD</code></td></tr>
+      <tr><td>App di động native</td><td>Website đã responsive, điện thoại dùng được cả phần mua hàng lẫn phần quét mã</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note">
+    <p><b>Ký hiệu ưu tiên dùng xuyên suốt tài liệu:</b> <span class="pill p-mvp">MVP</span> bắt buộc để hệ thống chạy được &nbsp;·&nbsp; <span class="pill p-2">GĐ 2</span> làm sau khi MVP xong &nbsp;·&nbsp; <span class="pill p-3">Nâng cao</span> điểm cộng nếu còn thời gian.</p>
+  </div>
+</section>
+
+<!-- ============ 02 ============ -->
+<section id="s2">
+  <h2><em>02</em> Vai trò &amp; tài khoản</h2>
+  <h3 class="title">Hai hệ tài khoản tách rời hoàn toàn</h3>
+  <p>Nhân viên và khách hàng <strong>không nằm chung một bảng</strong>. Trộn chung là mở đường cho lỗi bảo mật: một khách mua hàng vô tình được cấp quyền vào trang quản trị. Hai bảng, hai luồng đăng nhập, hai loại token.</p>
+
+  <div class="grid2">
+    <div class="card">
+      <h4 style="margin-top:0">Bảng <code>users</code> — nội bộ</h4>
+      <p style="font-size:13.8px">Đăng nhập tại <code>/admin/login</code> bằng tài khoản do chủ cửa hàng cấp. Không có chức năng tự đăng ký.</p>
+      <p style="font-size:13.8px; margin-bottom:0">Vai trò lưu thẳng trong cột <code>role</code> kiểu <code>ENUM</code> — không cần bảng phân quyền động.</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Bảng <code>customers</code> — khách hàng</h4>
+      <p style="font-size:13.8px">Tự đăng ký tại website, đăng nhập bằng số điện thoại hoặc email. Chỉ truy cập được dữ liệu của chính mình.</p>
+      <p style="font-size:13.8px; margin-bottom:0">Khách mua tại quầy cũng nằm ở bảng này nhưng <code>password_hash</code> để trống — thu ngân tạo hộ, sau này khách đặt mật khẩu là dùng online được luôn với cùng lịch sử mua.</p>
+    </div>
+  </div>
+
+  <h4>Ba vai trò nội bộ</h4>
+  <div class="tw"><table>
+    <thead><tr><th>Vai trò</th><th>Vào thẳng</th><th>Được làm</th><th>Không được</th></tr></thead>
+    <tbody>
+      <tr><td>Quản trị<br><code>ADMIN</code></td><td>Dashboard</td><td><strong>Toàn quyền.</strong> Gồm luôn phần quản lý: hàng hoá, giá, nhập kho, kiểm kê, khuyến mãi, duyệt đơn online, báo cáo lợi nhuận, tạo tài khoản nhân viên, cấu hình cửa hàng và thông tin ngân hàng</td><td>—</td></tr>
+      <tr><td>Thu ngân<br><code>CASHIER</code></td><td>Màn hình bán hàng</td><td>Mở/đóng ca của mình, bán hàng, tra giá &amp; tồn, tạo khách mới, xử lý đơn online nhận tại cửa hàng</td><td>Xem giá vốn &amp; lợi nhuận, sửa giá bán, xoá đơn đã hoàn tất, vào báo cáo</td></tr>
+      <tr><td>Nhân viên kho<br><code>STOCKER</code></td><td>Danh sách tồn kho</td><td>Tạo phiếu nhập, kiểm kê, ghi nhận hàng hỏng/hết hạn, in tem mã vạch, soạn hàng cho đơn online</td><td>Bán hàng tại quầy, xem doanh thu</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>Ma trận quyền viết cố định trong code, một chỗ duy nhất — không có bảng <code>permissions</code>, không có giao diện cấu hình quyền. Với một cửa hàng tiện lợi thì ba vai này là đủ, và đơn giản đồng nghĩa với ít lỗi.</p>
+
+  <span class="filename">app/core/permissions.py</span>
+<pre>PERMISSIONS = {
+    "ADMIN":   {"*"},                                       <i># toàn quyền</i>
+    "CASHIER": {"pos.*", "order.read", "customer.*",
+                "product.read", "inventory.read", "shift.own"},
+    "STOCKER": {"product.read", "product.barcode.print",
+                "inventory.*", "receipt.*", "stocktake.*",
+                "order.fulfill"},
+}
+
+<b>def</b> require(permission: str):
+    <b>def</b> guard(user = Depends(get_current_user)):
+        granted = PERMISSIONS[user.role]
+        <b>if</b> "*" <b>in</b> granted: <b>return</b> user
+        <b>if</b> permission <b>in</b> granted: <b>return</b> user
+        <b>if</b> f"{permission.split('.')[0]}.*" <b>in</b> granted: <b>return</b> user
+        <b>raise</b> HTTPException(403, "Bạn không có quyền thực hiện thao tác này")
+    <b>return</b> guard</pre>
+
+  <div class="note warn">
+    <p><b>Token phải tách biệt:</b> token của nhân viên và token của khách hàng mang <code>type</code> khác nhau (<code>staff</code> / <code>customer</code>). Endpoint quản trị chỉ nhận <code>staff</code>, endpoint cửa hàng online chỉ nhận <code>customer</code>. Không kiểm tra chỗ này thì khách hàng lấy token của mình gọi thẳng vào API quản trị được.</p>
+  </div>
+</section>
+
+<!-- ============ 03 ============ -->
+<section id="s3">
+  <h2><em>03</em> Kiến trúc hệ thống</h2>
+  <h3 class="title">Một API, ba loại client, một nguồn sự thật</h3>
+  <div class="arch">
+    <div class="tier">
+      <h5>Client</h5>
+      <div class="boxes">
+        <div class="box"><b>Màn hình bán hàng</b><span>React · máy thu ngân</span></div>
+        <div class="box"><b>Trang quản trị</b><span>React · chủ cửa hàng</span></div>
+        <div class="box"><b>Website bán hàng</b><span>React · khách tự đặt</span></div>
+      </div>
+      <div class="boxes" style="margin-top:8px">
+        <div class="box"><b>Điện thoại quét mã</b><span>camera · ghép cặp với POS</span></div>
+        <div class="box"><b>Máy quét USB</b><span>gõ phím như bàn phím</span></div>
+        <div class="box"><b>Màn hình phụ</b><span>hiện QR cho khách</span></div>
+      </div>
+    </div>
+    <div class="arrow">↓ &nbsp; HTTPS · JSON · JWT Bearer (token nhân viên / token khách tách riêng) &nbsp; ↓<br>↕ &nbsp; WebSocket cho mã quét từ điện thoại &nbsp; ↕</div>
+    <div class="tier">
+      <h5>Backend — FastAPI</h5>
+      <div class="boxes">
+        <div class="box"><b>Router</b><span>/api/v1/* quản trị · /api/v1/shop/* khách</span></div>
+        <div class="box"><b>Service</b><span>toàn bộ nghiệp vụ &amp; transaction</span></div>
+        <div class="box"><b>Repository</b><span>truy vấn SQLAlchemy</span></div>
+      </div>
+      <div class="boxes" style="margin-top:8px">
+        <div class="box"><b>Tác vụ nền</b><span>dọn đơn giữ hàng quá hạn, cảnh báo hết hàng &amp; cận date, đối soát sổ kho</span></div>
+        <div class="box"><b>Webhook</b><span>nhận biến động số dư ngân hàng</span></div>
+        <div class="box"><b>WebSocket hub</b><span>đẩy mã quét &amp; đơn online mới</span></div>
+      </div>
+    </div>
+    <div class="arrow">↓ &nbsp; SQLAlchemy 2.0 &nbsp; ↓</div>
+    <div class="tier">
+      <h5>Dữ liệu</h5>
+      <div class="boxes">
+        <div class="box"><b>MySQL 8</b><span>InnoDB · utf8mb4 · nguồn sự thật</span></div>
+        <div class="box"><b>Thư mục uploads</b><span>ảnh sản phẩm, logo</span></div>
+        <div class="box"><b>Redis</b><span class="pill p-3">Nâng cao</span> <span>cache &amp; hàng đợi</span></div>
+      </div>
+    </div>
+  </div>
+  <p><strong>Hai nguyên tắc chi phối toàn bộ mã nguồn:</strong></p>
+  <ul>
+    <li>Mọi thay đổi tồn kho chỉ đi qua đúng một hàm <code>InventoryService.apply()</code>. Không router nào được <code>UPDATE inventory</code> trực tiếp — nhờ vậy sổ cái luôn khớp và đổi logic chỉ phải sửa một chỗ.</li>
+    <li>Mọi nguồn mã vạch — máy quét USB, camera điện thoại, gõ tay — đổ vào đúng một hàm <code>handleScan()</code>. Thêm nguồn mới không phải sửa logic bán hàng.</li>
+  </ul>
+</section>
+
+<!-- ============ 04 ============ -->
+<section id="s4">
+  <h2><em>04</em> Công nghệ sử dụng</h2>
+  <h3 class="title">Tất cả đều miễn phí và cài được offline</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Lớp</th><th>Chọn</th><th>Vì sao</th></tr></thead>
+    <tbody>
+      <tr><td>Web framework</td><td><code>FastAPI</code></td><td>Tự sinh tài liệu Swagger tại <code>/docs</code> — nộp đồ án khỏi phải vẽ tay bảng API; async sẵn; validate bằng Pydantic</td></tr>
+      <tr><td>ORM &amp; migration</td><td><code>SQLAlchemy 2.0</code> + <code>Alembic</code></td><td>Cần transaction và khoá dòng thật sự cho phần trừ kho</td></tr>
+      <tr><td>Driver MySQL</td><td><code>PyMySQL</code></td><td>Thuần Python, không cần biên dịch, cài là chạy trên Windows</td></tr>
+      <tr><td>Xác thực</td><td><code>python-jose</code> + <code>passlib[bcrypt]</code></td><td>JWT access 30 phút + refresh 7 ngày, mật khẩu băm bcrypt</td></tr>
+      <tr><td>Sinh mã QR</td><td><code>qrcode[pil]</code></td><td>Tự dựng chuỗi EMVCo VietQR rồi render ảnh — không tốn phí cổng thanh toán</td></tr>
+      <tr><td>Excel</td><td><code>openpyxl</code></td><td>Nhập danh mục hàng hoá hàng loạt, xuất báo cáo</td></tr>
+      <tr><td>Tra mã vạch</td><td><code>httpx</code> + Open Food Facts</td><td>Cơ sở dữ liệu mở, không cần khoá API, tra tên và ảnh sản phẩm từ mã ngoài thị trường</td></tr>
+      <tr><td>Đẩy dữ liệu tức thời</td><td>WebSocket của FastAPI</td><td>Mã quét từ điện thoại và thông báo đơn online mới; có sẵn trong framework, không cài thêm gì</td></tr>
+      <tr><td>Chứng chỉ nội bộ</td><td><code>mkcert</code></td><td>Camera trình duyệt chỉ chạy trên HTTPS. Tạo chứng chỉ cho địa chỉ mạng nội bộ, miễn phí, không cần tên miền — xem hướng dẫn ở mục <a href="#s10">10</a></td></tr>
+      <tr><td>Kiểm thử</td><td><code>pytest</code> + <code>httpx</code></td><td>Test API và test đua tranh trừ kho</td></tr>
+      <tr><td>Frontend</td><td><code>React 18</code> + <code>Vite</code> + <code>TypeScript</code></td><td>Vite khởi động nhanh, TS chống lỗi sai tên trường khi gọi API</td></tr>
+      <tr><td>Giao diện</td><td><code>TailwindCSS</code> + <code>shadcn/ui</code></td><td>Miễn phí, code component nằm trong dự án nên sửa được tuỳ ý</td></tr>
+      <tr><td>Gọi API &amp; cache</td><td><code>TanStack Query</code> + <code>axios</code></td><td>Tự động refetch tồn kho, xử lý loading/error gọn</td></tr>
+      <tr><td>State cục bộ</td><td><code>Zustand</code></td><td>Giữ giỏ hàng và ca làm việc, nhẹ hơn Redux nhiều</td></tr>
+      <tr><td>Quét mã bằng camera</td><td><code>@zxing/browser</code></td><td>Biến điện thoại thành máy quét; đọc được cả mã 1D lẫn QR, chạy hoàn toàn trên trình duyệt</td></tr>
+      <tr><td>In tem mã vạch</td><td><code>jsbarcode</code></td><td>Sinh EAN-13 dạng SVG rồi in bằng CSS <code>@media print</code></td></tr>
+      <tr><td>Biểu đồ</td><td><code>Recharts</code></td><td>Dựng sẵn cho React, đủ cho dashboard doanh thu</td></tr>
+      <tr><td>Chạy dự án</td><td><code>Docker Compose</code></td><td>Một lệnh dựng cả MySQL + backend + frontend, chấm điểm khỏi lỗi "máy em chạy được"</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note warn">
+    <p><b>Không dùng cổng thanh toán trả phí.</b> VNPay / MoMo / PayOS đều yêu cầu hợp đồng doanh nghiệp. Phần <a href="#s8">08</a> mô tả cách tự sinh mã QR chuyển khoản đúng chuẩn ngân hàng Việt Nam bằng thư viện miễn phí, cộng một trang mô phỏng ngân hàng để demo xác nhận tự động.</p>
+  </div>
+</section>
+
+<!-- ============ 05 ============ -->
+<section id="s5">
+  <h2><em>05</em> Thiết kế cơ sở dữ liệu</h2>
+  <h3 class="title">37 bảng, chia 8 nhóm</h3>
+  <p>Toàn bộ dùng <code>InnoDB</code> (cần transaction &amp; khoá ngoại) và <code>utf8mb4_unicode_ci</code> (tên hàng tiếng Việt có dấu). Tiền dùng <code>DECIMAL</code> chứ không dùng <code>FLOAT</code> — <code>FLOAT</code> làm lệch tiền khi cộng dồn.</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>Nhóm</th><th>Bảng</th><th>Vai trò</th></tr></thead>
+    <tbody>
+      <tr><td>Người dùng</td><td><code>users · refresh_tokens</code></td><td>Nhân viên nội bộ, ba vai cố định</td></tr>
+      <tr><td>Hàng hoá</td><td><code>categories · brands · units · suppliers · products · product_units · product_barcodes · barcode_lookup_cache</code></td><td>Danh mục, quy đổi đơn vị, nhiều mã vạch một mặt hàng</td></tr>
+      <tr><td>Kho</td><td><code>warehouses · inventory · inventory_transactions · product_batches · stock_receipts · stock_receipt_items · stock_takes · stock_take_items</code></td><td>Tồn hiện tại, sổ cái, nhập hàng, kiểm kê, hạn dùng</td></tr>
+      <tr><td>Bán hàng</td><td><code>customers · shifts · orders · order_items · order_returns · order_return_items</code></td><td>Đơn hàng cả hai kênh, ca làm việc, trả hàng</td></tr>
+      <tr><td>Thanh toán</td><td><code>payments · bank_transactions</code></td><td>Tiền mặt, QR ngân hàng, đối soát</td></tr>
+      <tr><td>Thương mại điện tử</td><td><code>customer_addresses · carts · cart_items · stock_reservations · shipments · product_reviews · banners</code></td><td>Giỏ hàng, giữ hàng, giao hàng, đánh giá</td></tr>
+      <tr><td>Thiết bị</td><td><code>scanner_sessions</code></td><td>Ghép cặp điện thoại làm máy quét</td></tr>
+      <tr><td>Hệ thống</td><td><code>promotions · promotion_targets · settings · audit_logs</code></td><td>Khuyến mãi, cấu hình cửa hàng, nhật ký</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Nhóm 1 — Người dùng &amp; phân quyền</h4>
+  <span class="filename">db/schema.sql</span>
+<pre><i>-- MySQL 8.0 · InnoDB · utf8mb4_unicode_ci</i>
+CREATE DATABASE IF NOT EXISTS taphoa_pos
+  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE taphoa_pos;
+
+CREATE TABLE users (
+  id            INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  username      VARCHAR(50)  NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,          <i>-- bcrypt</i>
+  full_name     VARCHAR(120) NOT NULL,
+  email         VARCHAR(120) UNIQUE,
+  phone         VARCHAR(20),
+  role          ENUM('ADMIN','CASHIER','STOCKER') NOT NULL,  <i>-- ba vai cố định</i>
+  pin_hash      VARCHAR(255),                   <i>-- PIN 4 số, đổi ca nhanh ngay tại quầy</i>
+  avatar_url    VARCHAR(255),
+  is_active     BOOLEAN  NOT NULL DEFAULT TRUE,
+  last_login_at DATETIME,
+  created_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE refresh_tokens (
+  id         BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  subject_id INT UNSIGNED NOT NULL,             <i>-- users.id hoặc customers.id</i>
+  token_hash CHAR(64) NOT NULL UNIQUE,          <i>-- sha256, không lưu token gốc</i>
+  subject_type ENUM('STAFF','CUSTOMER') NOT NULL DEFAULT 'STAFF',
+  expires_at DATETIME NOT NULL,
+  revoked_at DATETIME,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_rt_subject (subject_type, subject_id)
+);</pre>
+
+  <h4>Nhóm 2 — Hàng hoá</h4>
+<pre>CREATE TABLE categories (
+  id         INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  parent_id  INT UNSIGNED NULL,                 <i>-- danh mục cha-con: Đồ uống → Nước ngọt</i>
+  name       VARCHAR(120) NOT NULL,
+  slug       VARCHAR(140) NOT NULL UNIQUE,
+  icon       VARCHAR(60),
+  sort_order SMALLINT NOT NULL DEFAULT 0,
+  is_active  BOOLEAN  NOT NULL DEFAULT TRUE,
+  FOREIGN KEY (parent_id) REFERENCES categories(id) ON DELETE SET NULL
+);
+
+CREATE TABLE brands (
+  id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(120) NOT NULL UNIQUE,
+  logo_url VARCHAR(255)
+);
+
+CREATE TABLE units (
+  id       SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  name     VARCHAR(30) NOT NULL UNIQUE,         <i>-- Cái, Chai, Lon, Lốc, Thùng, Gói, Kg</i>
+  is_base  BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE suppliers (
+  id         INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  code       VARCHAR(20)  NOT NULL UNIQUE,      <i>-- NCC001</i>
+  name       VARCHAR(160) NOT NULL,
+  phone      VARCHAR(20),
+  email      VARCHAR(120),
+  address    VARCHAR(255),
+  tax_code   VARCHAR(20),
+  debt       DECIMAL(14,2) NOT NULL DEFAULT 0,  <i>-- công nợ phải trả</i>
+  note       VARCHAR(255),
+  is_active  BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE products (
+  id           INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  sku          VARCHAR(40)  NOT NULL UNIQUE,    <i>-- mã nội bộ SP0001</i>
+  name         VARCHAR(200) NOT NULL,
+  slug         VARCHAR(220) NOT NULL UNIQUE,    <i>-- đường dẫn trên website</i>
+  name_search  VARCHAR(200),                    <i>-- tên bỏ dấu, chữ thường → gõ "coca" ra "Cô-ca"</i>
+  category_id  INT UNSIGNED,
+  brand_id     INT UNSIGNED,
+  base_unit_id SMALLINT UNSIGNED NOT NULL,      <i>-- đơn vị nhỏ nhất, tồn kho luôn quy về đây</i>
+  product_type ENUM('STANDARD','WEIGHTED','BULK') NOT NULL DEFAULT 'STANDARD',
+  cost_price   DECIMAL(12,2) NOT NULL DEFAULT 0,<i>-- giá vốn bình quân gia quyền</i>
+  sale_price   DECIMAL(12,2) NOT NULL DEFAULT 0,
+  vat_rate     DECIMAL(4,2)  NOT NULL DEFAULT 0,<i>-- 0 | 5 | 8 | 10</i>
+  min_stock    INT NOT NULL DEFAULT 0,          <i>-- dưới ngưỡng này thì cảnh báo nhập thêm</i>
+  max_stock    INT NOT NULL DEFAULT 0,
+  track_expiry BOOLEAN NOT NULL DEFAULT FALSE,  <i>-- có quản lý hạn dùng theo lô</i>
+  image_url    VARCHAR(255),
+  description  TEXT,
+  is_active    BOOLEAN NOT NULL DEFAULT TRUE,   <i>-- còn kinh doanh không</i>
+  <i>-- phần dành cho website bán hàng</i>
+  is_online    BOOLEAN NOT NULL DEFAULT FALSE,  <i>-- có hiện trên website không</i>
+  online_sale_mode ENUM('EXACT','APPROX','PICKUP_ONLY') NOT NULL DEFAULT 'EXACT',
+  sold_count   INT NOT NULL DEFAULT 0,
+  rating_avg   DECIMAL(3,2) NOT NULL DEFAULT 0,
+  rating_count INT NOT NULL DEFAULT 0,
+  created_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (category_id)  REFERENCES categories(id),
+  FOREIGN KEY (brand_id)     REFERENCES brands(id),
+  FOREIGN KEY (base_unit_id) REFERENCES units(id),
+  INDEX idx_p_category (category_id),
+  INDEX idx_p_active   (is_active),
+  INDEX idx_p_online   (is_online, is_active),
+  FULLTEXT KEY ft_p_name (name, name_search)
+);
+
+<i>-- 1 thùng Coca = 24 lon, mỗi cấp có mã vạch và giá riêng</i>
+CREATE TABLE product_units (
+  id              INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  product_id      INT UNSIGNED NOT NULL,
+  unit_id         SMALLINT UNSIGNED NOT NULL,
+  conversion_rate INT NOT NULL DEFAULT 1,       <i>-- quy ra bao nhiêu đơn vị cơ bản</i>
+  barcode         VARCHAR(32) UNIQUE,
+  sale_price      DECIMAL(12,2) NOT NULL,
+  UNIQUE KEY uq_pu (product_id, unit_id),
+  FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
+  FOREIGN KEY (unit_id)    REFERENCES units(id)
+);
+
+<i>-- Mã vạch tách thành bảng riêng: một mặt hàng có thể mang nhiều mã.</i>
+<i>-- Định nghĩa đầy đủ và lý do nằm ở mục "Mã vạch — hiểu cho đúng".</i>
+CREATE TABLE product_barcodes ( ... );
+
+<i>-- Nhớ kết quả tra mã ngoài thị trường, tra một lần dùng mãi</i>
+CREATE TABLE barcode_lookup_cache (
+  barcode    VARCHAR(48) PRIMARY KEY,
+  payload    JSON NOT NULL,                     <i>-- tên, thương hiệu, ảnh, nước sản xuất</i>
+  source     VARCHAR(30) NOT NULL,              <i>-- openfoodfacts | offline | manual</i>
+  fetched_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);</pre>
+
+  <div class="note">
+    <p><b>Vì sao có <code>product_units</code>:</b> cửa hàng tiện lợi bán cả lon lẻ lẫn cả thùng. Nếu chỉ có một mức đơn vị, quét mã vạch thùng sẽ trừ kho 1 thay vì 24. Tồn kho luôn quy về <em>đơn vị cơ bản</em>, chỉ khi hiển thị mới đổi ngược lại.</p>
+  </div>
+
+  <h4>Nhóm 3 — Kho</h4>
+<pre>CREATE TABLE warehouses (
+  id         SMALLINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  code       VARCHAR(20) NOT NULL UNIQUE,       <i>-- KHO01 (quầy), KHO02 (kho sau)</i>
+  name       VARCHAR(120) NOT NULL,
+  address    VARCHAR(255),
+  is_default BOOLEAN NOT NULL DEFAULT FALSE,
+  is_active  BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+<i>-- Tồn hiện tại. Đọc rất nhiều, ghi có khoá.</i>
+CREATE TABLE inventory (
+  product_id   INT UNSIGNED NOT NULL,
+  warehouse_id SMALLINT UNSIGNED NOT NULL,
+  quantity     DECIMAL(12,3) NOT NULL DEFAULT 0, <i>-- theo đơn vị cơ bản; lẻ được vì có hàng cân ký</i>
+  reserved     DECIMAL(12,3) NOT NULL DEFAULT 0, <i>-- đang giữ cho đơn online chưa giao</i>
+  updated_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (product_id, warehouse_id),
+  FOREIGN KEY (product_id)   REFERENCES products(id),
+  FOREIGN KEY (warehouse_id) REFERENCES warehouses(id),
+  INDEX idx_inv_wh (warehouse_id),
+  CHECK (quantity >= 0),
+  CHECK (reserved >= 0 AND reserved &lt;= quantity)
+);
+
+<i>-- SỔ CÁI KHO: chỉ thêm, không sửa, không xoá. Đây là bằng chứng.</i>
+CREATE TABLE inventory_transactions (
+  id            BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  product_id    INT UNSIGNED NOT NULL,
+  warehouse_id  SMALLINT UNSIGNED NOT NULL,
+  type ENUM('IMPORT','SALE','SALE_RETURN','SUPPLIER_RETURN','ADJUST',
+            'TRANSFER_IN','TRANSFER_OUT','DAMAGED','EXPIRED','SHRINKAGE') NOT NULL,
+  channel       ENUM('POS','ONLINE') NULL,      <i>-- bán ra từ kênh nào</i>
+  quantity      DECIMAL(12,3) NOT NULL,         <i>-- dương = nhập, âm = xuất</i>
+  balance_after DECIMAL(12,3) NOT NULL,         <i>-- tồn ngay sau giao dịch, dùng để đối soát</i>
+  unit_cost     DECIMAL(12,2) NOT NULL DEFAULT 0,
+  ref_type      VARCHAR(30),                    <i>-- order | stock_receipt | stock_take | return</i>
+  ref_id        BIGINT UNSIGNED,
+  batch_id      BIGINT UNSIGNED,
+  note          VARCHAR(255),
+  created_by    INT UNSIGNED,
+  created_at    DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (product_id) REFERENCES products(id),
+  FOREIGN KEY (created_by) REFERENCES users(id),
+  INDEX idx_it_product_time (product_id, created_at),
+  INDEX idx_it_ref (ref_type, ref_id)
+);
+
+<i>-- Lô hàng theo hạn dùng, xuất theo FEFO (hết hạn trước xuất trước)</i>
+CREATE TABLE product_batches (
+  id           BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  product_id   INT UNSIGNED NOT NULL,
+  warehouse_id SMALLINT UNSIGNED NOT NULL,
+  batch_code   VARCHAR(40),
+  expiry_date  DATE,
+  quantity     DECIMAL(12,3) NOT NULL DEFAULT 0,
+  cost_price   DECIMAL(12,2) NOT NULL DEFAULT 0,
+  receipt_id   BIGINT UNSIGNED,
+  created_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (product_id) REFERENCES products(id),
+  INDEX idx_batch_fefo (product_id, warehouse_id, expiry_date)
+);
+
+CREATE TABLE stock_receipts (            <i>-- phiếu nhập hàng</i>
+  id           BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  code         VARCHAR(20) NOT NULL UNIQUE,     <i>-- PN20260826-001</i>
+  supplier_id  INT UNSIGNED,
+  warehouse_id SMALLINT UNSIGNED NOT NULL,
+  subtotal     DECIMAL(14,2) NOT NULL DEFAULT 0,
+  discount     DECIMAL(14,2) NOT NULL DEFAULT 0,
+  total_amount DECIMAL(14,2) NOT NULL DEFAULT 0,
+  paid_amount  DECIMAL(14,2) NOT NULL DEFAULT 0,
+  status       ENUM('DRAFT','CONFIRMED','CANCELLED') NOT NULL DEFAULT 'DRAFT',
+  note         VARCHAR(255),
+  created_by   INT UNSIGNED NOT NULL,
+  confirmed_at DATETIME,
+  created_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (supplier_id)  REFERENCES suppliers(id),
+  FOREIGN KEY (warehouse_id) REFERENCES warehouses(id),
+  FOREIGN KEY (created_by)   REFERENCES users(id),
+  INDEX idx_sr_status (status, created_at)
+);
+
+CREATE TABLE stock_receipt_items (
+  id          BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  receipt_id  BIGINT UNSIGNED NOT NULL,
+  product_id  INT UNSIGNED NOT NULL,
+  quantity    DECIMAL(12,3) NOT NULL,
+  unit_cost   DECIMAL(12,2) NOT NULL,
+  line_total  DECIMAL(14,2) NOT NULL,
+  batch_code  VARCHAR(40),
+  expiry_date DATE,
+  FOREIGN KEY (receipt_id) REFERENCES stock_receipts(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE stock_takes (               <i>-- phiếu kiểm kê</i>
+  id           BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  code         VARCHAR(20) NOT NULL UNIQUE,     <i>-- KK20260826-001</i>
+  warehouse_id SMALLINT UNSIGNED NOT NULL,
+  status       ENUM('DRAFT','BALANCED','CANCELLED') NOT NULL DEFAULT 'DRAFT',
+  total_diff_value DECIMAL(14,2) NOT NULL DEFAULT 0,
+  note         VARCHAR(255),
+  created_by   INT UNSIGNED NOT NULL,
+  balanced_at  DATETIME,
+  created_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (warehouse_id) REFERENCES warehouses(id),
+  FOREIGN KEY (created_by)   REFERENCES users(id)
+);
+
+CREATE TABLE stock_take_items (
+  id              BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  stock_take_id   BIGINT UNSIGNED NOT NULL,
+  product_id      INT UNSIGNED NOT NULL,
+  system_quantity DECIMAL(12,3) NOT NULL,       <i>-- máy nói còn bao nhiêu</i>
+  actual_quantity DECIMAL(12,3) NOT NULL,       <i>-- đếm tay được bao nhiêu</i>
+  diff            DECIMAL(12,3) AS (actual_quantity - system_quantity) STORED,
+  reason          VARCHAR(255),
+  FOREIGN KEY (stock_take_id) REFERENCES stock_takes(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id)    REFERENCES products(id)
+);</pre>
+
+  <h4>Nhóm 4 — Bán hàng</h4>
+<pre>CREATE TABLE customers (
+  id             INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  code           VARCHAR(20) NOT NULL UNIQUE,   <i>-- KH000001</i>
+  name           VARCHAR(120) NOT NULL,
+  phone          VARCHAR(20) UNIQUE,            <i>-- khoá tra cứu tại quầy, cũng là tên đăng nhập</i>
+  email          VARCHAR(120) UNIQUE,
+  password_hash  VARCHAR(255),                  <i>-- NULL = khách do thu ngân tạo hộ, chưa có tài khoản online</i>
+  email_verified_at DATETIME,
+  avatar_url     VARCHAR(255),
+  source         ENUM('POS','ONLINE') NOT NULL DEFAULT 'POS',
+  address        VARCHAR(255),
+  birthday       DATE,
+  tier           ENUM('MEMBER','SILVER','GOLD') NOT NULL DEFAULT 'MEMBER',
+  loyalty_points INT NOT NULL DEFAULT 0,
+  total_spent    DECIMAL(14,2) NOT NULL DEFAULT 0,
+  note           VARCHAR(255),
+  is_active      BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_cus_phone (phone)
+);
+
+<i>-- Ca làm việc: mỗi thu ngân mở ca khi vào, đóng ca khi về, đối soát tiền két</i>
+CREATE TABLE shifts (
+  id            BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  code          VARCHAR(20) NOT NULL UNIQUE,
+  user_id       INT UNSIGNED NOT NULL,
+  warehouse_id  SMALLINT UNSIGNED NOT NULL,
+  opening_cash  DECIMAL(14,2) NOT NULL DEFAULT 0, <i>-- tiền lẻ đầu ca</i>
+  cash_sales    DECIMAL(14,2) NOT NULL DEFAULT 0,
+  qr_sales      DECIMAL(14,2) NOT NULL DEFAULT 0,
+  expected_cash DECIMAL(14,2) NOT NULL DEFAULT 0, <i>-- opening + cash_sales</i>
+  closing_cash  DECIMAL(14,2),                    <i>-- đếm tay cuối ca</i>
+  cash_diff     DECIMAL(14,2),                    <i>-- lệch: thừa/thiếu két</i>
+  total_orders  INT NOT NULL DEFAULT 0,
+  status        ENUM('OPEN','CLOSED') NOT NULL DEFAULT 'OPEN',
+  opened_at     DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  closed_at     DATETIME,
+  FOREIGN KEY (user_id)      REFERENCES users(id),
+  FOREIGN KEY (warehouse_id) REFERENCES warehouses(id),
+  INDEX idx_shift_open (user_id, status)
+);
+
+CREATE TABLE orders (
+  id              BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  code            VARCHAR(24) NOT NULL UNIQUE,  <i>-- HD20260826-0001</i>
+  customer_id     INT UNSIGNED,                 <i>-- NULL = khách lẻ</i>
+  user_id         INT UNSIGNED,                 <i>-- thu ngân; NULL với đơn khách tự đặt online</i>
+  warehouse_id    SMALLINT UNSIGNED NOT NULL,
+  shift_id        BIGINT UNSIGNED,
+  promotion_id    INT UNSIGNED,
+  subtotal        DECIMAL(14,2) NOT NULL DEFAULT 0,
+  discount_amount DECIMAL(14,2) NOT NULL DEFAULT 0,
+  tax_amount      DECIMAL(14,2) NOT NULL DEFAULT 0,
+  total_amount    DECIMAL(14,2) NOT NULL DEFAULT 0,
+  paid_amount     DECIMAL(14,2) NOT NULL DEFAULT 0,
+  change_amount   DECIMAL(14,2) NOT NULL DEFAULT 0,  <i>-- tiền trả khách</i>
+  points_used     INT NOT NULL DEFAULT 0,
+  points_earned   INT NOT NULL DEFAULT 0,
+  <i>-- POS:    DRAFT → PENDING_PAYMENT → COMPLETED</i>
+  <i>-- ONLINE: PENDING_CONFIRM → CONFIRMED → PACKING → SHIPPING → COMPLETED</i>
+  status ENUM('DRAFT','PENDING_PAYMENT','PENDING_CONFIRM','CONFIRMED','PACKING',
+              'SHIPPING','COMPLETED','CANCELLED','RETURNED','PARTIALLY_RETURNED')
+                  NOT NULL DEFAULT 'DRAFT',
+  payment_status  ENUM('UNPAID','PARTIAL','PAID','REFUNDED') NOT NULL DEFAULT 'UNPAID',
+  channel         ENUM('POS','ONLINE') NOT NULL DEFAULT 'POS',
+  delivery_method ENUM('AT_STORE','PICKUP','DELIVERY') NOT NULL DEFAULT 'AT_STORE',
+  shipping_fee    DECIMAL(12,2) NOT NULL DEFAULT 0,
+  reserve_expires_at DATETIME,                  <i>-- quá hạn thì job tự huỷ và trả hàng giữ về</i>
+  cancel_reason   VARCHAR(255),
+  idempotency_key CHAR(36) UNIQUE,              <i>-- chống bấm thanh toán 2 lần</i>
+  note            VARCHAR(255),
+  created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  completed_at    DATETIME,
+  FOREIGN KEY (customer_id) REFERENCES customers(id),
+  FOREIGN KEY (user_id)     REFERENCES users(id),
+  FOREIGN KEY (shift_id)    REFERENCES shifts(id),
+  INDEX idx_o_created (created_at),
+  INDEX idx_o_status  (status, created_at),
+  INDEX idx_o_channel (channel, status),
+  INDEX idx_o_customer(customer_id)
+);
+
+<i>-- Chụp lại tên & giá tại thời điểm bán. Đổi giá sau này không được làm sai hoá đơn cũ.</i>
+CREATE TABLE order_items (
+  id              BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  order_id        BIGINT UNSIGNED NOT NULL,
+  product_id      INT UNSIGNED NOT NULL,
+  product_unit_id INT UNSIGNED,
+  product_name    VARCHAR(200)  NOT NULL,       <i>-- bản chụp</i>
+  barcode         VARCHAR(32),                  <i>-- bản chụp</i>
+  unit_price      DECIMAL(12,2) NOT NULL,       <i>-- bản chụp giá bán</i>
+  cost_price      DECIMAL(12,2) NOT NULL,       <i>-- bản chụp giá vốn → tính lãi gộp</i>
+  quantity        DECIMAL(10,3) NOT NULL,       <i>-- DECIMAL vì có hàng cân ký 0.350 kg</i>
+  ordered_qty     DECIMAL(10,3),                <i>-- khách đặt bao nhiêu (hàng cân ký, chế độ APPROX)</i>
+  conversion_rate INT NOT NULL DEFAULT 1,
+  discount        DECIMAL(12,2) NOT NULL DEFAULT 0,
+  vat_rate        DECIMAL(4,2)  NOT NULL DEFAULT 0,
+  line_total      DECIMAL(14,2) NOT NULL,
+  returned_qty    DECIMAL(10,3) NOT NULL DEFAULT 0,
+  FOREIGN KEY (order_id)   REFERENCES orders(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id),
+  INDEX idx_oi_product (product_id)
+);
+
+CREATE TABLE order_returns (
+  id           BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  code         VARCHAR(24) NOT NULL UNIQUE,     <i>-- TH20260826-001</i>
+  order_id     BIGINT UNSIGNED NOT NULL,
+  user_id      INT UNSIGNED NOT NULL,
+  reason       VARCHAR(255),
+  total_refund DECIMAL(14,2) NOT NULL DEFAULT 0,
+  refund_method ENUM('CASH','QR_BANK','POINTS') NOT NULL DEFAULT 'CASH',
+  restock      BOOLEAN NOT NULL DEFAULT TRUE,   <i>-- hàng còn bán được thì nhập lại kho</i>
+  created_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (order_id) REFERENCES orders(id),
+  FOREIGN KEY (user_id)  REFERENCES users(id)
+);
+
+CREATE TABLE order_return_items (
+  id            BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  return_id     BIGINT UNSIGNED NOT NULL,
+  order_item_id BIGINT UNSIGNED NOT NULL,
+  product_id    INT UNSIGNED NOT NULL,
+  quantity      DECIMAL(10,3) NOT NULL,
+  refund_amount DECIMAL(14,2) NOT NULL,
+  FOREIGN KEY (return_id)     REFERENCES order_returns(id) ON DELETE CASCADE,
+  FOREIGN KEY (order_item_id) REFERENCES order_items(id)
+);</pre>
+
+  <h4>Nhóm 5 — Thanh toán</h4>
+<pre>CREATE TABLE payments (
+  id              BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  order_id        BIGINT UNSIGNED NOT NULL,
+  method          ENUM('CASH','QR_BANK','CARD','EWALLET','POINTS','DEBT') NOT NULL,
+  amount          DECIMAL(14,2) NOT NULL,
+  status          ENUM('PENDING','SUCCESS','FAILED','EXPIRED','REFUNDED')
+                  NOT NULL DEFAULT 'PENDING',
+  qr_content      TEXT,                         <i>-- chuỗi EMVCo đã sinh</i>
+  qr_expires_at   DATETIME,                     <i>-- QR sống 5 phút</i>
+  transaction_ref VARCHAR(80) UNIQUE,           <i>-- mã giao dịch ngân hàng</i>
+  raw_payload     JSON,
+  confirmed_by    INT UNSIGNED,                 <i>-- ai bấm xác nhận thủ công</i>
+  paid_at         DATETIME,
+  created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (order_id) REFERENCES orders(id),
+  INDEX idx_pay_order (order_id),
+  INDEX idx_pay_status (status, qr_expires_at)
+);
+
+<i>-- Nhật ký biến động số dư nhận từ webhook, dùng để đối soát</i>
+CREATE TABLE bank_transactions (
+  id               BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  gateway          VARCHAR(30) NOT NULL,        <i>-- MOCK | SEPAY | CASSO</i>
+  reference_code   VARCHAR(80) NOT NULL UNIQUE, <i>-- chống ghi trùng một giao dịch</i>
+  account_number   VARCHAR(40),
+  amount           DECIMAL(14,2) NOT NULL,
+  content          VARCHAR(255),                <i>-- nội dung CK, chứa mã đơn</i>
+  transaction_date DATETIME NOT NULL,
+  matched_order_id BIGINT UNSIGNED,
+  matched_at       DATETIME,
+  raw              JSON,
+  created_at       DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  INDEX idx_bt_matched (matched_order_id)
+);</pre>
+
+  <h4>Nhóm 6 — Khuyến mãi &amp; hệ thống</h4>
+<pre>CREATE TABLE promotions (
+  id               INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  code             VARCHAR(30) NOT NULL UNIQUE,
+  name             VARCHAR(160) NOT NULL,
+  type             ENUM('PERCENT','AMOUNT','BUY_X_GET_Y') NOT NULL,
+  value            DECIMAL(12,2) NOT NULL,      <i>-- 10 (%) hoặc 20000 (đ)</i>
+  buy_qty          INT, get_qty INT,            <i>-- cho kiểu mua 2 tặng 1</i>
+  min_order_amount DECIMAL(14,2) NOT NULL DEFAULT 0,
+  max_discount     DECIMAL(14,2),
+  start_at         DATETIME NOT NULL,
+  end_at           DATETIME NOT NULL,
+  usage_limit      INT, used_count INT NOT NULL DEFAULT 0,
+  is_active        BOOLEAN NOT NULL DEFAULT TRUE,
+  INDEX idx_promo_window (is_active, start_at, end_at)
+);
+
+CREATE TABLE promotion_targets (
+  promotion_id INT UNSIGNED NOT NULL,
+  target_type  ENUM('ALL','PRODUCT','CATEGORY') NOT NULL,
+  target_id    INT UNSIGNED,
+  PRIMARY KEY (promotion_id, target_type, target_id),
+  FOREIGN KEY (promotion_id) REFERENCES promotions(id) ON DELETE CASCADE
+);
+
+CREATE TABLE settings (
+  `key`      VARCHAR(60) PRIMARY KEY,           <i>-- store.name, bank.bin, bank.account, tax.default</i>
+  value      TEXT,
+  `group`    VARCHAR(30) NOT NULL DEFAULT 'general',
+  updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE audit_logs (
+  id          BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  user_id     INT UNSIGNED,
+  action      VARCHAR(60) NOT NULL,             <i>-- product.price_changed, order.cancelled</i>
+  entity_type VARCHAR(40),
+  entity_id   BIGINT UNSIGNED,
+  old_value   JSON,
+  new_value   JSON,
+  ip_address  VARCHAR(45),
+  created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  INDEX idx_al_entity (entity_type, entity_id),
+  INDEX idx_al_time (created_at)
+);</pre>
+
+  <div class="note warn">
+    <p><b>Ba bẫy hay gặp trong đồ án:</b> (1) dùng <code>FLOAT</code> cho tiền → tổng hoá đơn lệch vài đồng; (2) không lưu bản chụp giá vào <code>order_items</code> → sửa giá bán làm sai toàn bộ hoá đơn cũ; (3) không có <code>inventory_transactions</code> → khi tồn kho sai không ai biết sai từ đâu; (4) để <code>inventory.quantity</code> kiểu <code>INT</code> → không bán được 0,35 kg thịt, và sửa sau thì phải viết lại cả tầng kho.</p>
+  </div>
+</section>
+
+<!-- ============ 06 ============ -->
+<section id="s6">
+  <h2><em>06</em> Quy tắc tồn kho</h2>
+  <h3 class="title">Phần khó nhất của cả hệ thống</h3>
+  <p>Hai thu ngân cùng bán chai nước cuối cùng. Nếu code kiểu "đọc tồn → kiểm tra → ghi tồn" thì cả hai đều đọc thấy 1, cả hai đều bán, tồn kho về −1. Đây là lỗi kinh điển và là chỗ đáng để nói trong buổi bảo vệ.</p>
+
+  <h4>Cách sai</h4>
+<pre><u>_ SAI _</u>
+inv = db.query(Inventory).filter_by(product_id=pid).first()
+if inv.quantity >= qty:          <i># hai luồng cùng đọc thấy 1 tại đây</i>
+    inv.quantity -= qty
+    db.commit()</pre>
+
+  <h4>Cách đúng — để MySQL tự khoá</h4>
+<pre><u>_ ĐÚNG _</u> <i>-- điều kiện tồn nằm ngay trong WHERE, một câu lệnh nguyên tử</i>
+UPDATE inventory
+   SET quantity = quantity - :qty
+ WHERE product_id   = :product_id
+   AND warehouse_id = :warehouse_id
+   AND quantity     >= :qty;</pre>
+  <p>Nếu <code>rowcount == 0</code> nghĩa là không đủ tồn — rollback và báo <em>"Chỉ còn 1 sản phẩm"</em>. MySQL tự khoá dòng trong lúc <code>UPDATE</code>, luồng thứ hai phải xếp hàng chờ và sẽ thấy tồn đã là 0.</p>
+
+  <span class="filename">app/services/inventory_service.py</span>
+<pre><b>def</b> apply(db, *, product_id, warehouse_id, qty, type_, ref_type, ref_id, user_id, unit_cost=0):
+    <i>"""Cửa duy nhất được phép thay đổi tồn kho. qty âm = xuất, dương = nhập."""</i>
+    res = db.execute(text(<u>"""
+        UPDATE inventory SET quantity = quantity + :qty
+         WHERE product_id = :pid AND warehouse_id = :wid
+           AND quantity + :qty >= 0
+    """</u>), {"qty": qty, "pid": product_id, "wid": warehouse_id})
+
+    <b>if</b> res.rowcount == 0:
+        <b>raise</b> InsufficientStock(product_id)
+
+    balance = db.execute(text(
+        "SELECT quantity FROM inventory WHERE product_id=:pid AND warehouse_id=:wid"
+    ), {"pid": product_id, "wid": warehouse_id}).scalar()
+
+    db.add(InventoryTransaction(
+        product_id=product_id, warehouse_id=warehouse_id, type=type_,
+        quantity=qty, balance_after=balance, unit_cost=unit_cost,
+        ref_type=ref_type, ref_id=ref_id, created_by=user_id,
+    ))
+    <i># KHÔNG commit ở đây — để hàm gọi quyết định, đảm bảo cả đơn hàng cùng thành công hoặc cùng huỷ</i></pre>
+
+  <div class="grid2">
+    <div class="card">
+      <h4 style="margin-top:0">Giá vốn bình quân gia quyền</h4>
+      <p style="font-size:13.8px">Mỗi lần xác nhận phiếu nhập, cập nhật lại <code>products.cost_price</code>:</p>
+      <pre style="margin:8px 0 0; font-size:12px">vốn_mới = (tồn_cũ × vốn_cũ + sl_nhập × giá_nhập)
+          ÷ (tồn_cũ + sl_nhập)</pre>
+      <p style="font-size:13.5px; margin-bottom:0">Nhờ vậy báo cáo lợi nhuận mới đúng khi giá nhập thay đổi giữa các lô.</p>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Xuất theo FEFO <span class="pill p-2">GĐ 2</span></h4>
+      <p style="font-size:13.8px">Với hàng có <code>track_expiry</code>, trừ lô hết hạn sớm nhất trước:</p>
+      <pre style="margin:8px 0 0; font-size:12px">ORDER BY expiry_date ASC, id ASC</pre>
+      <p style="font-size:13.5px; margin-bottom:0">Trừ dần qua nhiều lô cho tới đủ số lượng, ghi <code>batch_id</code> vào sổ cái.</p>
+    </div>
+  </div>
+
+  <h4>Tồn thực tế và tồn bán được</h4>
+  <p>Khi có thêm kênh online, một mặt hàng có hai con số khác nhau. Mọi chỗ hỏi "còn hàng không" đều phải hỏi con số thứ hai:</p>
+<pre>tồn_bán_được = quantity − reserved</pre>
+  <p><code>quantity</code> là số hàng thật sự nằm trên kệ, <code>reserved</code> là số đã hứa cho đơn online chưa giao. Chi tiết cách giữ và trả hàng nằm ở mục <a href="#s13">Thương mại điện tử</a>.</p>
+
+  <h4>Job đối soát chạy hằng đêm <span class="pill p-3">Nâng cao</span></h4>
+  <p>Kiểm tra tổng sổ cái có bằng tồn hiện tại không. Lệch một dòng là biết ngay có bug.</p>
+<pre>SELECT i.product_id, i.quantity AS ton_hien_tai,
+       COALESCE(SUM(t.quantity), 0) AS tong_so_cai
+  FROM inventory i
+  LEFT JOIN inventory_transactions t
+         ON t.product_id = i.product_id AND t.warehouse_id = i.warehouse_id
+ GROUP BY i.product_id, i.quantity
+HAVING ton_hien_tai != tong_so_cai;   <i>-- rỗng = dữ liệu sạch</i></pre>
+</section>
+
+<!-- ============ 07 ============ -->
+<section id="s7">
+  <h2><em>07</em> Luồng bán hàng tại quầy</h2>
+  <h3 class="title">Từ lúc quét mã tới lúc xé hoá đơn</h3>
+  <ol class="flow">
+    <li><div><b>Thu ngân mở ca</b><p>Đăng nhập hoặc nhập PIN 4 số, khai tiền lẻ đầu ca. Hệ thống tạo bản ghi <code>shifts</code> trạng thái <code>OPEN</code>. Chưa mở ca thì nút thanh toán bị khoá.</p></div></li>
+    <li><div><b>Tạo đơn nháp</b><p>Bấm "Đơn mới" → <code>POST /orders</code> trả về đơn <code>DRAFT</code>. Có thể mở nhiều đơn nháp song song và bấm F9 để giữ đơn khi khách quay lại lấy thêm hàng.</p></div></li>
+    <li><div><b>Quét mã vạch</b><p>Máy quét gửi chuỗi số + phím Enter. Frontend gọi <code>GET /products/barcode/{code}</code>, nhận về sản phẩm kèm tồn hiện tại và mức đơn vị tương ứng, rồi thêm vào giỏ. Quét lại cùng mã thì tăng số lượng.</p></div></li>
+    <li><div><b>Không có mã vạch thì tìm tay</b><p>Ô tìm kiếm gõ không dấu (<code>coca</code> → <code>Cô-ca-cô-la</code>) nhờ cột <code>name_search</code>, hoặc bấm vào lưới sản phẩm theo danh mục — dành cho rau củ, hàng cân ký.</p></div></li>
+    <li><div><b>Gắn khách hàng &amp; khuyến mãi</b><p>Nhập số điện thoại → tìm trong <code>customers</code>. Không có thì tạo nhanh ngay tại quầy. Hệ thống tự áp khuyến mãi đang hiệu lực và tính điểm sẽ tích.</p></div></li>
+    <li><div><b>Chốt đơn</b><p><code>POST /orders/{id}/checkout</code> kèm <code>Idempotency-Key</code>. <strong>Đây là nơi mọi thứ xảy ra trong một transaction duy nhất.</strong></p></div></li>
+    <li><div><b>Thanh toán</b><p>Tiền mặt: nhập tiền khách đưa, hệ thống tính tiền trả khách. QR: hiện mã cho khách quét, xem mục <a href="#s8">08</a>.</p></div></li>
+    <li><div><b>In hoá đơn</b><p>Bản in khổ 58mm/80mm bằng CSS <code>@media print</code> — không cần thư viện driver máy in nào. Đơn chuyển sang <code>COMPLETED</code>, cộng dồn vào ca.</p></div></li>
+  </ol>
+
+  <h4>Transaction chốt đơn — thứ tự bắt buộc</h4>
+<pre><b>with</b> db.begin():                              <i># tất cả cùng thành công hoặc cùng huỷ</i>
+    order = lock_order(db, order_id)           <i># SELECT ... FOR UPDATE</i>
+    assert_not_completed(order)                <i># chống bấm 2 lần</i>
+
+    <b>for</b> item <b>in</b> order.items:
+        InventoryService.apply(                <i># 1. trừ kho + ghi sổ cái</i>
+            db, product_id=item.product_id, warehouse_id=order.warehouse_id,
+            qty=-(item.quantity * item.conversion_rate),
+            type_="SALE", ref_type="order", ref_id=order.id, user_id=user.id,
+        )
+
+    apply_promotions(db, order)                <i># 2. tính giảm giá</i>
+    order.total_amount = calc_total(order)     <i># 3. chốt tiền</i>
+    create_payment(db, order, method, amount)  <i># 4. ghi nhận thanh toán</i>
+    update_customer_points(db, order)          <i># 5. cộng/trừ điểm</i>
+    update_shift_totals(db, order)             <i># 6. cộng vào ca</i>
+    order.status = "COMPLETED"
+    order.completed_at = now()</pre>
+
+  <div class="note">
+    <p><b>Idempotency-Key:</b> frontend sinh một UUID cho mỗi lần bấm thanh toán và gửi kèm header. Backend lưu vào <code>orders.idempotency_key</code> (UNIQUE). Bấm hai lần vì mạng lag thì lần thứ hai đụng lỗi trùng khoá và trả về chính đơn cũ, thay vì trừ kho hai lần.</p>
+  </div>
+
+  <h4>Phím tắt bàn phím <span class="pill p-mvp">MVP</span></h4>
+  <p>Thu ngân giỏi không rời tay khỏi bàn phím. Đây là chi tiết nhỏ nhưng làm đồ án trông "thật".</p>
+  <div class="tw"><table>
+    <thead><tr><th>Phím</th><th>Chức năng</th><th>Phím</th><th>Chức năng</th></tr></thead>
+    <tbody>
+      <tr><td>F1</td><td>Tìm sản phẩm</td><td>F6</td><td>Sửa số lượng dòng đang chọn</td></tr>
+      <tr><td>F2</td><td>Tìm / thêm khách hàng</td><td>F7</td><td>Áp mã khuyến mãi</td></tr>
+      <tr><td>F3</td><td>Thanh toán tiền mặt</td><td>F8</td><td>Xoá dòng đang chọn</td></tr>
+      <tr><td>F4</td><td>Thanh toán QR</td><td>F9</td><td>Giữ đơn / mở đơn đã giữ</td></tr>
+      <tr><td>F5</td><td>Giảm giá cả đơn</td><td>Esc</td><td>Huỷ đơn nháp</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ 08 ============ -->
+<section id="s8">
+  <h2><em>08</em> Thanh toán quét mã QR</h2>
+  <h3 class="title">Tự sinh mã chuẩn ngân hàng, không tốn một đồng phí</h3>
+  <p>Mã QR chuyển khoản của ngân hàng Việt Nam theo chuẩn <strong>EMVCo</strong> — một chuỗi ký tự có cấu trúc, mã hoá thành ảnh QR. Bạn hoàn toàn tự dựng được chuỗi đó, không cần SDK trả phí. Khách mở app ngân hàng bất kỳ quét là ra sẵn số tài khoản, số tiền và nội dung chuyển khoản.</p>
+
+  <h4>Cấu trúc chuỗi EMVCo</h4>
+  <p>Mỗi trường có dạng <code>ID (2 số) + độ dài (2 số) + giá trị</code>, nối liền nhau, cuối cùng là 4 ký tự CRC16.</p>
+  <div class="tw"><table>
+    <thead><tr><th>ID</th><th>Nội dung</th><th>Giá trị</th></tr></thead>
+    <tbody>
+      <tr><td><code>00</code></td><td>Phiên bản</td><td><code>01</code></td></tr>
+      <tr><td><code>01</code></td><td>Loại mã</td><td><code>12</code> — QR động, dùng một lần (<code>11</code> là QR tĩnh)</td></tr>
+      <tr><td><code>38</code></td><td>Thông tin nhận tiền</td><td><code>00</code>: <code>A000000727</code> · <code>01</code> → <code>00</code>: mã BIN ngân hàng, <code>01</code>: số tài khoản · <code>02</code>: <code>QRIBFTTA</code></td></tr>
+      <tr><td><code>53</code></td><td>Tiền tệ</td><td><code>704</code> (VND)</td></tr>
+      <tr><td><code>54</code></td><td>Số tiền</td><td>Tổng đơn hàng, số nguyên</td></tr>
+      <tr><td><code>58</code></td><td>Quốc gia</td><td><code>VN</code></td></tr>
+      <tr><td><code>62</code> → <code>08</code></td><td>Nội dung chuyển khoản</td><td><strong>Mã đơn hàng</strong> — chính là chìa khoá để đối soát tự động</td></tr>
+      <tr><td><code>63</code></td><td>CRC16</td><td>CCITT-FALSE, poly <code>0x1021</code>, init <code>0xFFFF</code></td></tr>
+    </tbody>
+  </table></div>
+
+  <span class="filename">app/services/vietqr.py</span>
+<pre><b>def</b> tlv(id_: str, value: str) -&gt; str:
+    <b>return</b> f"{id_}{len(value):02d}{value}"
+
+<b>def</b> crc16(data: str) -&gt; int:
+    crc = 0xFFFF
+    <b>for</b> ch <b>in</b> data.encode("utf-8"):
+        crc ^= ch &lt;&lt; 8
+        <b>for</b> _ <b>in</b> range(8):
+            crc = ((crc &lt;&lt; 1) ^ 0x1021) &amp; 0xFFFF <b>if</b> crc &amp; 0x8000 <b>else</b> (crc &lt;&lt; 1) &amp; 0xFFFF
+    <b>return</b> crc
+
+<b>def</b> build_vietqr(bank_bin: str, account: str, amount: int, content: str) -&gt; str:
+    beneficiary = tlv("00", "A000000727") \
+                + tlv("01", tlv("00", bank_bin) + tlv("01", account)) \
+                + tlv("02", "QRIBFTTA")          <i># chuyển tới tài khoản</i>
+    payload = (
+        tlv("00", "01") + tlv("01", "12")        <i># QR động</i>
+        + tlv("38", beneficiary)
+        + tlv("53", "704") + tlv("54", str(int(amount)))
+        + tlv("58", "VN")
+        + tlv("62", tlv("08", content))          <i># nội dung = mã đơn HD20260826-0001</i>
+    ) + "6304"                                   <i># tiền tố CRC phải nằm trong phần tính CRC</i>
+    <b>return</b> payload + f"{crc16(payload):04X}"
+
+<i># Render ra ảnh, trả base64 cho frontend</i>
+<b>import</b> qrcode, io, base64
+img = qrcode.make(build_vietqr("970436", "1234567890", 185000, "HD202608260001"))
+buf = io.BytesIO(); img.save(buf, format="PNG")
+data_uri = "data:image/png;base64," + base64.b64encode(buf.getvalue()).decode()</pre>
+
+  <div class="note">
+    <p><b>Mã BIN ngân hàng</b> là số 6 chữ số cố định, tra một lần rồi lưu vào bảng <code>settings</code>: Vietcombank <code>970436</code>, Techcombank <code>970407</code>, MB Bank <code>970422</code>, BIDV <code>970418</code>, VietinBank <code>970415</code>, ACB <code>970416</code>, TPBank <code>970423</code>.</p>
+  </div>
+
+  <h4>Luồng thanh toán QR</h4>
+  <ol class="flow">
+    <li><div><b>Thu ngân bấm F4</b><p><code>POST /orders/{id}/payments/qr</code>. Backend tạo bản ghi <code>payments</code> trạng thái <code>PENDING</code>, sinh chuỗi QR với nội dung là mã đơn, đặt hạn 5 phút.</p></div></li>
+    <li><div><b>Màn hình hiện QR cho khách</b><p>Kèm số tiền, tên cửa hàng và đồng hồ đếm ngược. Nếu có màn hình phụ quay về phía khách thì mở ở đó.</p></div></li>
+    <li><div><b>Khách quét bằng app ngân hàng</b><p>App tự điền sẵn số tài khoản, số tiền, nội dung. Khách chỉ việc xác nhận.</p></div></li>
+    <li><div><b>Hệ thống nhận biến động số dư</b><p>Webhook <code>POST /webhooks/bank</code> nhận payload, ghi vào <code>bank_transactions</code>, tìm mã đơn trong trường <code>content</code>, đối chiếu số tiền.</p></div></li>
+    <li><div><b>Khớp đúng thì tự xác nhận</b><p>Cập nhật <code>payments.status = SUCCESS</code>, đơn chuyển <code>COMPLETED</code>. Frontend đang hỏi trạng thái mỗi 2 giây sẽ thấy và tự nhảy sang màn hình in hoá đơn.</p></div></li>
+    <li><div><b>Hết hạn hoặc lệch tiền</b><p>Quá 5 phút chưa nhận được tiền → <code>EXPIRED</code>, giải phóng <code>reserved</code>. Tiền về không khớp số → đánh dấu chờ xử lý tay, không tự chốt đơn.</p></div></li>
+  </ol>
+
+  <h4>Ba mức xác nhận — làm dần theo thời gian</h4>
+  <div class="tw"><table>
+    <thead><tr><th>Mức</th><th>Cách làm</th><th>Chi phí</th><th>Ưu tiên</th></tr></thead>
+    <tbody>
+      <tr><td>Xác nhận tay</td><td>Thu ngân nhìn app ngân hàng trên điện thoại thấy tiền về rồi bấm nút <em>"Đã nhận tiền"</em>. Ghi lại <code>confirmed_by</code>.</td><td>0đ</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Mô phỏng tự động</td><td>Một trang <code>/demo/bank</code> giả lập app ngân hàng, bấm "Chuyển khoản" là bắn webhook có ký HMAC vào hệ thống. Demo được toàn bộ luồng tự động khi bảo vệ.</td><td>0đ</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Ngân hàng thật</td><td>Dịch vụ đọc biến động số dư (SePay, Casso) bắn webhook thật. Chỉ cần đổi <code>gateway</code>, cấu trúc bảng và endpoint giữ nguyên.</td><td>Có gói miễn phí giới hạn</td><td><span class="pill p-3">Nâng cao</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note warn">
+    <p><b>Bảo vệ webhook:</b> endpoint này ai gọi cũng được, nên bắt buộc (1) ký HMAC-SHA256 payload bằng secret dùng chung và so sánh bằng <code>hmac.compare_digest</code>, (2) chặn ghi trùng bằng <code>UNIQUE</code> trên <code>reference_code</code>, (3) chỉ chấp nhận khi số tiền khớp chính xác. Thiếu một trong ba là người khác tự "thanh toán" đơn hộ bạn.</p>
+  </div>
+</section>
+
+<!-- ============ 09 ============ -->
+<section id="s9">
+  <h2><em>09</em> Mã vạch — hiểu cho đúng</h2>
+  <h3 class="title">Mã vạch chỉ là một cái chìa khoá, không phải cái tủ</h3>
+  <p>Đây là phần bị hiểu nhầm nhiều nhất khi làm hệ thống bán hàng, nên nói cho rõ trước khi code: <strong>mã vạch không chứa thông tin sản phẩm.</strong> Nó chỉ là một dãy số. Máy quét đọc dãy số đó rồi đưa cho phần mềm, phần mềm phải tự tra trong cơ sở dữ liệu của mình xem dãy số ấy ứng với hàng gì.</p>
+
+  <h4>Quét được những loại mã nào?</h4>
+  <p>Phải tách làm hai câu hỏi khác nhau — <em>đọc được</em> và <em>hiểu được</em>.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Loại mã</th><th>Gặp ở đâu</th><th>Máy quét USB</th><th>Camera điện thoại</th></tr></thead>
+    <tbody>
+      <tr><td><code>EAN-13</code></td><td>Hầu hết hàng đóng gói bán lẻ ở Việt Nam</td><td>Có</td><td>Có</td></tr>
+      <tr><td><code>EAN-8</code></td><td>Gói nhỏ, không đủ chỗ in mã dài</td><td>Có</td><td>Có</td></tr>
+      <tr><td><code>UPC-A / UPC-E</code></td><td>Hàng nhập từ Mỹ</td><td>Có</td><td>Có</td></tr>
+      <tr><td><code>Code 128 / Code 39</code></td><td>Tem nội bộ, tem kho, tem vận chuyển</td><td>Có</td><td>Có</td></tr>
+      <tr><td><code>ITF-14</code></td><td>Mã in trên thùng carton</td><td>Có</td><td>Có</td></tr>
+      <tr><td><code>QR Code</code></td><td>Mã thanh toán, mã ghép cặp thiết bị</td><td>Chỉ máy quét 2D</td><td>Có</td></tr>
+      <tr><td><code>DataMatrix</code></td><td>Dược phẩm, linh kiện nhỏ</td><td>Chỉ máy quét 2D</td><td>Có</td></tr>
+    </tbody>
+  </table></div>
+  <p>Máy quét laser loại rẻ (150–300k) chỉ đọc mã một chiều — đủ dùng cho tạp hoá. Máy quét ảnh 2D đọc thêm QR và DataMatrix. Camera điện thoại qua thư viện <code>@zxing/browser</code> đọc được <strong>tất cả</strong> các loại trên, chỉ chậm hơn một chút.</p>
+
+  <div class="note warn">
+    <p><b>Nhưng đọc được không có nghĩa là bán được.</b> Máy quét trả về chuỗi <code>8934588063053</code> và dừng ở đó. Nó không biết đấy là chai nước hay gói mì. <strong>Bắt buộc mã đó phải có trong bảng dữ liệu của bạn thì mới thêm được vào đơn hàng.</strong> Không có thì hệ thống báo "Mã chưa có trong hệ thống" và mở luồng tạo nhanh sản phẩm — mô tả ngay bên dưới.</p>
+  </div>
+
+  <h4>Trong dãy số EAN-13 có gì?</h4>
+<pre>  8 9 3   4 5 8 8   0 6 3 0 5   3
+  └─┬─┘   └──┬──┘   └───┬───┘   ┬
+    │        │          │       └── số kiểm tra, tính từ 12 số trước
+    │        │          └────────── mã mặt hàng do doanh nghiệp tự đặt
+    │        └───────────────────── mã doanh nghiệp, GS1 cấp
+    └────────────────────────────── mã quốc gia (893 = Việt Nam)</pre>
+  <p>Từ dãy số này bạn suy ra được <strong>hàng sản xuất ở nước nào</strong> và <strong>doanh nghiệp nào đăng ký</strong>. Bạn <strong>không</strong> suy ra được tên hàng, dung tích, giá, hạn dùng — những thứ đó nằm trong cơ sở dữ liệu của GS1 và của chính doanh nghiệp, không nằm trong dãy số.</p>
+
+  <h4>Vậy lấy thông tin sản phẩm từ mã ngoài thị trường bằng cách nào?</h4>
+  <p>Phải tra một cơ sở dữ liệu bên ngoài. Đây là các lựa chọn miễn phí, xếp theo mức nên dùng:</p>
+  <div class="tw"><table>
+    <thead><tr><th>Nguồn</th><th>Trả về gì</th><th>Chi phí</th><th>Đánh giá</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Open Food Facts</strong><br><code>world.openfoodfacts.org</code></td><td>Tên sản phẩm, thương hiệu, khối lượng, ảnh, thành phần, dinh dưỡng</td><td>Miễn phí, không cần khoá API, dữ liệu mở</td><td><strong>Nên dùng.</strong> Cộng đồng đóng góp nên hàng Việt Nam có khá nhiều nhưng không đủ hết — coi như gợi ý, không coi là chân lý</td></tr>
+      <tr><td>Tra mã doanh nghiệp GS1</td><td>Tên doanh nghiệp sở hữu dải mã</td><td>Miễn phí</td><td>Chỉ ra được nhà sản xuất, không ra tên hàng. Dùng để gợi ý cột thương hiệu</td></tr>
+      <tr><td>Suy từ mã quốc gia</td><td>Nước sản xuất</td><td>Miễn phí, tính offline</td><td>Ba số đầu tra bảng cố định. Không cần mạng, luôn có kết quả</td></tr>
+      <tr><td>Barcode Lookup, UPCitemdb…</td><td>Tên, ảnh, danh mục</td><td>Giới hạn vài trăm lượt rồi thu phí</td><td>Không nên phụ thuộc cho đồ án</td></tr>
+    </tbody>
+  </table></div>
+
+  <span class="filename">app/services/barcode_lookup.py</span>
+<pre>GS1_COUNTRY = {"893": "Việt Nam", "880": "Hàn Quốc", "885": "Thái Lan",
+               "690": "Trung Quốc", "899": "Indonesia", "955": "Malaysia",
+               "471": "Đài Loan", "489": "Hồng Kông", "450": "Nhật Bản"}
+
+<b>async def</b> lookup(barcode: str, db) -&gt; dict:
+    <i># 1. Đã tra rồi thì lấy trong cache, không gọi mạng lần nữa</i>
+    <b>if</b> cached := db.get(BarcodeLookupCache, barcode):
+        <b>return</b> cached.payload
+
+    result = {"barcode": barcode,
+              "country": GS1_COUNTRY.get(barcode[:3]),   <i># luôn có, tính offline</i>
+              "name": None, "brand": None, "image_url": None,
+              "source": "offline"}
+
+    <i># 2. Thử Open Food Facts, hỏng thì bỏ qua — không được làm sập luồng nhập hàng</i>
+    <b>try</b>:
+        url = f"https://world.openfoodfacts.org/api/v2/product/{barcode}.json"
+        <b>async with</b> httpx.AsyncClient(timeout=4) <b>as</b> c:
+            data = (<b>await</b> c.get(url)).json()
+        <b>if</b> data.get("status") == 1:
+            p = data["product"]
+            result |= {"name": p.get("product_name"),
+                       "brand": p.get("brands"),
+                       "quantity": p.get("quantity"),
+                       "image_url": p.get("image_front_url"),
+                       "source": "openfoodfacts"}
+    <b>except</b> Exception:
+        <b>pass</b>                       <i># mất mạng vẫn nhập hàng tay được bình thường</i>
+
+    db.add(BarcodeLookupCache(barcode=barcode, payload=result))
+    <b>return</b> result</pre>
+
+  <div class="note">
+    <p><b>Điều tra được chỉ là tiện lợi nhập liệu.</b> Không nguồn nào biết cửa hàng bạn bán chai nước đó bao nhiêu tiền, nhập giá bao nhiêu, còn mấy chai. <strong>Giá bán, giá vốn, tồn kho, hạn dùng luôn luôn do bạn nhập.</strong> Tra cứu chỉ giúp khỏi phải gõ tên và tìm ảnh — tiết kiệm khoảng 80% thao tác khi thêm hàng mới, nhưng không thay được bạn.</p>
+  </div>
+
+  <h4>Luồng quét một mã lạ</h4>
+  <ol class="flow">
+    <li><div><b>Quét mã chưa có trong hệ thống</b><p>POS gọi <code>GET /products/barcode/{code}</code> nhận về 404 kèm cờ <code>can_create: true</code>.</p></div></li>
+    <li><div><b>Hệ thống tự tra thông tin</b><p>Gọi <code>GET /barcode/lookup/{code}</code> ở nền. Trong khi chờ đã hiện sẵn nước sản xuất suy từ ba số đầu.</p></div></li>
+    <li><div><b>Hiện hộp thoại tạo nhanh</b><p>Tên, thương hiệu, ảnh đã điền sẵn nếu tra được. Người dùng chỉ cần gõ <strong>giá bán, giá vốn, danh mục</strong> và bấm lưu.</p></div></li>
+    <li><div><b>Mã được gắn vào sản phẩm</b><p>Ghi một dòng vào <code>product_barcodes</code>. Từ lần sau quét là ra ngay, không cần tra mạng nữa.</p></div></li>
+  </ol>
+
+  <h4>Một mặt hàng, nhiều mã vạch</h4>
+  <p>Thực tế cửa hàng: cùng một loại sữa nhưng thùng có mã <code>ITF-14</code> riêng, hộp lẻ có mã <code>EAN-13</code> riêng; nhà sản xuất đổi bao bì thì đổi luôn mã, mà hàng cũ vẫn còn trên kệ; hai nhà cung cấp nhập cùng một mặt hàng với hai mã khác nhau. Vì vậy <strong>không dùng một cột <code>barcode</code> duy nhất trong bảng <code>products</code></strong> mà tách ra bảng riêng:</p>
+<pre>CREATE TABLE product_barcodes (
+  id              BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  barcode         VARCHAR(48) NOT NULL UNIQUE,   <i>-- một mã chỉ thuộc về một sản phẩm</i>
+  product_id      INT UNSIGNED NOT NULL,
+  product_unit_id INT UNSIGNED,                  <i>-- mã này là mã lon hay mã thùng</i>
+  symbology       ENUM('EAN13','EAN8','UPCA','CODE128','ITF14','INTERNAL','OTHER')
+                  NOT NULL DEFAULT 'EAN13',
+  source          ENUM('MANUFACTURER','INTERNAL','SUPPLIER') NOT NULL DEFAULT 'MANUFACTURER',
+  is_primary      BOOLEAN NOT NULL DEFAULT FALSE,<i>-- mã hiển thị &amp; in tem mặc định</i>
+  note            VARCHAR(120),
+  created_at      DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (product_id)      REFERENCES products(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_unit_id) REFERENCES product_units(id),
+  INDEX idx_pb_product (product_id)
+);</pre>
+  <p>Quét mã nào cũng ra đúng sản phẩm, và biết luôn là quét thùng hay quét lon để trừ kho cho đúng số lượng. Ràng buộc <code>UNIQUE</code> trên <code>barcode</code> đảm bảo không bao giờ một mã trỏ tới hai mặt hàng.</p>
+
+  <h4>Sinh mã nội bộ và in tem hàng loạt</h4>
+  <p>Có hai việc khác nhau hay bị gộp làm một — cần tách rõ vì mỗi việc một chức năng riêng:</p>
+  <div class="tw"><table>
+    <thead><tr><th></th><th>Sinh mã nội bộ</th><th>In tem hàng loạt</th></tr></thead>
+    <tbody>
+      <tr><td>Dùng khi</td><td>Mặt hàng chưa có mã của nhà sản xuất</td><td>Đã có mã rồi, cần nhiều tem để dán</td></tr>
+      <tr><td>Sinh ra</td><td><strong>Một</strong> mã EAN-13 mới cho <strong>một loại hàng</strong></td><td><strong>N tem giống hệt nhau</strong> của cùng một mã</td></tr>
+      <tr><td>Bao lâu một lần</td><td>Một lần duy nhất, lúc tạo sản phẩm</td><td>Mỗi lần nhập hàng về</td></tr>
+      <tr><td>Endpoint</td><td><code>POST /products/{id}/barcode</code></td><td><code>POST /labels/print</code></td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note warn">
+    <p><b>Điểm dễ nhầm nhất:</b> mã vạch định danh <strong>loại hàng</strong>, không định danh <strong>từng sản phẩm cụ thể</strong>. Nhập về 50 gói kẹo cùng loại thì cả 50 gói dán <strong>đúng một mã giống hệt nhau</strong> — không phải 50 mã khác nhau. Đó là lý do quét gói nào cũng ra cùng một sản phẩm và cùng một giá. Chỉ hàng cần truy xuất từng cái (điện thoại có IMEI, thuốc theo lô) mới cần mã riêng cho từng đơn vị, và tạp hoá thì không cần.</p>
+  </div>
+
+  <span class="filename">app/services/barcode.py</span>
+<pre><b>def</b> ean13_check_digit(code12: str) -&gt; str:
+    <i># nhân xen kẽ 1, 3 từ trái sang; số kiểm tra làm tổng tròn chục</i>
+    total = sum(int(d) * (3 <b>if</b> i % 2 <b>else</b> 1) <b>for</b> i, d <b>in</b> enumerate(code12))
+    <b>return</b> str((10 - total % 10) % 10)
+
+<b>def</b> is_valid_ean13(code: str) -&gt; bool:
+    <b>return</b> len(code) == 13 <b>and</b> code.isdigit() <b>and</b> code[12] == ean13_check_digit(code[:12])
+
+<b>def</b> generate_internal_barcode(product_id: int) -&gt; str:
+    <i># tiền tố 2 là dải GS1 dành riêng cho nội bộ cửa hàng,</i>
+    <i># chắc chắn không đụng mã của bất kỳ nhà sản xuất nào trên thế giới</i>
+    body = f"200{product_id:09d}"
+    <b>return</b> body + ean13_check_digit(body)</pre>
+
+  <p>Màn hình in tem: chọn mặt hàng, chọn số lượng tem, chọn khổ giấy (tem cuộn 3×2cm hoặc giấy A4 in được 65 tem), tuỳ chọn in kèm tên và giá bán. Sinh mã bằng <code>jsbarcode</code> ra SVG rồi in bằng CSS <code>@media print</code> — không cần driver máy in tem nào cả.</p>
+  <p>Tiện lợi thêm: sau khi xác nhận phiếu nhập, hệ thống hỏi luôn <em>"In tem cho các mặt hàng vừa nhập?"</em> và điền sẵn số lượng tem đúng bằng số lượng vừa nhập về.</p>
+</section>
+
+<section id="s10">
+  <h2><em>10</em> Điện thoại làm máy quét</h2>
+  <h3 class="title">Ghép cặp điện thoại với màn hình thu ngân</h3>
+  <p>Không phải ai cũng có sẵn máy quét USB. Điện thoại có camera là quét được — chỉ cần một đường dẫn để mã vừa quét chạy từ điện thoại sang màn hình bán hàng. Hệ thống hỗ trợ <strong>ba chế độ</strong>, dùng chung một hạ tầng.</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>Chế độ</th><th>Cách dùng</th><th>Dành cho</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Ghép cặp</strong></td><td>Điện thoại là máy quét, mã hiện lên màn hình máy tính</td><td>Quầy thu ngân không có máy quét USB</td></tr>
+      <tr><td><strong>Độc lập</strong></td><td>Điện thoại quét và tự xử lý tại chỗ</td><td>Kiểm kê trong kho, nhập hàng ngay khi bốc dỡ</td></tr>
+      <tr><td><strong>Tra cứu</strong></td><td>Quét để xem giá và tồn, không thêm vào đơn</td><td>Nhân viên trả lời khách hỏi giá giữa các kệ</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Luồng ghép cặp</h4>
+  <ol class="flow">
+    <li><div><b>Máy tính mở màn hình bán hàng</b><p>Bấm biểu tượng điện thoại → gọi <code>POST /scanner/sessions</code>. Server tạo một phiên, trả về mã ghép cặp 6 số và một mã QR chứa đường dẫn kèm token.</p></div></li>
+    <li><div><b>Điện thoại vào phiên</b><p>Quét mã QR trên màn hình bằng camera thường, hoặc mở <code>cuahang.local/scan</code> rồi gõ 6 số. Không cần cài app.</p></div></li>
+    <li><div><b>Máy tính mở kênh nhận</b><p>Giữ một kết nối WebSocket <code>/ws/scanner/{session_id}</code> để chờ mã bắn về.</p></div></li>
+    <li><div><b>Quét</b><p>Điện thoại bật camera, <code>@zxing/browser</code> đọc mã, rung nhẹ báo thành công, gửi <code>POST /scanner/sessions/{id}/scan</code>.</p></div></li>
+    <li><div><b>Mã hiện trên máy tính</b><p>Server đẩy xuống WebSocket, frontend gọi đúng hàm <code>onScan</code> mà máy quét USB vẫn gọi. <strong>Phần còn lại của mã nguồn không cần biết mã đến từ đâu.</strong></p></div></li>
+    <li><div><b>Tự đóng phiên</b><p>Hết hạn sau 8 tiếng hoặc khi thu ngân đóng ca. Rời trang là ngắt kết nối.</p></div></li>
+  </ol>
+
+<pre>CREATE TABLE scanner_sessions (
+  id           CHAR(36) PRIMARY KEY,               <i>-- UUID</i>
+  pair_code    CHAR(6) NOT NULL,                   <i>-- 6 số gõ tay</i>
+  user_id      INT UNSIGNED NOT NULL,              <i>-- ai mở phiên</i>
+  device_label VARCHAR(60),                        <i>-- "iPhone của Lâm"</i>
+  mode         ENUM('PAIRED','STANDALONE','LOOKUP') NOT NULL DEFAULT 'PAIRED',
+  status       ENUM('WAITING','ACTIVE','EXPIRED') NOT NULL DEFAULT 'WAITING',
+  scan_count   INT NOT NULL DEFAULT 0,
+  expires_at   DATETIME NOT NULL,
+  created_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (user_id) REFERENCES users(id),
+  INDEX idx_ss_code (pair_code, status)
+);</pre>
+
+  <h4>Điểm mấu chốt về mặt kiến trúc</h4>
+  <p>Cả ba nguồn mã — máy quét USB, camera điện thoại, gõ tay — đều đổ vào <strong>đúng một hàm</strong>. Nhờ vậy thêm nguồn mới không phải sửa logic bán hàng.</p>
+<pre><i>// PosPage.tsx — ba nguồn, một cửa vào</i>
+<b>const</b> handleScan = useCallback(<b>async</b> (code: string) =&gt; {
+  <b>const</b> product = <b>await</b> api.findByBarcode(code);
+  <b>if</b> (!product) <b>return</b> openCreateProductDialog(code);   <i>// mã lạ → tạo nhanh</i>
+  addToCart(product);
+  beep();
+}, []);
+
+useBarcodeScanner(handleScan);          <i>// máy quét USB cắm cổng USB</i>
+useRemoteScanner(sessionId, handleScan); <i>// điện thoại qua WebSocket</i>
+<i>// ô tìm kiếm gõ tay cũng gọi handleScan khi nhấn Enter</i></pre>
+
+  <span class="filename">src/hooks/useRemoteScanner.ts</span>
+<pre><b>export function</b> useRemoteScanner(sessionId: string | null, onScan: (c: string) =&gt; void) {
+  useEffect(() =&gt; {
+    <b>if</b> (!sessionId) <b>return</b>;
+    <b>const</b> ws = <b>new</b> WebSocket(`${WS_URL}/ws/scanner/${sessionId}`);
+    ws.onmessage = (e) =&gt; {
+      <b>const</b> msg = JSON.parse(e.data);
+      <b>if</b> (msg.type === "scan") onScan(msg.barcode);
+    };
+    <b>return</b> () =&gt; ws.close();
+  }, [sessionId, onScan]);
+}</pre>
+
+  <div class="note warn">
+    <p><b>Camera chỉ chạy trên HTTPS.</b> Trình duyệt chặn <code>getUserMedia</code> trên kết nối không mã hoá, trừ <code>localhost</code>. Điện thoại truy cập máy tính qua địa chỉ mạng nội bộ kiểu <code>192.168.1.10</code> thì <strong>camera sẽ không mở được</strong>. Cách xử lý và các lệnh cụ thể nằm ngay bên dưới. <strong>Làm chỗ này từ tuần đầu</strong> — để tới lúc demo mới phát hiện thì rất mất thời gian.</p>
+  </div>
+
+  <h4>Dựng HTTPS cho mạng nội bộ bằng mkcert</h4>
+  <p><code>mkcert</code> tạo một tổ chức chứng thực riêng ngay trên máy bạn rồi cấp chứng chỉ cho địa chỉ mạng nội bộ. Trình duyệt tin chứng chỉ đó nên camera mở được, mà không tốn tiền mua chứng chỉ thật cũng không cần tên miền công khai.</p>
+
+  <span class="filename">Bước 1 · Cài và tạo chứng chỉ trên máy chạy server</span>
+<pre><i># macOS</i>
+brew install mkcert nss          <i># nss để Firefox cũng tin</i>
+<i># Windows</i>
+choco install mkcert
+<i># Ubuntu</i>
+sudo apt install libnss3-tools &amp;&amp; brew install mkcert
+
+mkcert -install                  <i># tạo và cài tổ chức chứng thực nội bộ vào máy này</i>
+
+<i># Xem địa chỉ mạng nội bộ của máy: macOS/Linux dùng `ip addr`, Windows dùng `ipconfig`</i>
+mkcert 192.168.1.10 localhost 127.0.0.1 ::1 taphoa.local
+
+<i># Sinh ra hai file, để vào thư mục certs/ trong dự án:</i>
+<i>#   192.168.1.10+4.pem       ← chứng chỉ</i>
+<i>#   192.168.1.10+4-key.pem   ← khoá riêng (nhớ cho vào .gitignore)</i></pre>
+
+  <span class="filename">Bước 2 · Nối vào backend và frontend</span>
+<pre><i># FastAPI</i>
+uvicorn app.main:app --host 0.0.0.0 --port 8000 \
+        --ssl-keyfile certs/192.168.1.10+4-key.pem \
+        --ssl-certfile certs/192.168.1.10+4.pem</pre>
+<pre><i>// vite.config.ts</i>
+<b>import</b> fs <b>from</b> "node:fs";
+<b>export default</b> defineConfig({
+  server: {
+    host: <b>true</b>,                      <i>// nghe trên mọi địa chỉ, không chỉ localhost</i>
+    https: {
+      key:  fs.readFileSync("certs/192.168.1.10+4-key.pem"),
+      cert: fs.readFileSync("certs/192.168.1.10+4.pem"),
+    },
+  },
+});</pre>
+
+  <span class="filename">Bước 3 · Cho điện thoại tin chứng chỉ đó</span>
+<pre>mkcert -CAROOT                   <i># in ra thư mục chứa rootCA.pem</i></pre>
+  <p>Chép <code>rootCA.pem</code> sang điện thoại (gửi qua Zalo/AirDrop/email cho chính mình là được):</p>
+  <ul>
+    <li><strong>iPhone:</strong> mở file → cài hồ sơ cấu hình → <em>Cài đặt → Cài đặt chung → Quản lý VPN &amp; Thiết bị</em> cài hồ sơ vừa tải → rồi <strong>bắt buộc</strong> vào <em>Cài đặt chung → Giới thiệu → Cài đặt tin cậy chứng chỉ</em> và bật công tắc cho chứng chỉ đó. <strong>Bỏ qua bước bật tin cậy là vẫn báo lỗi</strong> — đây là chỗ hay mắc nhất.</li>
+    <li><strong>Android:</strong> <em>Cài đặt → Bảo mật → Mã hoá &amp; thông tin xác thực → Cài chứng chỉ → Chứng chỉ CA</em>, chọn file rồi xác nhận. Chrome trên Android tin chứng chỉ người dùng cài nên duyệt web bình thường.</li>
+  </ul>
+  <p>Xong bước này, mở <code>https://192.168.1.10:5173/scan</code> trên điện thoại là camera bật được, không còn cảnh báo bảo mật.</p>
+
+  <h4>Ba cách dựng HTTPS — chọn theo tình huống</h4>
+  <div class="tw"><table>
+    <thead><tr><th>Cách</th><th>Ưu</th><th>Nhược</th><th>Dùng khi</th></tr></thead>
+    <tbody>
+      <tr><td><strong>mkcert</strong></td><td>Miễn phí, chạy hoàn toàn trong mạng nội bộ, không phụ thuộc internet, tốc độ nhanh nhất</td><td>Mỗi điện thoại phải cài chứng chỉ một lần; đổi địa chỉ IP thì phải tạo lại chứng chỉ</td><td><strong>Triển khai thật tại cửa hàng</strong> và suốt quá trình phát triển</td></tr>
+      <tr><td><code>ngrok</code> / <code>cloudflared</code></td><td>Không phải cài gì lên điện thoại, chứng chỉ đã được tin sẵn, dùng được cả trên máy người khác</td><td>Phải có internet, đường dẫn đổi mỗi lần chạy (bản miễn phí), có độ trễ</td><td><strong>Hôm bảo vệ</strong>, khi cần quét bằng điện thoại của thầy cô</td></tr>
+      <tr><td><code>Caddy</code> làm proxy</td><td>Tự lo chứng chỉ, một file cấu hình ngắn, gộp luôn backend và frontend về một cổng</td><td>Thêm một thành phần nữa phải hiểu và phải chạy</td><td>Khi đóng gói Docker để nộp</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note warn">
+    <p><b>Đặt IP tĩnh cho máy thu ngân.</b> Chứng chỉ mkcert gắn với đúng địa chỉ IP đã khai. Router cấp lại IP khác (từ <code>192.168.1.10</code> sang <code>192.168.1.15</code>) là chứng chỉ hết hiệu lực và camera trên điện thoại ngừng hoạt động — lỗi rất khó đoán ra vì "hôm qua vẫn chạy". Vào router đặt IP cố định theo địa chỉ MAC, hoặc khai sẵn cả dải khi tạo chứng chỉ: <code>mkcert 192.168.1.{10,11,12} taphoa.local</code>.</p>
+  </div>
+
+  <div class="note">
+    <p><b>Phương án dự phòng khi HTTPS hỏng giữa buổi demo:</b> giữ nguyên luồng quét bằng máy quét USB và ô nhập mã bằng tay ở màn hình bán hàng. Cả ba nguồn mã đều đổ vào cùng một hàm <code>handleScan</code>, nên mất camera thì vẫn bán hàng bình thường — chỉ mất một cách nhập liệu, không sập tính năng.</p>
+  </div>
+
+  <h4>Chi tiết làm cho nó dùng được thật</h4>
+  <ul>
+    <li><strong>Chống quét trùng:</strong> cùng một mã trong vòng 1,5 giây thì bỏ qua — camera đọc liên tục nhiều khung hình một giây, không chặn thì một lần quét thành mười lần.</li>
+    <li><strong>Phản hồi ngay:</strong> rung điện thoại và kêu một tiếng bíp. Không có phản hồi thì người quét không biết đã ăn mã chưa và sẽ quét lại.</li>
+    <li><strong>Hiện lại trên điện thoại:</strong> tên hàng vừa quét hiện ngay trên màn hình điện thoại, để người cầm điện thoại biết mình vừa quét đúng thứ.</li>
+    <li><strong>Mất mạng:</strong> xếp mã vào hàng đợi trong <code>localStorage</code>, có mạng lại thì gửi tiếp — quan trọng với chế độ kiểm kê trong kho, nơi sóng wifi yếu.</li>
+    <li><strong>Khoá màn hình:</strong> dùng <code>navigator.wakeLock</code> để điện thoại không tự tắt màn hình giữa lúc đang kiểm kê.</li>
+  </ul>
+</section>
+
+<section id="s11">
+  <h2><em>11</em> Hàng không mã &amp; hàng cân ký</h2>
+  <h3 class="title">Rau, thịt, cá, đồ chia lẻ quản lý thế nào</h3>
+  <p>Phần lớn doanh thu tạp hoá đến từ hàng đóng gói có sẵn mã, nhưng phần khó nằm ở nhóm còn lại. Hệ thống chia hàng hoá làm <strong>ba kiểu</strong> bằng cột <code>products.product_type</code>, mỗi kiểu một cách tính tồn.</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>Kiểu</th><th>Ví dụ</th><th>Đơn vị tồn</th><th>Cách bán tại quầy</th></tr></thead>
+    <tbody>
+      <tr><td><code>STANDARD</code><br>Đếm cái</td><td>Chai nước, gói mì, hộp sữa</td><td>Số nguyên</td><td>Quét mã của nhà sản xuất</td></tr>
+      <tr><td><code>WEIGHTED</code><br>Cân ký</td><td>Rau, thịt, cá, trái cây</td><td>Kilôgam, lẻ tới 3 số</td><td>Chọn trên lưới rồi nhập cân nặng, hoặc quét tem cân</td></tr>
+      <tr><td><code>BULK</code><br>Chia lẻ</td><td>Gạo bao 50kg, dầu can 5 lít, kẹo cân</td><td>Đơn vị nhỏ nhất (kg, lít)</td><td>Nhập số lượng bán ra, hệ thống trừ từ gói lớn</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note warn">
+    <p><b>Hệ quả với schema:</b> vì có hàng cân ký nên <code>inventory.quantity</code> và <code>inventory_transactions.quantity</code> phải là <code>DECIMAL(12,3)</code> chứ không phải <code>INT</code> — tồn 2,350 kg thịt là hợp lệ. Ba số lẻ đủ cho đơn vị gam. <strong>Chọn sai kiểu dữ liệu chỗ này thì sang tuần thứ sáu phải sửa migration và sửa lại toàn bộ phần kho.</strong></p>
+  </div>
+
+  <h4>Kiểu 1 · Hàng đếm được nhưng không có mã</h4>
+  <p>Bánh mì, hộp cơm, xôi, đồ nhà làm. Cách xử lý: sinh mã nội bộ EAN-13 tiền tố <code>2</code> (xem mục về mã vạch), in tem dán lên từng gói. Từ đó trở đi nó hoạt động y hệt hàng có mã — quét, trừ kho, đếm tồn bình thường.</p>
+  <p>Không muốn dán tem thì để trên lưới sản phẩm ở màn hình POS, thu ngân bấm chọn. Vẫn trừ kho đầy đủ, chỉ là thao tác chậm hơn quét mã một chút.</p>
+
+  <h4>Kiểu 2 · Hàng cân ký</h4>
+  <p>Hai cách bán, làm cách đơn giản trước rồi nâng cấp sau:</p>
+  <div class="tw"><table>
+    <thead><tr><th>Cách</th><th>Thao tác</th><th>Cần gì</th><th>Ưu tiên</th></tr></thead>
+    <tbody>
+      <tr><td>Nhập cân nặng tay</td><td>Thu ngân bấm "Thịt ba chỉ" trên lưới → hộp thoại hiện ra → cân trên cân điện tử rời, đọc số rồi gõ <code>0.350</code> → hệ thống nhân với giá/kg</td><td>Một cái cân thường</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Quét tem cân</td><td>Người bán cân sẵn ở quầy rau, cân in ra tem có mã vạch chứa sẵn mặt hàng và khối lượng. Thu ngân chỉ việc quét</td><td>Cân điện tử có máy in tem</td><td><span class="pill p-2">GĐ 2</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Đọc tem cân điện tử</h4>
+  <p>Cân in tem dùng một chuẩn EAN-13 đặc biệt: tiền tố <code>2</code>, rồi mã mặt hàng, rồi khối lượng hoặc thành tiền nhét thẳng vào dãy số. Siêu thị Việt Nam dùng chuẩn này, và tự cài đặt nó là một điểm cộng rõ rệt cho đồ án.</p>
+<pre>  2 1   2 3 4 5 6   0 1 2 5 0   3
+  ┬ ┬   └───┬───┘   └───┬───┘   ┬
+  │ │      │            │       └── số kiểm tra
+  │ │      │            └────────── 01250 = 1,250 kg (đơn vị gam)
+  │ │      └─────────────────────── mã mặt hàng nội bộ 23456
+  │ └────────────────────────────── 1 = mã mang khối lượng (2 = mang thành tiền)
+  └──────────────────────────────── tiền tố 2 = mã nội bộ cửa hàng</pre>
+
+<pre><b>def</b> parse_weight_barcode(code: str) -&gt; dict | None:
+    <i>"""Trả về mặt hàng và khối lượng nếu đây là tem cân, ngược lại trả None."""</i>
+    <b>if</b> len(code) != 13 <b>or not</b> code.startswith("2"): <b>return</b> None
+    kind = code[1]
+    <b>if</b> kind <b>not in</b> ("1", "2"): <b>return</b> None      <i># không phải tem cân → mã nội bộ thường</i>
+
+    item_code = code[2:7]                        <i># 5 số mã mặt hàng</i>
+    raw       = int(code[7:12])                  <i># 5 số giá trị</i>
+    <b>return</b> {
+        "item_code": item_code,
+        "weight_kg": raw / 1000 <b>if</b> kind == "1" <b>else</b> None,   <i># gam → kg</i>
+        "amount":    raw        <b>if</b> kind == "2" <b>else</b> None,   <i># đồng</i>
+    }</pre>
+  <p>Hàm <code>handleScan</code> ở màn hình POS thử <code>parse_weight_barcode</code> trước; ra kết quả thì thêm vào giỏ với đúng khối lượng đọc được, không ra thì tra <code>product_barcodes</code> như bình thường. Một nhánh <code>if</code>, xử lý gọn cả hai loại.</p>
+
+  <h4>Kiểu 3 · Chia lẻ từ gói lớn</h4>
+  <p>Nhập một bao gạo 50 kg, bán lẻ theo ký. Dùng <code>product_units</code> với hệ số quy đổi, tồn kho luôn quy về đơn vị nhỏ nhất:</p>
+  <div class="tw"><table>
+    <thead><tr><th>Thao tác</th><th>Ghi vào sổ cái</th><th>Tồn kho (kg)</th></tr></thead>
+    <tbody>
+      <tr><td>Nhập 2 bao gạo 50kg</td><td><code>IMPORT +100.000</code></td><td class="num">100.000</td></tr>
+      <tr><td>Bán lẻ 3,5 kg</td><td><code>SALE −3.500</code></td><td class="num">96.500</td></tr>
+      <tr><td>Bán nguyên 1 bao</td><td><code>SALE −50.000</code></td><td class="num">46.500</td></tr>
+      <tr><td>Hao hụt đong lẻ 0,2 kg</td><td><code>SHRINKAGE −0.200</code></td><td class="num">46.300</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Hao hụt — chuyện bắt buộc phải có với hàng tươi</h4>
+  <p>Rau héo, trái cây dập, thịt cắt tỉa, gạo rơi vãi khi đong. Không có chỗ ghi nhận thì tồn kho sẽ luôn sai và nhân viên sẽ mất niềm tin vào hệ thống. Thêm hai loại giao dịch vào <code>inventory_transactions.type</code>:</p>
+  <ul>
+    <li><code>SHRINKAGE</code> — hao hụt tự nhiên, bắt buộc chọn lý do từ danh sách (héo, dập, rơi vãi, cắt tỉa)</li>
+    <li><code>EXPIRED</code> — hết hạn phải bỏ, tự sinh khi nhân viên xác nhận huỷ lô cận date</li>
+  </ul>
+  <p>Báo cáo tỉ lệ hao hụt theo danh mục là một chỉ số chủ cửa hàng thật sự quan tâm: rau củ hao trên 8% là dấu hiệu nhập quá nhiều so với sức bán.</p>
+
+  <div class="note">
+    <p><b>Nhịp kiểm kê khác nhau theo nhóm hàng:</b> hàng đóng gói kiểm kê mỗi tháng là đủ. <strong>Hàng tươi phải kiểm mỗi ngày</strong>, cuối ca, vì sai số tích luỹ rất nhanh. Thêm cột <code>categories.stocktake_cycle</code> nhận giá trị <code>DAILY</code> / <code>WEEKLY</code> / <code>MONTHLY</code>, hệ thống tự nhắc tới hạn kiểm kê nhóm nào.</p>
+  </div>
+
+  <h4>Ba mặt hàng này bán online được không?</h4>
+  <p>Được, nhưng phải khai báo khác đi. Cột <code>products.online_sale_mode</code>:</p>
+  <div class="tw"><table>
+    <thead><tr><th>Chế độ</th><th>Ý nghĩa</th><th>Hợp với</th></tr></thead>
+    <tbody>
+      <tr><td><code>EXACT</code></td><td>Khách đặt bao nhiêu giao đúng bấy nhiêu, chốt tiền ngay khi đặt</td><td>Hàng đóng gói</td></tr>
+      <tr><td><code>APPROX</code></td><td>Khách đặt "khoảng 1 kg", nhân viên cân thực tế rồi <strong>tính lại tiền</strong> trước khi giao</td><td>Thịt, cá, rau</td></tr>
+      <tr><td><code>PICKUP_ONLY</code></td><td>Chỉ cho đặt giữ hàng rồi tới cửa hàng lấy</td><td>Hàng dễ hỏng, hàng đông lạnh</td></tr>
+    </tbody>
+  </table></div>
+  <p>Với <code>APPROX</code>, đơn hàng có thêm bước <em>"chờ xác nhận khối lượng"</em>: nhân viên soạn hàng cân xong nhập số thực, hệ thống tính lại tổng tiền và báo cho khách qua thông báo trước khi giao. Đây đúng là cách các siêu thị online đang làm.</p>
+</section>
+
+<!-- ============ 10 ============ -->
+<section id="s12">
+  <h2><em>12</em> Nhập kho &amp; kiểm kê</h2>
+  <h3 class="title">Hàng vào kho và cách xử lý khi số liệu lệch</h3>
+
+  <h4>Nhập hàng từ nhà cung cấp</h4>
+  <ol class="flow">
+    <li><div><b>Tạo phiếu nháp</b><p>Chọn nhà cung cấp và kho nhận. Phiếu ở trạng thái <code>DRAFT</code> — sửa thoải mái, <strong>chưa động gì tới tồn kho</strong>.</p></div></li>
+    <li><div><b>Thêm hàng</b><p>Quét mã vạch từng thùng hoặc nhập từ file Excel. Khai giá nhập, số lô và hạn dùng với hàng thực phẩm.</p></div></li>
+    <li><div><b>Xác nhận phiếu</b><p><code>POST /stock-receipts/{id}/confirm</code>. Lúc này mới: cộng tồn kho, ghi sổ cái <code>IMPORT</code>, tạo <code>product_batches</code>, tính lại giá vốn bình quân, cộng công nợ nhà cung cấp. Tất cả trong một transaction.</p></div></li>
+    <li><div><b>Sai thì huỷ, không sửa</b><p>Phiếu đã xác nhận không cho sửa. Muốn sửa phải tạo phiếu huỷ sinh bút toán ngược trong sổ cái — dấu vết luôn còn nguyên.</p></div></li>
+  </ol>
+
+  <h4>Kiểm kê định kỳ</h4>
+  <p>Cuối tháng đếm tay từng mặt hàng rồi nhập vào. Hệ thống tự tính chênh lệch và cho phép cân bằng lại.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Sản phẩm</th><th class="num">Máy nói</th><th class="num">Đếm tay</th><th class="num">Lệch</th><th>Xử lý</th></tr></thead>
+    <tbody>
+      <tr><td>Nước suối Aquafina 500ml</td><td class="num">48</td><td class="num">45</td><td class="num" style="color:var(--accent)">−3</td><td>Ghi <code>ADJUST</code>, nghi mất hàng</td></tr>
+      <tr><td>Mì Hảo Hảo tôm chua cay</td><td class="num">120</td><td class="num">120</td><td class="num" style="color:var(--ok)">0</td><td>Khớp</td></tr>
+      <tr><td>Sữa TH True Milk 180ml</td><td class="num">24</td><td class="num">26</td><td class="num" style="color:var(--ok)">+2</td><td>Ghi <code>ADJUST</code>, nhập sót lần trước</td></tr>
+    </tbody>
+  </table></div>
+  <p>Bấm <em>Cân bằng kho</em> → mỗi dòng lệch sinh một bút toán <code>ADJUST</code> trong sổ cái kèm lý do, tồn kho về đúng số đếm tay. Chỉ <code>MANAGER</code> trở lên được cân bằng, và mọi lần cân bằng đều vào <code>audit_logs</code>.</p>
+
+  <h4>Cảnh báo tự động <span class="pill p-2">GĐ 2</span></h4>
+  <div class="tw"><table>
+    <thead><tr><th>Cảnh báo</th><th>Điều kiện</th><th>Hiện ở đâu</th></tr></thead>
+    <tbody>
+      <tr><td>Sắp hết hàng</td><td><code>inventory.quantity &lt;= products.min_stock</code></td><td>Chuông thông báo + thẻ đỏ trên dashboard</td></tr>
+      <tr><td>Hết hàng</td><td><code>quantity = 0</code> nhưng còn <code>is_active</code></td><td>Danh sách gợi ý đặt hàng</td></tr>
+      <tr><td>Cận hạn sử dụng</td><td><code>expiry_date</code> trong vòng 30 ngày</td><td>Trang kho, gợi ý xả hàng giảm giá</td></tr>
+      <tr><td>Hàng đã hết hạn</td><td><code>expiry_date &lt; CURDATE()</code></td><td>Buộc ghi nhận <code>EXPIRED</code> để loại khỏi tồn</td></tr>
+      <tr><td>Hàng bán chậm</td><td>Không phát sinh <code>SALE</code> trong 60 ngày</td><td>Báo cáo hàng tồn đọng</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="s13">
+  <h2><em>13</em> Thương mại điện tử</h2>
+  <h3 class="title">Bán online trên cùng kho hàng với quầy</h3>
+  <p>Website bán hàng không phải một hệ thống thứ hai — nó là <strong>một mặt tiền khác của cùng một kho</strong>. Mọi thứ khó đều nằm ở chỗ giao nhau đó, nên phần này bắt đầu bằng chính vấn đề khó nhất.</p>
+
+  <h4>Vấn đề cốt lõi: tranh hàng giữa hai kênh</h4>
+  <p>Còn 3 hộp sữa. Khách online đặt 2 hộp lúc 9 giờ, hẹn giao chiều. 10 giờ có khách tới quầy mua cả 3. Chiều lấy đâu ra hàng giao?</p>
+  <p>Cách xử lý: tách <strong>tồn thực tế</strong> khỏi <strong>tồn bán được</strong>. Cột <code>inventory.reserved</code> đã có sẵn trong thiết kế từ đầu, giờ dùng thật:</p>
+<pre>tồn_bán_được  =  quantity  −  reserved
+
+quantity  = số hàng đang thật sự nằm trên kệ
+reserved  = số hàng đã hứa cho đơn online chưa giao</pre>
+
+  <div class="tw"><table>
+    <thead><tr><th>Thời điểm</th><th>Sự kiện</th><th class="num">quantity</th><th class="num">reserved</th><th class="num">Bán được</th></tr></thead>
+    <tbody>
+      <tr><td>09:00</td><td>Ban đầu</td><td class="num">3</td><td class="num">0</td><td class="num">3</td></tr>
+      <tr><td>09:05</td><td>Khách online đặt 2 → giữ hàng</td><td class="num">3</td><td class="num">2</td><td class="num"><strong>1</strong></td></tr>
+      <tr><td>10:00</td><td>Khách tại quầy muốn mua 3</td><td class="num">3</td><td class="num">2</td><td class="num" style="color:var(--accent)">chỉ bán được 1</td></tr>
+      <tr><td>10:01</td><td>Bán tại quầy 1 hộp</td><td class="num">2</td><td class="num">2</td><td class="num">0</td></tr>
+      <tr><td>15:00</td><td>Giao đơn online → trừ kho thật</td><td class="num">0</td><td class="num">0</td><td class="num">0</td></tr>
+    </tbody>
+  </table></div>
+
+  <p>Thu ngân tại quầy thấy đúng thông tin thay vì một lỗi khó hiểu: <em>"Còn 3 nhưng 2 đã giữ cho đơn online HD…, chỉ bán được 1."</em> Chủ cửa hàng vẫn có quyền bấm <em>ưu tiên khách tại quầy</em> — hệ thống huỷ giữ hàng, gửi thông báo xin lỗi và hoàn tiền cho đơn online. Quyết định là của con người, phần mềm chỉ cần nói rõ hậu quả.</p>
+
+  <div class="note warn">
+    <p><b>Giữ hàng phải có hạn.</b> Đơn chưa thanh toán mà giữ hàng vô thời hạn thì kho sẽ đầy hàng ma. Quy tắc: đơn chuyển khoản giữ <strong>30 phút</strong>, đơn nhận tại cửa hàng giữ <strong>24 tiếng</strong>, đơn thanh toán khi nhận hàng giữ tới lúc giao xong. Một job chạy mỗi 5 phút quét các đơn quá hạn, tự huỷ và trả <code>reserved</code> về.</p>
+  </div>
+
+  <h4>Vòng đời một đơn online</h4>
+  <ol class="flow">
+    <li><div><b>Khách bỏ vào giỏ</b><p>Giỏ lưu trong bảng <code>carts</code> theo tài khoản nên đổi máy vẫn còn. Khách chưa đăng nhập thì giỏ giữ tạm bằng khoá phiên, đăng nhập xong thì gộp vào giỏ cũ. <strong>Giai đoạn này chưa giữ hàng.</strong></p></div></li>
+    <li><div><b>Đặt hàng</b><p><code>POST /shop/orders</code>. Kiểm tra tồn bán được của từng dòng, giữ hàng, tạo đơn <code>PENDING_CONFIRM</code>, gửi thông báo cho cửa hàng.</p></div></li>
+    <li><div><b>Thanh toán</b><p>Nhận hàng trả tiền thì bỏ qua bước này. Chuyển khoản thì hiện <strong>đúng mã QR VietQR</strong> đang dùng ở quầy, nội dung là mã đơn — dùng lại nguyên xi phần thanh toán đã làm.</p></div></li>
+    <li><div><b>Cửa hàng xác nhận</b><p>Nhân viên xem đơn, gọi điện xác nhận nếu cần, bấm duyệt → <code>CONFIRMED</code>. Từ chối thì huỷ và trả hàng giữ về.</p></div></li>
+    <li><div><b>Soạn hàng</b><p><code>PACKING</code>. Màn hình soạn hàng liệt kê theo vị trí kệ, nhân viên <strong>quét mã từng món bằng điện thoại</strong> để đối chiếu — quét đủ mới cho đóng gói, tránh giao thiếu. Hàng cân ký nhập khối lượng thực và tính lại tiền tại bước này.</p></div></li>
+    <li><div><b>Giao hoặc khách tới lấy</b><p>Giao tận nơi: <code>SHIPPING</code>, ghi <code>shipments</code>. Nhận tại cửa hàng: thu ngân tra mã đơn, thu tiền nếu chưa trả — <strong>đơn online kết thúc ngay trên màn hình POS</strong>.</p></div></li>
+    <li><div><b>Hoàn tất</b><p><code>COMPLETED</code>. Lúc này mới thật sự trừ <code>quantity</code> và <code>reserved</code>, ghi sổ cái, cộng điểm tích luỹ, mở quyền đánh giá sản phẩm.</p></div></li>
+  </ol>
+
+  <h4>Một bảng <code>orders</code> cho cả hai kênh</h4>
+  <p>Không tách bảng đơn hàng online riêng. Cùng một bảng, phân biệt bằng cột <code>channel</code>. Lý do: báo cáo doanh thu, tồn kho, lợi nhuận, tích điểm, trả hàng đều dùng lại được nguyên vẹn thay vì phải viết hai lần và cộng thủ công.</p>
+  <div class="tw"><table>
+    <thead><tr><th>Kênh</th><th>Chuỗi trạng thái</th></tr></thead>
+    <tbody>
+      <tr><td><code>POS</code></td><td><code>DRAFT</code> → <code>PENDING_PAYMENT</code> → <code>COMPLETED</code></td></tr>
+      <tr><td><code>ONLINE</code></td><td><code>PENDING_CONFIRM</code> → <code>CONFIRMED</code> → <code>PACKING</code> → <code>SHIPPING</code> → <code>COMPLETED</code></td></tr>
+    </tbody>
+  </table></div>
+  <p>Nhánh nào cũng có thể rẽ sang <code>CANCELLED</code>, và sau khi hoàn tất có thể sang <code>RETURNED</code> hoặc <code>PARTIALLY_RETURNED</code>.</p>
+
+  <h4>Bảng dữ liệu thêm cho phần online</h4>
+<pre>CREATE TABLE customer_addresses (
+  id           INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  customer_id  INT UNSIGNED NOT NULL,
+  receiver_name  VARCHAR(120) NOT NULL,
+  receiver_phone VARCHAR(20)  NOT NULL,
+  province     VARCHAR(80) NOT NULL,
+  district     VARCHAR(80) NOT NULL,
+  ward         VARCHAR(80) NOT NULL,
+  street       VARCHAR(255) NOT NULL,
+  note         VARCHAR(255),                    <i>-- "cổng sau, gọi trước 5 phút"</i>
+  is_default   BOOLEAN NOT NULL DEFAULT FALSE,
+  FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE CASCADE
+);
+
+CREATE TABLE carts (
+  id          BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  customer_id INT UNSIGNED,                     <i>-- NULL = khách chưa đăng nhập</i>
+  session_key CHAR(36),                         <i>-- giỏ tạm, gộp vào khi đăng nhập</i>
+  updated_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_cart_customer (customer_id),
+  INDEX idx_cart_session (session_key)
+);
+
+CREATE TABLE cart_items (
+  id         BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  cart_id    BIGINT UNSIGNED NOT NULL,
+  product_id INT UNSIGNED NOT NULL,
+  quantity   DECIMAL(10,3) NOT NULL,
+  added_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_cart_product (cart_id, product_id),
+  FOREIGN KEY (cart_id)    REFERENCES carts(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE stock_reservations (        <i>-- giữ hàng cho đơn online</i>
+  id           BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  order_id     BIGINT UNSIGNED NOT NULL,
+  product_id   INT UNSIGNED NOT NULL,
+  warehouse_id SMALLINT UNSIGNED NOT NULL,
+  quantity     DECIMAL(12,3) NOT NULL,
+  status       ENUM('HELD','RELEASED','CONSUMED') NOT NULL DEFAULT 'HELD',
+  expires_at   DATETIME,                        <i>-- job dọn dẹp căn vào cột này</i>
+  created_at   DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (order_id)   REFERENCES orders(id) ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES products(id),
+  INDEX idx_res_expiry (status, expires_at)
+);
+
+CREATE TABLE shipments (
+  id            BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  order_id      BIGINT UNSIGNED NOT NULL,
+  method        ENUM('PICKUP','DELIVERY') NOT NULL,
+  address_id    INT UNSIGNED,
+  carrier       VARCHAR(60),                    <i>-- tự giao | GHN | GHTK</i>
+  tracking_code VARCHAR(80),
+  shipping_fee  DECIMAL(12,2) NOT NULL DEFAULT 0,
+  status        ENUM('PENDING','PICKING','SHIPPING','DELIVERED','FAILED')
+                NOT NULL DEFAULT 'PENDING',
+  shipper_name  VARCHAR(120),
+  shipped_at    DATETIME,
+  delivered_at  DATETIME,
+  FOREIGN KEY (order_id)   REFERENCES orders(id),
+  FOREIGN KEY (address_id) REFERENCES customer_addresses(id)
+);
+
+CREATE TABLE product_reviews (
+  id          BIGINT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  product_id  INT UNSIGNED NOT NULL,
+  customer_id INT UNSIGNED NOT NULL,
+  order_id    BIGINT UNSIGNED NOT NULL,         <i>-- chỉ ai mua rồi mới được đánh giá</i>
+  rating      TINYINT NOT NULL,                 <i>-- 1..5</i>
+  comment     TEXT,
+  reply       TEXT,                             <i>-- cửa hàng trả lời</i>
+  is_visible  BOOLEAN NOT NULL DEFAULT TRUE,
+  created_at  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_review (order_id, product_id),  <i>-- mỗi đơn đánh giá một lần</i>
+  FOREIGN KEY (product_id)  REFERENCES products(id),
+  FOREIGN KEY (customer_id) REFERENCES customers(id),
+  CHECK (rating BETWEEN 1 AND 5)
+);
+
+CREATE TABLE banners (
+  id         INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  title      VARCHAR(160),
+  image_url  VARCHAR(255) NOT NULL,
+  link_url   VARCHAR(255),
+  position   ENUM('HERO','SIDEBAR','POPUP') NOT NULL DEFAULT 'HERO',
+  sort_order SMALLINT NOT NULL DEFAULT 0,
+  start_at   DATETIME, end_at DATETIME,
+  is_active  BOOLEAN NOT NULL DEFAULT TRUE
+);</pre>
+
+  <h4>Giữ hàng đúng cách</h4>
+  <p>Vẫn nguyên tắc cũ: điều kiện nằm trong <code>WHERE</code>, không đọc rồi mới ghi.</p>
+<pre><b>def</b> reserve(db, *, order_id, product_id, warehouse_id, qty, ttl_minutes):
+    res = db.execute(text(<u>"""
+        UPDATE inventory SET reserved = reserved + :qty
+         WHERE product_id = :pid AND warehouse_id = :wid
+           AND quantity - reserved >= :qty
+    """</u>), {"qty": qty, "pid": product_id, "wid": warehouse_id})
+
+    <b>if</b> res.rowcount == 0:
+        <b>raise</b> InsufficientStock(product_id)      <i># hết hàng khả dụng</i>
+
+    db.add(StockReservation(
+        order_id=order_id, product_id=product_id, warehouse_id=warehouse_id,
+        quantity=qty, status="HELD",
+        expires_at=now() + timedelta(minutes=ttl_minutes),
+    ))
+    <i># Chưa động tới quantity. Chỉ khi giao xong mới gọi InventoryService.apply()</i>
+    <i># để trừ quantity và hạ reserved cùng lúc, ghi một dòng SALE vào sổ cái.</i></pre>
+
+  <h4>Bán online hay không là do bạn quyết</h4>
+  <p>Không phải mặt hàng nào cũng nên lên website. Thuốc lá, rượu bia, hàng dễ hỏng, hàng lời quá mỏng không bõ công giao. Cột <code>products.is_online</code> quyết định điều đó, cộng thêm vài cột phục vụ trang bán hàng:</p>
+  <div class="tw"><table>
+    <thead><tr><th>Cột thêm vào <code>products</code></th><th>Dùng để</th></tr></thead>
+    <tbody>
+      <tr><td><code>is_online BOOLEAN</code></td><td>Có hiện trên website không</td></tr>
+      <tr><td><code>slug VARCHAR(200) UNIQUE</code></td><td>Đường dẫn thân thiện <code>/san-pham/coca-cola-330ml</code></td></tr>
+      <tr><td><code>online_sale_mode ENUM</code></td><td><code>EXACT</code> / <code>APPROX</code> / <code>PICKUP_ONLY</code> — xem mục hàng cân ký</td></tr>
+      <tr><td><code>sold_count INT</code></td><td>Sắp xếp theo bán chạy mà không phải đếm lại mỗi lần</td></tr>
+      <tr><td><code>rating_avg DECIMAL(3,2)</code> · <code>rating_count INT</code></td><td>Hiện sao đánh giá, cập nhật khi có review mới</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Màn hình phía khách hàng</h4>
+  <div class="tw"><table>
+    <thead><tr><th>Trang</th><th>Nội dung chính</th><th>Ưu tiên</th></tr></thead>
+    <tbody>
+      <tr><td>Trang chủ</td><td>Banner, danh mục, hàng bán chạy, hàng đang khuyến mãi</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Danh sách sản phẩm</td><td>Lọc theo danh mục, khoảng giá, còn hàng; sắp xếp theo giá / bán chạy</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Chi tiết sản phẩm</td><td>Ảnh, mô tả, giá, tình trạng còn hàng, đánh giá, hàng liên quan</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Tìm kiếm</td><td>Gõ không dấu, gợi ý ngay khi gõ</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Giỏ hàng</td><td>Sửa số lượng, cảnh báo nếu hàng vừa hết trong lúc còn nằm trong giỏ</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Đặt hàng</td><td>Chọn địa chỉ, hình thức nhận, hình thức trả tiền, áp mã giảm giá</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Đăng ký / đăng nhập</td><td>Bằng số điện thoại hoặc email</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Đơn hàng của tôi</td><td>Theo dõi trạng thái, xem lại, mua lại, huỷ khi chưa xác nhận</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Tài khoản</td><td>Thông tin, sổ địa chỉ, điểm tích luỹ, hạng thành viên</td><td><span class="pill p-2">GĐ 2</span></td></tr>
+      <tr><td>Đánh giá sản phẩm</td><td>Chấm sao và viết nhận xét cho đơn đã hoàn tất</td><td><span class="pill p-2">GĐ 2</span></td></tr>
+      <tr><td>Yêu thích</td><td>Lưu hàng hay mua, đặt lại nhanh</td><td><span class="pill p-3">Nâng cao</span></td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Màn hình phía cửa hàng</h4>
+  <ul>
+    <li><strong>Bảng đơn online</strong> — chia cột theo trạng thái, đơn mới kêu chuông và hiện đếm số</li>
+    <li><strong>Màn hình soạn hàng</strong> — tối ưu cho điện thoại, quét mã đối chiếu từng món, sắp xếp theo vị trí kệ để đi một vòng là xong</li>
+    <li><strong>Quản lý giao hàng</strong> — gán người giao, cập nhật trạng thái, ghi nhận giao thất bại</li>
+    <li><strong>Duyệt đánh giá</strong> — ẩn nhận xét vi phạm, trả lời khách</li>
+    <li><strong>Banner &amp; trang chủ</strong> — đổi ảnh quảng cáo không cần lập trình viên</li>
+  </ul>
+
+  <div class="note">
+    <p><b>Ranh giới an toàn:</b> API của website khách hàng nằm dưới tiền tố riêng <code>/api/v1/shop/*</code> và <strong>chỉ nhận token loại <code>customer</code></strong>. Mọi truy vấn đều lọc theo <code>customer_id</code> lấy từ token, không bao giờ lấy từ tham số client gửi lên — nếu không thì đổi số trong đường dẫn là xem được đơn hàng của người khác. Đây là lỗi bảo mật phổ biến nhất ở các website bán hàng làm nhanh.</p>
+  </div>
+</section>
+
+<!-- ============ 11 ============ -->
+<section id="s14">
+  <h2><em>14</em> Danh sách API</h2>
+  <h3 class="title">Hai nhóm đường dẫn, hai loại token</h3>
+  <p><code>/api/v1/*</code> dành cho nhân viên, chỉ nhận token loại <code>staff</code>. <code>/api/v1/shop/*</code> dành cho khách hàng, chỉ nhận token loại <code>customer</code> và luôn lọc dữ liệu theo <code>customer_id</code> lấy từ token.</p>
+  <p>Quy ước chung: phân trang bằng <code>?page=1&amp;size=20</code>, sắp xếp <code>?sort=-created_at</code>, lỗi trả về <code>{ "code": "INSUFFICIENT_STOCK", "message": "Chỉ còn 1 sản phẩm", "details": {...} }</code>. FastAPI tự sinh tài liệu tại <code>/docs</code>.</p>
+
+  <h4>Xác thực &amp; người dùng</h4>
+  <div class="tw"><table>
+    <tbody>
+      <tr><td style="width:70px"><span class="pill m-post">POST</span></td><td><code>/auth/login</code></td><td>Đăng nhập bằng username/password, trả access + refresh token</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/auth/login-pin</code></td><td>Đổi ca nhanh tại quầy bằng PIN 4 số</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/auth/refresh</code></td><td>Làm mới access token</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/auth/logout</code></td><td>Thu hồi refresh token</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/auth/me</code></td><td>Thông tin tài khoản + danh sách quyền</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/users</code></td><td>Danh sách nhân viên</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/users</code></td><td>Tạo tài khoản nhân viên</td></tr>
+      <tr><td><span class="pill m-put">PUT</span></td><td><code>/users/{id}</code></td><td>Sửa thông tin, đổi vai trò, khoá tài khoản</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Hàng hoá</h4>
+  <div class="tw"><table>
+    <tbody>
+      <tr><td style="width:70px"><span class="pill m-get">GET</span></td><td><code>/products</code></td><td>Lọc theo <code>q</code>, <code>category_id</code>, <code>is_active</code>, <code>low_stock</code>; trả kèm tồn hiện tại</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/products/barcode/{code}</code></td><td><strong>Endpoint nóng nhất</strong> — quét mã ra sản phẩm, phải trả dưới 100ms</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/products/{id}</code></td><td>Chi tiết kèm các mức đơn vị và lịch sử giá</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/products</code></td><td>Thêm hàng mới</td></tr>
+      <tr><td><span class="pill m-put">PUT</span></td><td><code>/products/{id}</code></td><td>Sửa; đổi giá bán sẽ ghi vào <code>audit_logs</code></td></tr>
+      <tr><td><span class="pill m-del">DEL</span></td><td><code>/products/{id}</code></td><td>Ngừng kinh doanh (xoá mềm, giữ lịch sử bán)</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/barcode/lookup/{code}</code></td><td>Tra thông tin mã ngoài thị trường qua Open Food Facts, có cache</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/products/{id}/barcodes</code></td><td>Gắn thêm một mã vạch vào mặt hàng (mã thùng, mã bao bì mới)</td></tr>
+      <tr><td><span class="pill m-del">DEL</span></td><td><code>/products/{id}/barcodes/{barcode}</code></td><td>Gỡ một mã khỏi mặt hàng</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/products/{id}/barcode/generate</code></td><td>Sinh mã EAN-13 nội bộ cho hàng không có mã</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/products/quick-create</code></td><td>Tạo nhanh sản phẩm ngay từ mã vừa quét tại quầy</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/labels/print</code></td><td>Sinh N tem của cùng một mã để in hàng loạt</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/products/import</code></td><td>Nhập hàng loạt từ Excel, báo lỗi theo từng dòng</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/categories</code> <code>/brands</code> <code>/units</code> <code>/suppliers</code></td><td>CRUD danh mục phụ trợ</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Kho</h4>
+  <div class="tw"><table>
+    <tbody>
+      <tr><td style="width:70px"><span class="pill m-get">GET</span></td><td><code>/inventory</code></td><td>Tồn theo kho; lọc <code>low_stock=true</code>, <code>expiring_days=30</code></td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/inventory/{product_id}/history</code></td><td>Sổ cái của một mặt hàng — trả lời "vì sao còn từng này"</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/inventory/adjust</code></td><td>Điều chỉnh tay: hàng hỏng, vỡ, hết hạn (bắt buộc ghi lý do)</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/stock-receipts</code></td><td>Danh sách phiếu nhập</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/stock-receipts</code></td><td>Tạo phiếu nháp kèm danh sách hàng</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/stock-receipts/{id}/confirm</code></td><td><strong>Cộng kho, ghi sổ, tính lại giá vốn</strong></td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/stock-receipts/{id}/cancel</code></td><td>Huỷ, sinh bút toán ngược nếu đã xác nhận</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/stock-takes</code></td><td>Mở phiếu kiểm kê</td></tr>
+      <tr><td><span class="pill m-put">PUT</span></td><td><code>/stock-takes/{id}/items</code></td><td>Ghi số đếm tay (quét mã bằng điện thoại cũng vào đây)</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/stock-takes/{id}/balance</code></td><td>Cân bằng kho theo số thực đếm</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Bán hàng &amp; thanh toán</h4>
+  <div class="tw"><table>
+    <tbody>
+      <tr><td style="width:70px"><span class="pill m-post">POST</span></td><td><code>/orders</code></td><td>Mở đơn nháp</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/orders/{id}/items</code></td><td>Thêm hàng vào giỏ (nhận cả <code>barcode</code> lẫn <code>product_id</code>)</td></tr>
+      <tr><td><span class="pill m-put">PUT</span></td><td><code>/orders/{id}/items/{item_id}</code></td><td>Sửa số lượng hoặc giảm giá dòng</td></tr>
+      <tr><td><span class="pill m-del">DEL</span></td><td><code>/orders/{id}/items/{item_id}</code></td><td>Bỏ hàng khỏi giỏ</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/orders/{id}/checkout</code></td><td><strong>Chốt đơn</strong> — cần header <code>Idempotency-Key</code></td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/orders/{id}/cancel</code></td><td>Huỷ đơn, hoàn tồn nếu đã trừ</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/orders</code></td><td>Lịch sử; lọc theo ngày, thu ngân, ca, trạng thái</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/orders/{id}/receipt</code></td><td>Dữ liệu in hoá đơn khổ 58/80mm</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/orders/{id}/returns</code></td><td>Trả hàng một phần hoặc toàn bộ</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/orders/{id}/payments/cash</code></td><td>Thu tiền mặt, trả về số tiền trả khách</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/orders/{id}/payments/qr</code></td><td>Sinh mã QR, trả <code>payment_id</code> + ảnh base64 + hạn dùng</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/payments/{id}/status</code></td><td>Frontend hỏi mỗi 2 giây cho tới khi <code>SUCCESS</code> hoặc <code>EXPIRED</code></td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/payments/{id}/confirm</code></td><td>Thu ngân xác nhận tay đã nhận được tiền</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/webhooks/bank</code></td><td>Nhận biến động số dư, xác thực HMAC, tự đối soát</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Điện thoại làm máy quét</h4>
+  <div class="tw"><table>
+    <tbody>
+      <tr><td style="width:70px"><span class="pill m-post">POST</span></td><td><code>/scanner/sessions</code></td><td>Mở phiên ghép cặp, trả mã 6 số + mã QR để điện thoại quét</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/scanner/sessions/join</code></td><td>Điện thoại vào phiên bằng mã 6 số</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/scanner/sessions/{id}/scan</code></td><td>Điện thoại gửi mã vừa quét lên</td></tr>
+      <tr><td><span class="pill m-del">DEL</span></td><td><code>/scanner/sessions/{id}</code></td><td>Ngắt ghép cặp</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/ws/scanner/{id}</code></td><td>WebSocket máy tính giữ để nhận mã bắn về</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Website bán hàng — phía khách <code style="font-size:.85em">/shop</code></h4>
+  <div class="tw"><table>
+    <tbody>
+      <tr><td style="width:70px"><span class="pill m-post">POST</span></td><td><code>/shop/auth/register</code></td><td>Khách tự đăng ký bằng số điện thoại hoặc email</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/shop/auth/login</code></td><td>Đăng nhập, trả token loại <code>customer</code></td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/shop/products</code></td><td>Chỉ hàng <code>is_online</code>; lọc danh mục, khoảng giá, còn hàng; sắp xếp theo giá / bán chạy</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/shop/products/{slug}</code></td><td>Chi tiết kèm đánh giá và hàng liên quan</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/shop/search?q=</code></td><td>Tìm không dấu, gợi ý ngay khi gõ</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/shop/cart</code></td><td>Giỏ hàng hiện tại, kèm cảnh báo dòng nào vừa hết hàng</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/shop/cart/items</code></td><td>Thêm vào giỏ (chưa giữ hàng)</td></tr>
+      <tr><td><span class="pill m-put">PUT</span></td><td><code>/shop/cart/items/{id}</code></td><td>Sửa số lượng</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/shop/orders</code></td><td><strong>Đặt hàng</strong> — kiểm tồn khả dụng và giữ hàng trong một transaction</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/shop/orders</code></td><td>Đơn của chính mình, lọc theo trạng thái</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/shop/orders/{id}/cancel</code></td><td>Huỷ khi cửa hàng chưa xác nhận, trả hàng giữ về</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/shop/orders/{id}/payments/qr</code></td><td>Dùng lại đúng bộ sinh QR của quầy</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/shop/addresses</code> <span class="pill m-post">POST</span> <span class="pill m-put">PUT</span></td><td>Sổ địa chỉ nhận hàng</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/shop/reviews</code></td><td>Đánh giá — chỉ cho đơn đã hoàn tất của chính mình</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/shop/me</code></td><td>Thông tin, điểm tích luỹ, hạng thành viên</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Website bán hàng — phía cửa hàng</h4>
+  <div class="tw"><table>
+    <tbody>
+      <tr><td style="width:70px"><span class="pill m-get">GET</span></td><td><code>/online-orders</code></td><td>Bảng đơn online chia theo trạng thái</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/online-orders/{id}/confirm</code></td><td>Duyệt đơn</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/online-orders/{id}/reject</code></td><td>Từ chối, trả hàng giữ về, ghi lý do</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/online-orders/{id}/picking</code></td><td>Danh sách soạn hàng sắp theo vị trí kệ</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/online-orders/{id}/pick</code></td><td>Quét mã đối chiếu từng món; hàng cân ký nhập khối lượng thực và tính lại tiền</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/online-orders/{id}/ship</code></td><td>Gán người giao, tạo <code>shipments</code></td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/online-orders/{id}/complete</code></td><td><strong>Giao xong — lúc này mới trừ kho thật và ghi sổ cái</strong></td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/reviews</code> <span class="pill m-put">PUT</span> <code>/reviews/{id}</code></td><td>Duyệt, ẩn, trả lời đánh giá</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/banners</code> <span class="pill m-post">POST</span></td><td>Ảnh quảng cáo trang chủ</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Khách hàng, ca làm việc, báo cáo, hệ thống</h4>
+  <div class="tw"><table>
+    <tbody>
+      <tr><td style="width:70px"><span class="pill m-get">GET</span></td><td><code>/customers?phone=</code></td><td>Tra khách theo số điện thoại tại quầy</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/customers</code></td><td>Tạo nhanh khách mới ngay khi thanh toán</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/shifts/open</code></td><td>Mở ca, khai tiền lẻ đầu ca</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/shifts/current</code></td><td>Ca đang mở của tài khoản hiện tại</td></tr>
+      <tr><td><span class="pill m-post">POST</span></td><td><code>/shifts/{id}/close</code></td><td>Đóng ca, đối chiếu tiền két, tính lệch</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/reports/dashboard</code></td><td>Doanh thu hôm nay, số đơn, hàng sắp hết, top bán chạy</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/reports/revenue?from&amp;to&amp;group_by=day&amp;channel=</code></td><td>Doanh thu theo ngày/tuần/tháng, tách được theo kênh bán</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/reports/profit</code></td><td>Lãi gộp = giá bán − giá vốn tại thời điểm bán</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/reports/top-products</code></td><td>Bán chạy / bán chậm</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/reports/inventory-value</code></td><td>Giá trị tồn kho đang nằm trên kệ</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/reports/export</code></td><td>Xuất Excel</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/settings</code> <span class="pill m-put">PUT</span> <code>/settings</code></td><td>Tên cửa hàng, logo, thông tin ngân hàng, thuế mặc định</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/audit-logs</code></td><td>Nhật ký thao tác, lọc theo người và loại hành động</td></tr>
+      <tr><td><span class="pill m-get">GET</span></td><td><code>/events</code></td><td><span class="pill p-3">Nâng cao</span> SSE đẩy cảnh báo hết hàng &amp; xác nhận thanh toán theo thời gian thực</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ 12 ============ -->
+<section id="s15">
+  <h2><em>15</em> Cấu trúc thư mục</h2>
+  <h3 class="title">Chia theo tầng ở backend, theo tính năng ở frontend</h3>
+  <div class="grid2" style="align-items:start">
+  <div>
+  <span class="filename">backend/</span>
+<pre>backend/
+├── app/
+│   ├── main.py              <i>khởi tạo FastAPI, CORS</i>
+│   ├── config.py            <i>đọc biến môi trường</i>
+│   ├── database.py          <i>engine + session</i>
+│   ├── deps.py              <i>get_db, get_current_user, require()</i>
+│   ├── models/              <i>bảng SQLAlchemy</i>
+│   │   ├── user.py
+│   │   ├── product.py
+│   │   ├── inventory.py
+│   │   ├── order.py
+│   │   └── payment.py
+│   ├── schemas/             <i>Pydantic vào/ra</i>
+│   ├── routers/             <i>một file một module</i>
+│   │   ├── auth.py
+│   │   ├── products.py
+│   │   ├── inventory.py
+│   │   ├── orders.py
+│   │   ├── payments.py
+│   │   ├── scanner.py       <i>ghép cặp + WebSocket</i>
+│   │   ├── online_orders.py
+│   │   ├── shop/            <i>API cho khách hàng</i>
+│   │   │   ├── auth.py
+│   │   │   ├── catalog.py
+│   │   │   ├── cart.py
+│   │   │   └── orders.py
+│   │   ├── reports.py
+│   │   └── webhooks.py
+│   ├── services/            <i>nghiệp vụ — nơi đáng đọc nhất</i>
+│   │   ├── inventory_service.py
+│   │   ├── reservation_service.py <i>giữ / trả hàng</i>
+│   │   ├── order_service.py
+│   │   ├── payment_service.py
+│   │   ├── promotion_service.py
+│   │   ├── vietqr.py
+│   │   ├── barcode.py
+│   │   └── barcode_lookup.py
+│   ├── core/
+│   │   ├── security.py      <i>JWT hai loại token, bcrypt</i>
+│   │   ├── permissions.py   <i>ma trận quyền cố định</i>
+│   │   └── exceptions.py
+│   ├── realtime/hub.py      <i>quản lý kết nối WebSocket</i>
+│   └── tasks/               <i>job nền</i>
+│       ├── release_expired.py <i>dọn đơn giữ hàng quá hạn</i>
+│       └── stock_alerts.py
+├── alembic/                 <i>migration</i>
+├── tests/
+│   ├── test_checkout.py
+│   └── test_concurrency.py  <i>test bán cùng lúc</i>
+├── seeds/seed_data.py       <i>200 mặt hàng mẫu</i>
+├── requirements.txt
+└── Dockerfile</pre>
+  </div>
+  <div>
+  <span class="filename">frontend/</span>
+<pre>frontend/
+├── src/
+│   ├── main.tsx
+│   ├── App.tsx              <i>router + bảo vệ theo quyền</i>
+│   ├── api/
+│   │   ├── client.ts        <i>axios + tự refresh token</i>
+│   │   ├── products.ts
+│   │   ├── orders.ts
+│   │   └── reports.ts
+│   ├── features/
+│   │   ├── pos/             <i>màn hình bán hàng</i>
+│   │   │   ├── PosPage.tsx
+│   │   │   ├── Cart.tsx
+│   │   │   ├── ProductGrid.tsx
+│   │   │   ├── PaymentDialog.tsx
+│   │   │   ├── QrPayment.tsx
+│   │   │   └── ReceiptPrint.tsx
+│   │   ├── scanner/         <i>trang mở trên điện thoại</i>
+│   │   │   ├── ScannerPage.tsx
+│   │   │   └── CameraReader.tsx
+│   │   ├── shop/            <i>website cho khách</i>
+│   │   │   ├── HomePage.tsx
+│   │   │   ├── CatalogPage.tsx
+│   │   │   ├── ProductPage.tsx
+│   │   │   ├── CartPage.tsx
+│   │   │   ├── CheckoutPage.tsx
+│   │   │   └── MyOrdersPage.tsx
+│   │   ├── online-orders/   <i>phía cửa hàng xử lý đơn</i>
+│   │   ├── products/
+│   │   ├── inventory/
+│   │   ├── orders/
+│   │   ├── customers/
+│   │   ├── reports/
+│   │   └── settings/
+│   ├── components/ui/       <i>shadcn</i>
+│   ├── hooks/
+│   │   ├── useBarcodeScanner.ts  <i>máy quét USB</i>
+│   │   ├── useRemoteScanner.ts   <i>điện thoại qua WebSocket</i>
+│   │   ├── useHotkeys.ts
+│   │   └── usePaymentPolling.ts
+│   ├── stores/
+│   │   ├── authStore.ts      <i>token nhân viên</i>
+│   │   ├── shopAuthStore.ts  <i>token khách hàng, tách hẳn</i>
+│   │   ├── cartStore.ts
+│   │   └── shiftStore.ts
+│   ├── lib/format.ts        <i>tiền VND, ngày giờ</i>
+│   └── styles/print.css     <i>khổ giấy 58/80mm</i>
+├── package.json
+└── vite.config.ts</pre>
+  </div>
+  </div>
+  <div class="note">
+    <p><b>Ranh giới quan trọng:</b> <code>routers/</code> chỉ nhận request, kiểm quyền, gọi service, trả response — <strong>không có câu <code>if</code> nghiệp vụ nào</strong>. Mọi logic nằm trong <code>services/</code>. Làm đúng ranh giới này thì viết test dễ và bảo vệ đồ án dễ giải thích.</p>
+  </div>
+</section>
+
+<!-- ============ 13 ============ -->
+<section id="s16">
+  <h2><em>16</em> Màn hình giao diện</h2>
+  <h3 class="title">Phía nhân viên — 18 màn hình</h3>
+  <p>Các trang phía khách hàng (trang chủ, danh mục, giỏ hàng, đặt hàng, đơn của tôi…) liệt kê ở mục <a href="#s13">Thương mại điện tử</a>.</p>
+
+  <h4>Màn hình bán hàng — bố cục</h4>
+<pre>┌──────────────────────────────────────────────────────────────────────┐
+│  Tạp Hoá POS      [ 🔍 Quét hoặc gõ tên hàng… ]     Ca: Lâm · 14:32  │
+├────────────────────────────────────┬─────────────────────────────────┤
+│  GIỎ HÀNG                          │  ☰ Nước ngọt  Bánh kẹo  Mì gói  │
+│  ─────────────────────────────     │  ┌──────┐ ┌──────┐ ┌──────┐    │
+│  Coca 330ml     ×2      20.000     │  │Coca  │ │Pepsi │ │Sting │    │
+│  Hảo Hảo        ×5      22.500     │  │10.000│ │10.000│ │12.000│    │
+│  Sting dâu      ×1      12.000     │  │ 48   │ │ 32   │ │  6 ⚠ │    │
+│                                    │  └──────┘ └──────┘ └──────┘    │
+│                                    │                                 │
+│  ─────────────────────────────     │  KHÁCH HÀNG                     │
+│  Tạm tính           54.500         │  0912••• · Nguyễn A · 320 điểm  │
+│  Giảm giá           −2.500         │                                 │
+│  TỔNG CỘNG          52.000         │  [F3 Tiền mặt]   [F4 Quét QR]   │
+└────────────────────────────────────┴─────────────────────────────────┘</pre>
+  <p>Cột trái là giỏ hàng, luôn nhìn thấy tổng tiền. Cột phải là lưới hàng hoá cho thứ không có mã vạch, kèm số tồn ngay trên thẻ (số đỏ = sắp hết). Ô tìm kiếm trên cùng luôn giữ focus để máy quét bắn số vào được.</p>
+
+  <div class="tw"><table>
+    <thead><tr><th>Màn hình</th><th>Vai trò dùng</th><th>Điểm chính</th><th>Ưu tiên</th></tr></thead>
+    <tbody>
+      <tr><td>Đăng nhập</td><td>Tất cả</td><td>Có ô nhập PIN nhanh cho thu ngân đổi ca</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Bán hàng</td><td>Thu ngân</td><td>Trái tim của hệ thống, tối ưu cho bàn phím</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Thanh toán QR</td><td>Thu ngân</td><td>QR lớn, đếm ngược, tự chuyển khi nhận tiền</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>In hoá đơn</td><td>Thu ngân</td><td>Khổ 58/80mm, chỉ dùng CSS print</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Mở / đóng ca</td><td>Thu ngân</td><td>Đối chiếu tiền két, hiện số lệch</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Danh sách hàng hoá</td><td>Quản lý, kho</td><td>Lọc, tìm, xem tồn, in tem hàng loạt</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Thêm / sửa hàng hoá</td><td>Quản lý</td><td>Upload ảnh, khai đơn vị quy đổi</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Tồn kho</td><td>Kho</td><td>Highlight hàng sắp hết và cận date</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Sổ cái kho</td><td>Quản lý</td><td>Dòng thời gian từng biến động của một mặt hàng</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Phiếu nhập hàng</td><td>Kho</td><td>Quét mã để thêm nhanh, nhập từ Excel</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Kiểm kê</td><td>Kho, quản lý</td><td>So máy nói / đếm tay, cân bằng</td><td><span class="pill p-2">GĐ 2</span></td></tr>
+      <tr><td>Lịch sử đơn hàng</td><td>Quản lý</td><td>Xem lại, in lại, tạo phiếu trả hàng</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Trả hàng</td><td>Quản lý</td><td>Chọn dòng cần trả, quyết định có nhập lại kho</td><td><span class="pill p-2">GĐ 2</span></td></tr>
+      <tr><td>Khách hàng</td><td>Quản lý</td><td>Lịch sử mua, điểm tích luỹ, hạng thành viên</td><td><span class="pill p-2">GĐ 2</span></td></tr>
+      <tr><td>Khuyến mãi</td><td>Quản lý</td><td>Đặt điều kiện và phạm vi áp dụng</td><td><span class="pill p-2">GĐ 2</span></td></tr>
+      <tr><td>Dashboard</td><td>Chủ, quản lý</td><td>Doanh thu, lợi nhuận, biểu đồ, cảnh báo</td><td><span class="pill p-mvp">MVP</span></td></tr>
+      <tr><td>Báo cáo</td><td>Chủ</td><td>Lọc theo khoảng ngày, xuất Excel</td><td><span class="pill p-2">GĐ 2</span></td></tr>
+      <tr><td>Ghép cặp điện thoại</td><td>Thu ngân, kho</td><td>Hiện QR và mã 6 số, danh sách thiết bị đang ghép</td><td><span class="pill p-2">GĐ 2</span></td></tr>
+      <tr><td>Quét trên điện thoại</td><td>Thu ngân, kho</td><td>Camera toàn màn hình, rung và bíp báo, hiện tên hàng vừa quét</td><td><span class="pill p-2">GĐ 2</span></td></tr>
+      <tr><td>Bảng đơn online</td><td>Quản trị, thu ngân</td><td>Chia cột theo trạng thái, đơn mới kêu chuông</td><td><span class="pill p-2">GĐ 2</span></td></tr>
+      <tr><td>Soạn hàng</td><td>Kho</td><td>Tối ưu cho điện thoại, quét đối chiếu từng món, sắp theo vị trí kệ</td><td><span class="pill p-2">GĐ 2</span></td></tr>
+      <tr><td>Quản lý giao hàng</td><td>Quản trị</td><td>Gán người giao, cập nhật trạng thái, ghi nhận giao thất bại</td><td><span class="pill p-3">Nâng cao</span></td></tr>
+      <tr><td>Duyệt đánh giá</td><td>Quản trị</td><td>Ẩn nhận xét vi phạm, trả lời khách</td><td><span class="pill p-3">Nâng cao</span></td></tr>
+      <tr><td>Cấu hình cửa hàng</td><td>Quản trị</td><td>Logo, banner trang chủ, thông tin ngân hàng cho QR, nhân viên</td><td><span class="pill p-2">GĐ 2</span></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<!-- ============ 14 ============ -->
+<section id="s17">
+  <h2><em>17</em> Báo cáo &amp; thống kê</h2>
+  <h3 class="title">Số liệu mà chủ cửa hàng thật sự cần</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4 style="margin-top:0">Dashboard — nhìn 5 giây là biết</h4>
+      <ul style="padding-left:18px; font-size:14px; margin-bottom:0">
+        <li>Doanh thu hôm nay, so với hôm qua và cùng kỳ tuần trước</li>
+        <li>Số đơn · giá trị đơn trung bình</li>
+        <li>Lãi gộp hôm nay <span class="pill p-3">chỉ chủ &amp; quản lý</span></li>
+        <li>Biểu đồ doanh thu 7 / 30 ngày</li>
+        <li>Top 10 hàng bán chạy</li>
+        <li>Đếm số mặt hàng sắp hết và cận date, bấm vào ra danh sách</li>
+        <li>Tỉ lệ tiền mặt / chuyển khoản QR</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4 style="margin-top:0">Báo cáo chuyên sâu</h4>
+      <ul style="padding-left:18px; font-size:14px; margin-bottom:0">
+        <li><strong>Doanh thu</strong> theo ngày / tuần / tháng / danh mục / thu ngân</li>
+        <li><strong>Lợi nhuận</strong> từng mặt hàng — chỗ này mới thấy hàng nào lãi thật</li>
+        <li><strong>Giá trị tồn kho</strong> đang nằm trên kệ</li>
+        <li><strong>Hàng tồn đọng</strong> 60 ngày không bán được cái nào</li>
+        <li><strong>Tổng kết ca</strong> — lệch két theo từng nhân viên</li>
+        <li><strong>Khung giờ đông khách</strong> để xếp lịch nhân viên</li>
+      </ul>
+    </div>
+  </div>
+
+  <h4>Vì sao phải chụp <code>cost_price</code> vào <code>order_items</code></h4>
+  <p>Lãi gộp lấy từ bản chụp giá vốn tại thời điểm bán, không lấy giá vốn hiện tại của sản phẩm. Nhập lô mới giá cao hơn không được làm thay đổi lợi nhuận của tháng trước.</p>
+<pre>SELECT p.name,
+       SUM(oi.quantity)                                  AS so_luong_ban,
+       SUM(oi.line_total)                                AS doanh_thu,
+       SUM(oi.cost_price * oi.quantity)                  AS gia_von,
+       SUM(oi.line_total - oi.cost_price * oi.quantity)  AS lai_gop
+  FROM order_items oi
+  JOIN orders   o ON o.id = oi.order_id
+  JOIN products p ON p.id = oi.product_id
+ WHERE o.status = 'COMPLETED'
+   AND o.completed_at BETWEEN :from_date AND :to_date
+ GROUP BY p.id, p.name
+ ORDER BY lai_gop DESC;</pre>
+
+  <h4>Giá trị tồn kho hiện tại</h4>
+<pre>SELECT SUM(i.quantity * p.cost_price) AS von_dang_nam_tren_ke,
+       SUM(i.quantity * p.sale_price) AS gia_tri_ban_du_kien
+  FROM inventory i
+  JOIN products  p ON p.id = i.product_id
+ WHERE p.is_active = TRUE;</pre>
+
+  <div class="note">
+    <p><b>Hiệu năng:</b> khi dữ liệu lên vài trăm nghìn dòng, các câu <code>GROUP BY</code> theo ngày sẽ chậm. Giải pháp <span class="pill p-3">Nâng cao</span>: một bảng tổng hợp <code>daily_sales_summary</code> được job nền cập nhật lúc nửa đêm, dashboard đọc thẳng từ đó.</p>
+  </div>
+</section>
+
+<!-- ============ 15 ============ -->
+<section id="s18">
+  <h2><em>18</em> Bảo mật &amp; kiểm thử</h2>
+  <h3 class="title">Những thứ hội đồng hay hỏi</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Rủi ro</th><th>Cách xử lý</th></tr></thead>
+    <tbody>
+      <tr><td>Lộ mật khẩu</td><td>Băm bcrypt cost 12, không bao giờ log mật khẩu, không trả <code>password_hash</code> ra API</td></tr>
+      <tr><td>Token bị đánh cắp</td><td>Access token sống 30 phút; refresh token lưu dạng sha256 trong DB, thu hồi được, xoay vòng mỗi lần dùng</td></tr>
+      <tr><td>SQL injection</td><td>Luôn dùng tham số ràng buộc của SQLAlchemy, tuyệt đối không nối chuỗi f-string vào SQL</td></tr>
+      <tr><td>Vượt quyền</td><td>Kiểm tra quyền ở backend bằng dependency; ẩn nút ở frontend chỉ là trang trí</td></tr>
+      <tr><td>Khách hàng gọi API quản trị</td><td>Token mang <code>type</code> là <code>staff</code> hoặc <code>customer</code>; mỗi nhóm đường dẫn chỉ nhận đúng một loại</td></tr>
+      <tr><td>Xem đơn của người khác</td><td>Mọi truy vấn dưới <code>/shop/*</code> lọc theo <code>customer_id</code> lấy từ token, không bao giờ lấy từ tham số client gửi lên</td></tr>
+      <tr><td>Đánh giá khống</td><td>Chỉ cho đánh giá sản phẩm nằm trong đơn <code>COMPLETED</code> của chính mình, mỗi đơn một lần</td></tr>
+      <tr><td>Giữ hàng vô hạn</td><td>Mọi lần giữ hàng đều có <code>expires_at</code>; job chạy mỗi 5 phút trả hàng quá hạn về</td></tr>
+      <tr><td>Sửa giá từ phía client</td><td>Giá bán <strong>luôn lấy lại từ database</strong> lúc chốt đơn, không tin giá client gửi lên</td></tr>
+      <tr><td>Webhook giả</td><td>Ký HMAC-SHA256 + so sánh hằng thời gian + chống lặp bằng <code>reference_code</code> UNIQUE</td></tr>
+      <tr><td>Chốt đơn hai lần</td><td><code>Idempotency-Key</code> UNIQUE trên bảng <code>orders</code></td></tr>
+      <tr><td>Tồn kho âm</td><td>Điều kiện nằm trong <code>WHERE</code> + ràng buộc <code>CHECK (quantity &gt;= 0)</code></td></tr>
+      <tr><td>Sửa lén dữ liệu</td><td>Ghi <code>audit_logs</code> cho mọi thao tác nhạy cảm: đổi giá, huỷ đơn, cân bằng kho</td></tr>
+      <tr><td>Dò mật khẩu</td><td>Giới hạn 5 lần đăng nhập sai / IP / phút</td></tr>
+      <tr><td>Upload file độc</td><td>Chỉ nhận jpg/png/webp, giới hạn 2MB, đổi tên file, không phục vụ file từ thư mục người dùng ghi được</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4>Bộ test tối thiểu</h4>
+  <div class="tw"><table>
+    <thead><tr><th>File</th><th>Kiểm tra điều gì</th></tr></thead>
+    <tbody>
+      <tr><td><code>test_auth.py</code></td><td>Đăng nhập đúng/sai, refresh token, chặn theo vai trò</td></tr>
+      <tr><td><code>test_products.py</code></td><td>CRUD, mã vạch trùng bị từ chối, tìm không dấu ra kết quả</td></tr>
+      <tr><td><code>test_inventory.py</code></td><td>Nhập cộng đúng, bán trừ đúng, sổ cái khớp tồn</td></tr>
+      <tr><td><code>test_checkout.py</code></td><td>Đơn đủ hàng thì chốt được, thiếu hàng thì rollback sạch, không để lại dòng rác</td></tr>
+      <tr><td><code>test_concurrency.py</code></td><td><strong>20 luồng cùng mua 1 sản phẩm còn 10 cái → đúng 10 đơn thành công, 10 đơn báo hết hàng</strong></td></tr>
+      <tr><td><code>test_payment_qr.py</code></td><td>Chuỗi EMVCo có CRC đúng, webhook sai chữ ký bị chặn, gửi trùng không cộng tiền hai lần</td></tr>
+      <tr><td><code>test_reservation.py</code></td><td><strong>Đơn online giữ 2 trong 3 hộp → quầy chỉ bán được 1; huỷ đơn thì trả hàng giữ về đủ</strong></td></tr>
+      <tr><td><code>test_barcode.py</code></td><td>Số kiểm tra EAN-13, một mã chỉ thuộc một sản phẩm, đọc đúng tem cân ra khối lượng</td></tr>
+      <tr><td><code>test_shop_isolation.py</code></td><td>Khách A không xem được đơn của khách B; token khách gọi API quản trị bị chặn</td></tr>
+      <tr><td><code>test_reports.py</code></td><td>Lãi gộp tính từ giá vốn đã chụp, không đổi khi sửa giá vốn hiện tại</td></tr>
+    </tbody>
+  </table></div>
+  <p><code>test_concurrency.py</code> và <code>test_reservation.py</code> là hai bài đáng giá nhất — chạy trước mặt hội đồng là chứng minh được hệ thống xử lý đúng tình huống khó nhất: hai kênh bán tranh nhau một kho.</p>
+</section>
+
+<!-- ============ 16 ============ -->
+<section id="s19">
+  <h2><em>19</em> Lộ trình 12 tuần</h2>
+  <h3 class="title">Mỗi tuần kết thúc bằng một thứ demo được</h3>
+  <p>Phạm vi giờ có hai mặt tiền nên khối lượng gần gấp rưỡi so với chỉ làm POS. Nguyên tắc giữ nguyên: <strong>không tuần nào kết thúc mà không có gì để demo</strong>. Hết tuần 5 đã có hệ thống bán tại quầy dùng thật được; hết tuần 9 có thêm website bán hàng chạy được.</p>
+
+  <div class="weeks">
+    <div class="week"><div class="w">TUẦN 1</div><div><b>Nền móng</b><p>Docker Compose (MySQL + backend + frontend). Dựng schema bằng Alembic. Seed 200 mặt hàng có mã vạch thật. Đăng nhập JWT hai loại token, ba vai nội bộ. <strong>Dựng HTTPS nội bộ bằng mkcert ngay từ tuần này</strong> và cài chứng chỉ lên điện thoại thử một lần — không có bước này thì tới tuần 6 camera không mở được. <em>Demo: ba tài khoản đăng nhập vào ba trang khác nhau.</em></p></div></div>
+    <div class="week"><div class="w">TUẦN 2</div><div><b>Hàng hoá &amp; mã vạch</b><p>CRUD sản phẩm, danh mục, nhà cung cấp, đơn vị quy đổi. Bảng <code>product_barcodes</code> nhiều mã một hàng. Sinh mã nội bộ EAN-13, màn hình in tem hàng loạt. Tra thông tin từ Open Food Facts có cache. <em>Demo: quét một mã lạ ngoài đời, hệ thống tự điền tên và ảnh, lưu xong quét lại ra ngay.</em></p></div></div>
+    <div class="week"><div class="w">TUẦN 3</div><div><b>Kho</b><p><code>InventoryService.apply()</code> + sổ cái. Phiếu nhập hàng và xác nhận. Giá vốn bình quân. Trang tồn kho, cảnh báo sắp hết. Kiểu hàng <code>STANDARD</code> / <code>WEIGHTED</code> / <code>BULK</code> với tồn kho kiểu <code>DECIMAL</code>. <em>Demo: nhập một phiếu, xem tồn tăng và sổ cái ghi đúng từng dòng.</em></p></div></div>
+    <div class="week"><div class="w">TUẦN 4</div><div><b>Bán hàng tại quầy — cột mốc lớn</b><p>Màn hình POS, hook quét mã vạch USB, giỏ hàng, phím tắt, chốt đơn trong transaction, thanh toán tiền mặt, in hoá đơn. <em>Demo: quét 5 món, thanh toán, in bill, tồn kho tự giảm.</em></p></div></div>
+    <div class="week"><div class="w">TUẦN 5</div><div><b>Thanh toán QR</b><p>Tự sinh chuỗi EMVCo VietQR, render ảnh, màn hình QR có đếm ngược, endpoint hỏi trạng thái, webhook ký HMAC, trang mô phỏng ngân hàng. <em>Demo: quét bằng app ngân hàng thật, đơn tự chốt trên màn hình.</em></p></div></div>
+    <div class="week"><div class="w">TUẦN 6</div><div><b>Điện thoại làm máy quét</b><p>Bảng <code>scanner_sessions</code>, ghép cặp bằng QR và mã 6 số, WebSocket đẩy mã về POS, camera qua ZXing, chống quét trùng, rung và bíp báo. Chế độ độc lập cho kiểm kê. <em>Demo: quét bằng điện thoại, hàng nhảy vào giỏ trên màn hình máy tính.</em></p></div></div>
+    <div class="week"><div class="w">TUẦN 7</div><div><b>Hàng cân ký &amp; hàng không mã</b><p>Bán theo khối lượng, đọc tem cân EAN-13 tiền tố 2, chia lẻ từ gói lớn qua <code>product_units</code>, ghi nhận hao hụt, nhịp kiểm kê theo nhóm hàng. <em>Demo: bán 0,35 kg thịt và 3,5 kg gạo lấy từ bao 50 kg, tồn kho lẻ chính xác.</em></p></div></div>
+    <div class="week"><div class="w">TUẦN 8</div><div><b>Website bán hàng — phần khách xem</b><p>Tài khoản khách hàng tách riêng, đăng ký và đăng nhập. Trang chủ, danh mục, chi tiết sản phẩm, tìm kiếm không dấu, giỏ hàng lưu theo tài khoản. <em>Demo: khách đăng ký, tìm hàng, bỏ vào giỏ, đổi máy vẫn còn giỏ.</em></p></div></div>
+    <div class="week"><div class="w">TUẦN 9</div><div><b>Đặt hàng online — cột mốc lớn thứ hai</b><p>Cơ chế giữ hàng <code>reserved</code>, đặt hàng, chọn nhận tại cửa hàng hoặc giao tận nơi, trả tiền khi nhận hoặc chuyển khoản QR, bảng đơn cho cửa hàng, màn hình soạn hàng có quét đối chiếu, job dọn đơn quá hạn. <em>Demo: đặt online 2 hộp sữa, tại quầy chỉ bán được phần còn lại — đây là màn demo giá trị nhất của cả đồ án.</em></p></div></div>
+    <div class="week"><div class="w">TUẦN 10</div><div><b>Khách hàng &amp; nghiệp vụ mở rộng</b><p>Điểm tích luỹ và hạng thành viên dùng chung hai kênh, khuyến mãi, trả hàng có hoàn kho, ca làm việc và đối soát két, đánh giá sản phẩm. <em>Demo: mua online tích điểm, dùng điểm đó giảm giá khi mua tại quầy.</em></p></div></div>
+    <div class="week"><div class="w">TUẦN 11</div><div><b>Báo cáo &amp; kho nâng cao</b><p>Dashboard biểu đồ, doanh thu tách theo kênh, lợi nhuận từng mặt hàng, giá trị tồn kho, tỉ lệ hao hụt, xuất Excel. Kiểm kê và cân bằng kho. Quản lý lô và hạn dùng, xuất FEFO. <em>Demo: so doanh thu quầy với doanh thu online trên cùng một biểu đồ.</em></p></div></div>
+    <div class="week"><div class="w">TUẦN 12</div><div><b>Hoàn thiện &amp; bảo vệ</b><p>Nhật ký thao tác, cấu hình cửa hàng, giới hạn đăng nhập sai, rà soát bảo mật hai loại token. Viết đủ bộ test kể cả test đua tranh hai kênh. Sinh dữ liệu ba tháng cho dashboard có gì mà vẽ. Đóng gói Docker, viết README, dựng kịch bản demo. <em>Demo: chạy trọn vòng từ nhập hàng → bán quầy → bán online → báo cáo cuối tháng.</em></p></div></div>
+  </div>
+
+  <div class="note warn">
+    <p><b>Nếu chỉ có 8 tuần:</b> cắt theo thứ tự này và vẫn còn một đồ án hoàn chỉnh — bỏ tuần 7 (hàng cân ký, làm bản nhập tay đơn giản), gộp tuần 10 vào 11, cắt đánh giá sản phẩm và quản lý giao hàng, để website online chỉ có <strong>nhận tại cửa hàng</strong> chứ không giao tận nơi. <strong>Tuyệt đối không cắt</strong>: sổ cái kho, cơ chế giữ hàng, và bộ test đua tranh — đó là ba thứ làm nên khác biệt của đồ án này.</p>
+  </div>
+
+  <h4>Chín chi tiết làm đồ án nổi bật</h4>
+  <ol style="font-size:14.5px">
+    <li><strong>Một kho cho hai kênh bán</strong> với cơ chế giữ hàng — bán tại quầy và bán online tranh nhau đúng một nguồn tồn.</li>
+    <li><strong>Sổ cái kho bất biến</strong> kèm câu SQL đối soát chứng minh dữ liệu sạch.</li>
+    <li><strong>Test đua tranh</strong> chạy trực tiếp lúc bảo vệ, chứng minh không bao giờ bán quá tồn.</li>
+    <li><strong>Tự cài đặt chuẩn EMVCo VietQR</strong> thay vì gọi SDK — giải thích được từng byte trong mã QR.</li>
+    <li><strong>Điện thoại thành máy quét</strong> qua WebSocket, ba nguồn mã đổ vào một cửa duy nhất.</li>
+    <li><strong>Đọc tem cân điện tử</strong> theo chuẩn EAN-13 tiền tố 2 mà siêu thị thật đang dùng.</li>
+    <li><strong>Tra mã vạch ngoài thị trường</strong> qua Open Food Facts, có cache và có đường lui khi mất mạng.</li>
+    <li><strong>Bản chụp giá</strong> trong <code>order_items</code> — đổi giá mà hoá đơn cũ vẫn đúng.</li>
+    <li><strong>Một lệnh <code>docker compose up</code></strong> là chạy được toàn bộ.</li>
+  </ol>
+
+  <div class="note">
+    <p><b>Bắt đầu từ đâu:</b> dựng <code>docker-compose.yml</code> và chạy file <code>db/schema.sql</code> ở mục <a href="#s5">05</a> trước tiên, <strong>kèm HTTPS nội bộ ngay từ tuần 1</strong>. Có database đúng rồi thì phần còn lại chỉ là lắp ráp — nhưng schema sai từ đầu thì tới tuần thứ tám phải viết lại gần hết.</p>
+  </div>
+</section>
+
+<div class="barcode" style="margin-top:64px"></div>
+<p style="font-size:12.5px; color:var(--ink3); margin-top:14px; font-family:'JetBrains Mono';">Tạp Hoá POS · Bản thiết kế hệ thống · bản 2 · 27.08.2026</p>
+
+</div></main>
+</div>
+
+<script>
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+  var map = {};
+  links.forEach(function (a) { map[a.getAttribute('href').slice(1)] = a; });
+
+  var obs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      links.forEach(function (a) { a.classList.remove('on'); });
+      var link = map[e.target.id];
+      if (link) link.classList.add('on');
+    });
+  }, { rootMargin: '0px 0px -75% 0px', threshold: 0 });
+
+  document.querySelectorAll('section[id]').forEach(function (s) { obs.observe(s); });
+})();
+</script>
