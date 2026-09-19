@@ -24,6 +24,6 @@ Giỏ POS: nút Nháp / Xoá đơn. Chip hàng «Để đó» ghi Chưa TT 1, Ch
 
 Dev: máy tính HTTP `http://127.0.0.1:5173` (Cursor không tin mkcert → ERR_CERT_AUTHORITY_INVALID). Ghép ĐT dùng HTTP `:5173` (QR không kẹt chứng chỉ). Camera iPhone mới cần HTTPS `:5174`. IP Wi‑Fi lấy bằng WebRTC — không tin `PUBLIC_HOST` cũ trong Docker. Đổi Wi‑Fi thì chạy `scripts/mkcert-lan.sh` rồi restart frontend.
 
-Logo web: `frontend/public/logo-lam-mart.png` (Lâm Mart). Component `BrandLogo`. Header shop/admin/POS/login dùng ảnh này, không dùng emoji 🥬 làm logo.
+Logo web: `frontend/public/logo-lam-mart.png` (Lâm Ly Mart). Component `BrandLogo`. Header shop/admin/POS/login dùng ảnh này, không dùng emoji 🥬 làm logo. Tên cửa hàng mặc định: Lâm Ly Mart.
 
 Thông báo: toast có kicker (Xong / Chưa được / Nhắc), không chồng tấm trùng. Modal nhỏ xếp nút dọc. Hộp nhắc trong form/modal dùng `Notice`. Không chữ giải thích dài (hint, subtitle dạy cách dùng) — chỉ nhãn, số liệu, lỗi.

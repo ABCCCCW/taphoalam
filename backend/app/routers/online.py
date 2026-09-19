@@ -110,8 +110,10 @@ def pick(order_id: int, body: PickIn, db: Session = Depends(get_db), _: User = D
     if not item:
         raise HTTPException(400, "Không khớp sản phẩm trong đơn")
     if body.actual_qty is not None and item.product and item.product.product_type == "WEIGHTED":
+        old_qty = float(item.quantity) or 1
+        item.discount = money(float(item.discount or 0) * body.actual_qty / old_qty)
         item.quantity = body.actual_qty
-        item.line_total = money(float(item.unit_price) * body.actual_qty)
+        item.line_total = money(float(item.unit_price) * body.actual_qty - float(item.discount))
         order.subtotal = money(sum(float(i.line_total) for i in order.items))
         order.total_amount = money(float(order.subtotal) - float(order.discount_amount) + float(order.shipping_fee))
     return {"ok": True, "item_id": item.id, "total_amount": float(order.total_amount)}

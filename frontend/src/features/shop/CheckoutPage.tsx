@@ -10,6 +10,7 @@ import Button from "../../components/ui/Button";
 import { ChoiceCard, Input, Textarea } from "../../components/ui/Field";
 import { EmptyState, Skeleton } from "../../components/ui/Feedback";
 import { useToast } from "../../components/ui/Toast";
+import { promoDiscount, type Promo } from "../../stores/cartStore";
 
 const SHIP_FEE = 15000;
 
@@ -39,7 +40,12 @@ export default function CheckoutPage() {
   const saved = addrs.data?.[0];
   const needAddress = method === "DELIVERY" && !saved;
   const ship = method === "DELIVERY" ? SHIP_FEE : 0;
-  const total = Number(cart.data?.subtotal || 0) + ship;
+  const promos = useQuery<Promo[]>({ queryKey: ["shop-promos"], queryFn: shopApi.promotions, enabled: !!customer });
+  const subtotal = Number(cart.data?.subtotal || 0);
+  const chosen = (promos.data || []).find((p) => p.code === promo) || null;
+  const promoOff = promoDiscount(chosen, subtotal);
+  const nearOff = items.reduce((s: number, i: any) => s + Number(i.discount || 0), 0);
+  const total = subtotal - promoOff + ship;
 
   const place = async () => {
     /* Kiểm địa chỉ trước khi gọi: thiếu tên hay số nhà thì đơn giao không tới
@@ -68,7 +74,7 @@ export default function CheckoutPage() {
       const order = await shopApi.placeOrder({
         delivery_method: method,
         payment_method: pay,
-        promo_code: promo.trim() || undefined,
+        promo_code: promoOff > 0 ? promo : undefined,
         note: note.trim() || undefined,
         address_id,
       });
@@ -222,12 +228,36 @@ export default function CheckoutPage() {
             />
           </div>
           <div className="mt-4 grid gap-3">
-            <Input
-              label="Mã giảm giá"
-              placeholder="TET10"
-              value={promo}
-              onChange={(e) => setPromo(e.target.value.toUpperCase())}
-            />
+            <div>
+              <div className="mb-1.5 text-sm font-semibold text-ink-600">Mã giảm giá</div>
+              {!promos.data?.length ? (
+                <p className="text-sm text-ink-400">Hiện chưa có mã nào đang chạy.</p>
+              ) : (
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {promos.data.map((p) => {
+                    const off = promoDiscount(p, subtotal);
+                    const on = p.code === promo;
+                    return (
+                      <button
+                        key={p.id}
+                        type="button"
+                        disabled={off <= 0 && !on}
+                        onClick={() => setPromo(on ? "" : p.code)}
+                        className={`rounded-2xl border p-3 text-left transition disabled:opacity-45 ${
+                          on ? "border-lime-400 bg-lime-50 ring-2 ring-lime-200" : "border-black/10 hover:border-lime-400"
+                        }`}
+                      >
+                        <div className="font-mono text-xs font-black text-ink-900">{p.code}</div>
+                        <div className="truncate text-sm text-ink-700">{p.name}</div>
+                        <div className="mt-0.5 text-xs text-ink-400">
+                          {off > 0 ? `Giảm ${vnd(off)}` : `Thêm ${vnd(p.min_order_amount - subtotal)} để dùng`}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
             <Textarea
               label="Ghi chú cho quán"
               rows={2}
@@ -250,7 +280,12 @@ export default function CheckoutPage() {
                   {i.name} <span className="text-ink-400">× {num(i.quantity)}</span>
                 </span>
               </span>
-              <span className="shrink-0 font-semibold">{vnd(i.line_total)}</span>
+              <span className="shrink-0 text-right font-semibold">
+                {vnd(i.line_total)}
+                {Number(i.discount) > 0 && (
+                  <span className="block text-[11px] font-bold text-coral-600">Cận date −{vnd(i.discount)}</span>
+                )}
+              </span>
             </li>
           ))}
         </ul>
@@ -258,6 +293,18 @@ export default function CheckoutPage() {
           <span>Tạm tính</span>
           <span>{vnd(cart.data?.subtotal)}</span>
         </div>
+        {nearOff > 0 && (
+          <div className="flex justify-between text-sm text-coral-600">
+            <span>Đã trừ hàng cận date</span>
+            <span>−{vnd(nearOff)}</span>
+          </div>
+        )}
+        {promoOff > 0 && (
+          <div className="flex justify-between text-sm text-coral-600">
+            <span>Mã {chosen?.code}</span>
+            <span>−{vnd(promoOff)}</span>
+          </div>
+        )}
         <div className="flex justify-between text-sm text-ink-500">
           <span>Phí giao</span>
           <span>{ship ? vnd(ship) : "0đ"}</span>

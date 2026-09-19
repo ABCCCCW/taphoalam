@@ -12,7 +12,41 @@ export type CartLine = {
   available?: number;
   product_unit_id?: number;
   cost_confirmed?: boolean;
+  /** Số lượng thuộc lô cận date và % giảm tự động (backend tính lại khi thanh toán). */
+  near_qty?: number;
+  near_pct?: number;
+  near_expiry_date?: string | null;
 };
+
+/** Tiền giảm cận date của một dòng: chỉ phần số lượng thuộc lô cận date được giảm. */
+export function lineDiscount(l: CartLine) {
+  if (!l.near_qty || !l.near_pct) return 0;
+  return Math.round(l.unit_price * Math.min(l.quantity, l.near_qty) * l.near_pct) / 100;
+}
+
+export function lineNet(l: CartLine) {
+  return l.unit_price * l.quantity - lineDiscount(l);
+}
+
+export type Promo = {
+  id: number;
+  code: string;
+  name: string;
+  description?: string | null;
+  type: "PERCENT" | "AMOUNT";
+  value: number;
+  min_order_amount: number;
+  max_discount?: number | null;
+  end_date: string;
+};
+
+/** Tiền giảm của mã cho đơn — 0 nếu chưa đủ đơn tối thiểu. Công thức giống backend. */
+export function promoDiscount(p: Promo | null | undefined, subtotal: number) {
+  if (!p || subtotal < p.min_order_amount) return 0;
+  let d = p.type === "AMOUNT" ? p.value : Math.round(subtotal * p.value) / 100;
+  if (p.max_discount) d = Math.min(d, p.max_discount);
+  return Math.min(d, subtotal);
+}
 
 type Held = { id: string; lines: CartLine[]; customer?: any };
 
@@ -61,6 +95,9 @@ export const useCart = create<State>((set, get) => ({
         product_type: p.product_type,
         available: p.available,
         cost_confirmed: p.cost_confirmed !== false,
+        near_qty: p.near_expiry?.qty,
+        near_pct: p.near_expiry?.percent,
+        near_expiry_date: p.near_expiry?.expiry_date,
       });
     }
     set({ lines });

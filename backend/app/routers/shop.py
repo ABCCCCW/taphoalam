@@ -31,6 +31,7 @@ from app.models import (
 )
 from app.realtime.hub import hub
 from app.routers.products import serialize_product
+from app.services.promo_service import live_order_promos, near_expiry_info, near_expiry_line_discount, near_expiry_promo, serialize_promo
 from app.services.order_service import apply_promo, create_qr_payment, gen_order_code
 from app.services.reservation_service import ReservationService
 
@@ -221,10 +222,13 @@ def get_cart(db: Session, customer: Customer | None, session_key: str | None) ->
 def serialize_cart(db: Session, cart: Cart):
     items = []
     subtotal = 0.0
+    near_promo = near_expiry_promo(db)
     for i in cart.items:
         p = i.product
         inv = db.get(Inventory, (p.id, 1))
         available = float(inv.quantity) - float(inv.reserved) if inv else 0
+        gross = money(float(p.sale_price) * float(i.quantity))
+        discount = near_expiry_line_discount(db, p.id, float(p.sale_price), float(i.quantity), near_promo)
         line = {
             "id": i.id,
             "product_id": p.id,
@@ -237,11 +241,20 @@ def serialize_cart(db: Session, cart: Cart):
             "product_type": p.product_type,
             "available": available,
             "out_of_stock": available < float(i.quantity),
-            "line_total": money(float(p.sale_price) * float(i.quantity)),
+            "gross_total": gross,
+            "discount": discount,
+            "near_expiry": near_expiry_info(db, p.id, near_promo),
+            "line_total": money(gross - discount),
         }
         items.append(line)
         subtotal += line["line_total"]
     return {"id": cart.id, "items": items, "subtotal": money(subtotal)}
+
+
+@shop.get("/promotions")
+def shop_promotions(db: Session = Depends(get_db)):
+    """Mã đang chạy cho khách chọn lúc đặt hàng."""
+    return [serialize_promo(p) for p in live_order_promos(db)]
 
 
 @shop.get("/cart")
@@ -366,9 +379,11 @@ async def place_order(body: PlaceOrderIn, customer: Customer = Depends(get_curre
     db.add(order)
     db.flush()
     subtotal = 0.0
+    near_promo = near_expiry_promo(db)
     for ci in list(cart.items):
         p = ci.product
-        line_total = money(float(p.sale_price) * float(ci.quantity))
+        line_discount = near_expiry_line_discount(db, p.id, float(p.sale_price), float(ci.quantity), near_promo)
+        line_total = money(float(p.sale_price) * float(ci.quantity) - line_discount)
         db.add(
             OrderItem(
                 order_id=order.id,
@@ -379,6 +394,7 @@ async def place_order(body: PlaceOrderIn, customer: Customer = Depends(get_curre
                 quantity=float(ci.quantity),
                 ordered_qty=float(ci.quantity),
                 vat_rate=float(p.vat_rate),
+                discount=line_discount,
                 line_total=line_total,
             )
         )
@@ -425,6 +441,7 @@ def shop_order(order: Order):
                 "product_name": i.product_name,
                 "quantity": float(i.quantity),
                 "unit_price": float(i.unit_price),
+                "discount": float(i.discount or 0),
                 "line_total": float(i.line_total),
                 "emoji": i.product.emoji if i.product else "🛒",
                 "image_url": i.product.image_url if i.product else None,

@@ -178,7 +178,7 @@ def seed(reset: bool = False):
             image_url=image_url,
             is_online=online,
             online_sale_mode="APPROX" if ptype == "WEIGHTED" else ("PICKUP_ONLY" if not online else "EXACT"),
-            description=f"{name} — hàng nhập thường xuyên, giá tốt tại TạpHoá.",
+            description=f"{name} — hàng nhập thường xuyên, giá tốt tại Lâm Ly Mart.",
             sold_count=max(0, 40 - i),
             rating_avg=4.2 + (i % 8) * 0.1,
             rating_count=3 + i % 12,
@@ -246,7 +246,7 @@ def seed(reset: bool = False):
     )
 
     settings = {
-        "store.name": "TạpHoá Lâm",
+        "store.name": "Lâm Ly Mart",
         "store.address": "12 Nguyễn Trãi, Thanh Xuân, Hà Nội",
         "store.phone": "0901 234 567",
         "store.slogan": "Tươi mỗi ngày, gần ngay phố",
@@ -263,6 +263,9 @@ def seed(reset: bool = False):
     from app.services.batch_service import backfill_opening_lots
 
     lots = backfill_opening_lots(db)
+    from seeds.promotions import seed_promotions
+
+    seed_promotions(db)
     db.commit()
     print(
         "Seed xong: admin/admin123 · cashier/cashier123 · stocker/stocker123 · khách 0901234567/khach123"

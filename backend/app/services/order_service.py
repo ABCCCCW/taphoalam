@@ -8,6 +8,7 @@ from sqlalchemy.orm import Session
 from app.config import settings
 from app.core.exceptions import AppError
 from app.core.utils import money, next_code, utcnow
+from app.services.promo_service import near_expiry_line_discount, near_expiry_promo, order_discount
 from app.models import Customer, Order, OrderItem, Payment, Product, ProductBarcode, ProductUnit, Promotion, Setting, Shift, StockReservation
 from app.services.inventory_service import InventoryService
 from app.services.reservation_service import ReservationService
@@ -85,21 +86,23 @@ def inventory_view(db: Session, product_id: int, warehouse_id: int = 1) -> dict:
 def apply_promo(db: Session, subtotal: float, code: str | None) -> tuple[float, int | None]:
     if not code:
         return 0, None
-    promo = db.query(Promotion).filter(Promotion.code == code.upper(), Promotion.is_active.is_(True)).first()
+    promo = (
+        db.query(Promotion)
+        .filter(Promotion.code == code.strip().upper(), Promotion.is_active.is_(True), Promotion.scope == "ORDER")
+        .first()
+    )
     if not promo:
         raise AppError("PROMO_INVALID", "Mã khuyến mãi không hợp lệ")
     now = utcnow()
-    if now < promo.start_at or now > promo.end_at:
+    if now < promo.start_at:
+        raise AppError("PROMO_NOT_STARTED", "Mã khuyến mãi chưa tới ngày áp dụng")
+    if now > promo.end_at:
         raise AppError("PROMO_EXPIRED", "Mã khuyến mãi đã hết hạn")
     if float(subtotal) < float(promo.min_order_amount):
         raise AppError("PROMO_MIN", f"Đơn tối thiểu {int(promo.min_order_amount):,}đ".replace(",", "."))
     if promo.usage_limit and promo.used_count >= promo.usage_limit:
         raise AppError("PROMO_LIMIT", "Mã đã hết lượt dùng")
-    discount = float(promo.value) if promo.type == "AMOUNT" else money(subtotal * float(promo.value) / 100)
-    if promo.max_discount:
-        discount = min(discount, float(promo.max_discount))
-    discount = min(discount, float(subtotal))
-    return discount, promo.id
+    return order_discount(promo, subtotal), promo.id
 
 
 def checkout_pos(db: Session, *, user, payload: dict, idempotency_key: str | None):
@@ -140,6 +143,7 @@ def checkout_pos(db: Session, *, user, payload: dict, idempotency_key: str | Non
 
     subtotal = 0.0
     snapshots = []
+    near_promo = near_expiry_promo(db)
     for raw in items_in:
         snap = product_snapshot(
             db,
@@ -149,6 +153,17 @@ def checkout_pos(db: Session, *, user, payload: dict, idempotency_key: str | Non
             raw.get("barcode"),
         )
         snapshots.append(snap)
+        # Hàng cận date: tự trừ % thẳng vào dòng, thu ngân không phải chọn mã
+        line_discount = near_expiry_line_discount(
+            db,
+            snap["product"].id,
+            snap["unit_price"],
+            snap["quantity"],
+            near_promo,
+            conversion=snap["conversion_rate"],
+            warehouse_id=warehouse_id,
+        )
+        snap["line_total"] = money(snap["line_total"] - line_discount)
         item = OrderItem(
             order_id=order.id,
             product_id=snap["product"].id,
@@ -160,6 +175,7 @@ def checkout_pos(db: Session, *, user, payload: dict, idempotency_key: str | Non
             quantity=snap["quantity"],
             conversion_rate=snap["conversion_rate"],
             vat_rate=float(snap["product"].vat_rate),
+            discount=line_discount,
             line_total=snap["line_total"],
         )
         db.add(item)

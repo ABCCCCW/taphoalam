@@ -46,6 +46,7 @@ def serialize_order(order: Order):
                 "image_url": i.product.image_url if i.product else None,
                 "quantity": float(i.quantity),
                 "unit_price": float(i.unit_price),
+                "discount": float(i.discount or 0),
                 "line_total": float(i.line_total),
                 "cost_price": float(i.cost_price),
             }
@@ -156,7 +157,7 @@ def receipt(order_id: int, db: Session = Depends(get_db), _: User = Depends(requ
     if not order:
         raise HTTPException(404, "Không tìm thấy đơn")
     return {
-        "store_name": (db.get(Setting, "store.name").value if db.get(Setting, "store.name") else "TạpHoá Lâm"),
+        "store_name": (db.get(Setting, "store.name").value if db.get(Setting, "store.name") else "Lâm Ly Mart"),
         "store_address": (db.get(Setting, "store.address").value if db.get(Setting, "store.address") else "12 Nguyễn Trãi, Thanh Xuân, Hà Nội"),
         "store_phone": (db.get(Setting, "store.phone").value if db.get(Setting, "store.phone") else ""),
         "order": serialize_order(order),
@@ -265,7 +266,9 @@ def create_return(order_id: int, body: ReturnIn, db: Session = Depends(get_db), 
         qty = float(raw["quantity"])
         if not item or qty <= 0:
             continue
-        refund = money(float(item.unit_price) * qty)
+        # Hoàn theo giá thực thu (đã trừ giảm cận date), không theo giá niêm yết
+        net_unit = float(item.line_total) / float(item.quantity) if float(item.quantity) else float(item.unit_price)
+        refund = money(net_unit * qty)
         db.add(OrderReturnItem(return_id=ret.id, order_item_id=item.id, product_id=item.product_id, quantity=qty, refund_amount=refund))
         item.returned_qty = float(item.returned_qty) + qty
         total += refund

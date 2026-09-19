@@ -1,4 +1,4 @@
-# TạpHoá POS — siêu thị mini, hai mặt tiền một kho
+# Lâm Ly Mart — siêu thị mini, hai mặt tiền một kho
 
 Hệ thống bán hàng tạp hoá: **quầy thu ngân (POS)** + **website khách tự đặt**, dùng chung tồn kho, giữ hàng cho đơn online, thanh toán VietQR, điện thoại làm máy quét.
 

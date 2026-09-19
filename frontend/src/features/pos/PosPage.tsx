@@ -3,7 +3,7 @@ import { createPortal } from "react-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { staffApi } from "../../api/client";
 import { useAuth } from "../../stores/authStore";
-import { useCart } from "../../stores/cartStore";
+import { lineDiscount, lineNet, promoDiscount, useCart, type Promo } from "../../stores/cartStore";
 import { num, uid, vnd } from "../../lib/format";
 import { homeFor } from "../../lib/roles";
 import { look, ROLE } from "../../lib/labels";
@@ -19,7 +19,7 @@ import { useToast } from "../../components/ui/Toast";
 import { Notice } from "../../components/ui/Feedback";
 import {
   Banknote, LayoutDashboard, ListFilter, LogOut, Minus, PackagePlus, Pause,
-  Plus, QrCode, Search, Settings, Smartphone, StickyNote, Trash2, UserRound, X,
+  Plus, QrCode, Search, Settings, Smartphone, StickyNote, Trash2, UserRound, X, BadgePercent, Check,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { phoneHost, phoneJoinOrigin, phoneHttpsPort, phoneHttpPort, isLoopback, publicOrigin } from "../../lib/origin";
@@ -33,6 +33,13 @@ function staffCodeOf(id?: number | null) {
   return `NV${String(id).padStart(3, "0")}`;
 }
 
+function prettyPhone(raw?: string) {
+  const d = (raw || "").replace(/\D/g, "");
+  if (d.length === 10) return `${d.slice(0, 4)} ${d.slice(4, 7)} ${d.slice(7)}`;
+  if (d.length === 11) return `${d.slice(0, 4)} ${d.slice(4, 7)} ${d.slice(7)}`;
+  return raw || "";
+}
+
 /** Ca sáng 6h–18h, ca đêm phần còn lại — theo giờ mở ca. */
 function caLabel(openedAt?: string | null) {
   const h = (openedAt ? new Date(openedAt) : new Date()).getHours();
@@ -44,7 +51,7 @@ export default function PosPage() {
   const nav = useNavigate();
   const qc = useQueryClient();
   const toast = useToast();
-  const { lines, add, setQty, remove, clear, customer, setCustomer, discount, setDiscount, promo, setPromo, hold, held, restore } = useCart();
+  const { lines, add, setQty, remove, clear, customer, setCustomer, discount, promo, setPromo, hold, held, restore } = useCart();
   const [q, setQ] = useState("");
   const [cat, setCat] = useState<number | "">("");
   const [phone, setPhone] = useState("");
@@ -104,6 +111,8 @@ export default function PosPage() {
     refetchInterval: 8000,
   });
   const settings = useQuery({ queryKey: ["set"], queryFn: staffApi.settings, staleTime: 60_000 });
+  // Chỉ mã đang trong hạn mới về đây; qua nửa đêm là mã hết hạn tự biến mất khỏi danh sách.
+  const promos = useQuery<Promo[]>({ queryKey: ["promos-live"], queryFn: staffApi.promotionsAvailable, refetchInterval: 60_000 });
 
   const shelves = useMemo(() => {
     const items = products.data?.items || [];
@@ -117,8 +126,12 @@ export default function PosPage() {
     return rest.length ? [...grouped, { id: "other", icon: "📦", name: "Hàng khác", items: rest }] : grouped;
   }, [products.data, cats.data]);
 
-  const subtotal = lines.reduce((s, l) => s + l.unit_price * l.quantity, 0);
-  const total = Math.max(0, subtotal - discount);
+  // Tạm tính đã trừ giảm cận date của từng món
+  const subtotal = lines.reduce((s, l) => s + lineNet(l), 0);
+  const nearOff = lines.reduce((s, l) => s + lineDiscount(l), 0);
+  const chosen = (promos.data || []).find((p) => p.code === promo) || null;
+  const promoOff = promoDiscount(chosen, subtotal);
+  const total = Math.max(0, subtotal - promoOff - discount);
   const count = lines.reduce((s, l) => s + l.quantity, 0);
   const inCart = (id: number) => lines.find((l) => l.product_id === id)?.quantity || 0;
   const shelfOf = (id: number) => {
@@ -316,7 +329,7 @@ export default function PosPage() {
           payment_method: method,
           received: method === "CASH" ? cash : total,
           discount,
-          promo_code: promo || undefined,
+          promo_code: promoOff > 0 ? promo : undefined,
         },
         uid()
       );
@@ -341,7 +354,7 @@ export default function PosPage() {
     try {
       setSlip(await staffApi.receipt(order.id));
     } catch {
-      setSlip({ store_name: "TạpHoá Lâm", store_address: "12 Nguyễn Trãi, Thanh Xuân, Hà Nội", order });
+      setSlip({ store_name: "Lâm Ly Mart", store_address: "12 Nguyễn Trãi, Thanh Xuân, Hà Nội", order });
     }
   };
 
@@ -411,7 +424,7 @@ export default function PosPage() {
     }
   };
 
-  const storeName = settings.data?.["store.name"] || "Lâm Mart";
+  const storeName = settings.data?.["store.name"] || "Lâm Ly Mart";
   const storeAddress = settings.data?.["store.address"] || "12 Nguyễn Trãi, Thanh Xuân, Hà Nội";
   const storePhone = settings.data?.["store.phone"] || "";
   const pickedCat = cats.data?.find((c: any) => c.id === cat);
@@ -424,25 +437,35 @@ export default function PosPage() {
     .toUpperCase();
   const staffCode = staffCodeOf(user?.id);
   const caName = shift.data ? caLabel(shift.data.opened_at) : "";
-  const staffLine = [staffCode, caName].filter(Boolean).join(" · ");
 
   return (
     <div className="grid min-h-dvh grid-rows-[auto_1fr] overflow-x-hidden bg-cream text-ink-900 sm:h-dvh sm:overflow-hidden">
-      <header className="flex min-w-0 items-center gap-3 border-b border-black/[.06] bg-[#FFFBF4] px-3 py-2.5 text-forest-900 sm:px-4">
+      <header className="flex min-w-0 items-center gap-3 border-b-2 border-coral-400 bg-cream px-3 py-2.5 text-forest-900 sm:gap-4 sm:px-5">
         <button onClick={() => nav(homeFor(user?.role))} className="flex min-w-0 flex-1 items-center gap-3 text-left">
-          <BrandLogo size={40} className="h-10 w-10 shrink-0" />
+          <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-white shadow-card ring-1 ring-black/[.06]">
+            <BrandLogo size={40} className="h-10 w-10" />
+          </span>
           <span className="min-w-0">
-            <span className="block truncate font-display text-lg font-black leading-tight">{storeName}</span>
-            <span className="mt-0.5 block truncate text-xs font-medium text-ink-500">
-              {[storeAddress, storePhone].filter(Boolean).join(" · ")}
+            <span className="block truncate font-display text-xl font-black leading-none tracking-tight">{storeName}</span>
+            <span className="mt-1.5 flex min-w-0 flex-wrap items-center gap-1.5">
+              {storeAddress && (
+                <span className="truncate text-[11px] font-semibold text-ink-500">{storeAddress}</span>
+              )}
+              {storePhone && (
+                <span className="inline-flex shrink-0 items-center rounded-full bg-white px-2 py-0.5 font-mono text-[11px] font-bold text-coral-600 shadow-sm ring-1 ring-coral-100">
+                  {prettyPhone(storePhone)}
+                </span>
+              )}
             </span>
           </span>
         </button>
         <div className="relative shrink-0">
           <button
             className={cn(
-              "flex max-w-[16rem] items-center gap-2.5 rounded-2xl py-1 pl-2 pr-1 text-left transition",
-              more ? "bg-lime-200" : "hover:bg-lime-50"
+              "flex max-w-[17rem] items-center gap-2.5 rounded-2xl py-1.5 pl-3 pr-1.5 text-left shadow-card ring-1 transition",
+              more
+                ? "bg-white ring-coral-400"
+                : "bg-white ring-black/[.06] hover:ring-coral-300"
             )}
             onClick={() => {
               setFilterOpen(false);
@@ -454,18 +477,18 @@ export default function PosPage() {
               <span className="block truncate font-display text-sm font-black leading-tight text-forest-900">
                 {user?.full_name || user?.username}
               </span>
-              {staffLine && (
-                <span className="mt-0.5 block truncate text-[11px] font-semibold text-ink-500">
-                  {staffLine}
-                </span>
-              )}
+              <span className="mt-1 flex items-center gap-1.5">
+                {staffCode && (
+                  <span className="font-mono text-[11px] font-bold text-ink-500">{staffCode}</span>
+                )}
+                {caName && (
+                  <span className="rounded-full bg-coral-500 px-2 py-0.5 text-[10px] font-extrabold leading-none text-white">
+                    {caName}
+                  </span>
+                )}
+              </span>
             </span>
-            <span
-              className={cn(
-                "grid h-10 w-10 shrink-0 place-items-center rounded-full text-forest-900",
-                more ? "bg-lime-300" : "bg-ink-100"
-              )}
-            >
+            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-coral-500 text-white">
               <UserRound className="h-5 w-5" />
             </span>
           </button>
@@ -473,8 +496,8 @@ export default function PosPage() {
             <>
               <div className="fixed inset-0 z-30" onClick={() => setMore(false)} />
               <div className="card absolute right-0 top-12 z-40 w-72 p-2 text-sm text-ink-900 shadow-pop">
-                <div className="mb-1 flex items-center gap-3 rounded-xl bg-lime-50 px-2.5 py-2.5">
-                  <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-lime-300 font-display text-sm font-black text-forest-900">
+                <div className="mb-1 flex items-center gap-3 rounded-xl bg-coral-50 px-2.5 py-2.5">
+                  <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-coral-500 font-display text-sm font-black text-white">
                     {initials}
                   </div>
                   <div className="min-w-0">
@@ -765,6 +788,11 @@ export default function PosPage() {
                     <div className="text-xs text-coral-500">Kệ còn {num(shelfOf(l.product_id) || 0)} — bớt số lượng nhé</div>
                   ) : l.cost_confirmed === false ? (
                     <div className="text-xs text-sun-700">Hàng ngoài</div>
+                  ) : lineDiscount(l) > 0 ? (
+                    <div className="flex items-center gap-1.5 text-xs">
+                      <span className="rounded-full bg-coral-100 px-1.5 py-px font-extrabold text-coral-700">Cận date −{l.near_pct}%</span>
+                      <span className="text-ink-400 line-through">{money(l.unit_price)}đ</span>
+                    </div>
                   ) : (
                     <div className="text-xs text-ink-400">{money(l.unit_price)}đ</div>
                   )}
@@ -778,7 +806,10 @@ export default function PosPage() {
                     <Plus className="h-4 w-4" />
                   </button>
                 </div>
-                <div className="w-[4.5rem] shrink-0 text-right text-sm font-black text-ink-900">{money(l.unit_price * l.quantity)}đ</div>
+                <div className="w-[4.5rem] shrink-0 text-right text-sm font-black text-ink-900">
+                  {money(lineNet(l))}đ
+                  {lineDiscount(l) > 0 && <div className="text-[0.6875rem] font-bold text-coral-600">−{money(lineDiscount(l))}đ</div>}
+                </div>
               </div>
             ))}
             {!lines.length && (
@@ -794,14 +825,30 @@ export default function PosPage() {
 
           <div className="bg-forest-900 p-3 pt-2 text-white">
             {promoOpen && (
-              <div className="mb-2 flex gap-2">
-                <input className="input py-2 text-ink-900" placeholder="Mã KM · TET10" value={promo} onChange={(e) => setPromo(e.target.value)} />
-                <input className="input w-24 py-2 text-ink-900" placeholder="Giảm" type="number" value={discount || ""} onChange={(e) => setDiscount(Number(e.target.value))} />
-              </div>
+              <PromoPicker
+                promos={promos.data || []}
+                loading={promos.isPending}
+                subtotal={subtotal}
+                value={promo}
+                onPick={(code) => {
+                  setPromo(code === promo ? "" : code);
+                  if (code !== promo) setPromoOpen(false);
+                }}
+              />
+            )}
+            {nearOff > 0 && (
+              <div className="mb-1 px-1 text-xs font-semibold text-coral-300">Đã trừ cận date −{money(nearOff)}đ</div>
             )}
             <div className="mb-3 flex items-end justify-between px-1">
-              <button className="text-xs font-bold text-lime-300" onClick={() => setPromoOpen((v) => !v)}>
-                {promoOpen ? "Ẩn KM" : discount || promo ? `KM −${money(discount)}đ` : "+ Mã KM"}
+              <button className="inline-flex items-center gap-1 text-xs font-bold text-lime-300" onClick={() => setPromoOpen((v) => !v)}>
+                <BadgePercent className="h-3.5 w-3.5" />
+                {promoOpen
+                  ? "Ẩn KM"
+                  : chosen
+                    ? promoOff > 0
+                      ? `${chosen.code} −${money(promoOff)}đ`
+                      : `${chosen.code} · thiếu ${money(chosen.min_order_amount - subtotal)}đ`
+                    : `Chọn mã KM${promos.data?.length ? ` (${promos.data.length})` : ""}`}
               </button>
               <div className="text-right">
                 <div className="text-xs text-white/60">Cần thu</div>
@@ -832,7 +879,7 @@ export default function PosPage() {
         <CashPayModal
           lines={lines}
           subtotal={subtotal}
-          discount={discount}
+          discount={promoOff + discount}
           total={total}
           customer={customer}
           cashier={user?.full_name}
@@ -1087,6 +1134,11 @@ function PosRow({ p, qty, onAdd }: { p: any; qty: number; onAdd: () => void }) {
             Hết hàng
           </span>
         )}
+        {!out && p.near_expiry && (
+          <span className="absolute bottom-1.5 left-1.5 rounded-full bg-coral-500 px-2 py-0.5 text-[0.625rem] font-extrabold text-white">
+            Cận date −{p.near_expiry.percent}%
+          </span>
+        )}
       </span>
 
       <span className="flex flex-1 flex-col px-1 pb-0.5 pt-2">
@@ -1241,6 +1293,57 @@ function CloseShiftModal({
         {diff === 0 ? "Khớp đúng số" : diff > 0 ? `Két thừa ${vnd(diff)}` : `Két thiếu ${vnd(Math.abs(diff))}`}
       </Notice>
     </Modal>
+  );
+}
+
+/** Chọn mã khuyến mãi đang chạy — không gõ tay. Mã chưa đủ đơn tối thiểu vẫn hiện nhưng mờ đi. */
+function PromoPicker({
+  promos,
+  loading,
+  subtotal,
+  value,
+  onPick,
+}: {
+  promos: Promo[];
+  loading: boolean;
+  subtotal: number;
+  value: string;
+  onPick: (code: string) => void;
+}) {
+  if (loading) return <div className="mb-2 px-1 text-xs text-white/60">Đang tải mã…</div>;
+  if (!promos.length) return <div className="mb-2 px-1 text-xs text-white/60">Hôm nay không có mã nào đang chạy.</div>;
+  return (
+    <div className="mb-2 max-h-52 space-y-1.5 overflow-auto">
+      {promos.map((p) => {
+        const off = promoDiscount(p, subtotal);
+        const short = p.min_order_amount - subtotal;
+        const on = p.code === value;
+        return (
+          <button
+            key={p.id}
+            type="button"
+            disabled={off <= 0 && !on}
+            onClick={() => onPick(p.code)}
+            className={cn(
+              "flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left transition",
+              on ? "bg-lime-300 text-forest-900" : "bg-white/10 text-white hover:bg-white/15",
+              off <= 0 && !on && "opacity-45"
+            )}
+          >
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center gap-1.5">
+                <span className="font-mono text-xs font-black">{p.code}</span>
+                <span className="truncate text-xs">{p.name}</span>
+              </div>
+              <div className={cn("text-[0.6875rem]", on ? "text-forest-800" : "text-white/60")}>
+                {short > 0 ? `Thêm ${money(short)}đ để dùng` : `Giảm ${money(off)}đ`} · đến {p.end_date.split("-").reverse().join("/")}
+              </div>
+            </div>
+            {on && <Check className="h-4 w-4 shrink-0" />}
+          </button>
+        );
+      })}
+    </div>
   );
 }
 

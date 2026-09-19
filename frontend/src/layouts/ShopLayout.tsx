@@ -96,7 +96,7 @@ export default function ShopLayout() {
           <Link to="/" className="flex shrink-0 items-center gap-2">
             <BrandLogo size={48} className="h-10 w-10 sm:h-12 sm:w-12" />
             <div className="hidden leading-tight md:block">
-              <div className="font-display text-xl font-black tracking-tight">Lâm Mart</div>
+              <div className="font-display text-xl font-black tracking-tight">Lâm Ly Mart</div>
               <div className="-mt-0.5 text-[11px] font-semibold text-forest-700">tạp hoá online</div>
             </div>
           </Link>
@@ -214,7 +214,7 @@ export default function ShopLayout() {
           <div>
             <div className="flex items-center gap-2">
               <BrandLogo size={40} className="h-10 w-10 rounded-full bg-white" />
-              <span className="font-display text-lg font-black">Lâm Mart</span>
+              <span className="font-display text-lg font-black">Lâm Ly Mart</span>
             </div>
             <p className="mt-3 text-white/70">12 Nguyễn Trãi, Thanh Xuân, Hà Nội</p>
             <p className="mt-1 text-white/50">Mở 6h30 – 22h, cả thứ bảy chủ nhật</p>

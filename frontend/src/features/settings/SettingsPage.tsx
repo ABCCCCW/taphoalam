@@ -18,7 +18,7 @@ const GROUPS = [
     desc: "",
     icon: Building2,
     fields: [
-      { key: "store.name", label: "Tên cửa hàng", placeholder: "TạpHoá Lâm" },
+      { key: "store.name", label: "Tên cửa hàng", placeholder: "Lâm Ly Mart" },
       { key: "store.address", label: "Địa chỉ", placeholder: "12 Nguyễn Trãi, Thanh Xuân, Hà Nội" },
       { key: "store.phone", label: "Số điện thoại", placeholder: "0901234567", mono: true },
     ],

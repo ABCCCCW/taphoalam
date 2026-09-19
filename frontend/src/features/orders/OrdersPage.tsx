@@ -58,7 +58,7 @@ export default function OrdersPage() {
     } catch {
       /* Backend chưa trả được phiếu thì vẫn in từ dữ liệu đơn đang có trên máy. */
       setSlip({
-        store_name: "TạpHoá Lâm",
+        store_name: "Lâm Ly Mart",
         store_address: "12 Nguyễn Trãi, Thanh Xuân, Hà Nội",
         order,
       });

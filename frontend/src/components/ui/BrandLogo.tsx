@@ -1,10 +1,10 @@
 import { cn } from "../../lib/cn";
 
-/** Logo tròn Lâm Mart — dùng trên header, sidebar, đăng nhập. */
+/** Logo tròn Lâm Ly Mart — dùng trên header, sidebar, đăng nhập. */
 export default function BrandLogo({
   className,
   size = 40,
-  alt = "Lâm Mart",
+  alt = "Lâm Ly Mart",
 }: {
   className?: string;
   size?: number;

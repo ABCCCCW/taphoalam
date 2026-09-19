@@ -24,7 +24,7 @@ export default function QrPayModal({
   onPaid: () => void | Promise<void>;
 }) {
   const data: ReceiptData = {
-    store_name: storeName || "TạpHoá Lâm",
+    store_name: storeName || "Lâm Ly Mart",
     store_address: storeAddress || "12 Nguyễn Trãi, Thanh Xuân, Hà Nội",
     store_phone: storePhone,
     order,

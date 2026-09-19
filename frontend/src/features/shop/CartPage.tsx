@@ -114,6 +114,11 @@ export default function CartPage() {
                   <div className="min-w-0 flex-1">
                     <div className="truncate font-bold text-ink-900">{i.name}</div>
                     <div className="font-extrabold text-coral-500">{vnd(i.sale_price)}</div>
+                    {Number(i.discount) > 0 && (
+                      <div className="mt-0.5 inline-block rounded-full bg-coral-100 px-2 py-0.5 text-[11px] font-extrabold text-coral-700">
+                        Cận date −{num(i.near_expiry?.percent)}% · bớt {vnd(i.discount)}
+                      </div>
+                    )}
                     {i.out_of_stock && (
                       <div className="mt-0.5 text-xs font-semibold text-coral-600">
                         Kệ chỉ còn {num(i.available)} — bớt số lượng nhé

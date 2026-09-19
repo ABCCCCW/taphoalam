@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
-  BarChart3, ClipboardList, LayoutDashboard, LogOut, Menu, Package, ScanLine,
+  BadgePercent, BarChart3, ClipboardList, LayoutDashboard, LogOut, Menu, Package, ScanLine,
   Settings, ShoppingCart, Store, Tags, Truck, Users, Warehouse, X,
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
@@ -43,6 +43,7 @@ const GROUPS: { title: string; items: Item[] }[] = [
     items: [
       { to: "/admin/orders", icon: ShoppingCart, label: "Hoá đơn", roles: ["ADMIN", "CASHIER"] },
       { to: "/admin/customers", icon: Users, label: "Khách hàng", roles: ["ADMIN", "CASHIER"] },
+      { to: "/admin/promotions", icon: BadgePercent, label: "Khuyến mãi", roles: ["ADMIN"] },
       { to: "/admin/reports", icon: BarChart3, label: "Báo cáo", roles: ["ADMIN"] },
     ],
   },
@@ -94,7 +95,7 @@ export default function AdminLayout() {
       <Link to={user?.role === "CASHIER" ? "/pos" : "/admin"} className="flex items-center gap-2.5 px-1">
         <BrandLogo size={44} className="h-11 w-11" />
         <span className="min-w-0">
-          <span className="block font-display text-lg font-black leading-tight text-ink-900">Lâm Mart</span>
+          <span className="block font-display text-lg font-black leading-tight text-ink-900">Lâm Ly Mart</span>
           <span className="block truncate text-xs font-semibold text-ink-500">
             {user?.full_name} · {role.label}
           </span>
@@ -161,7 +162,7 @@ export default function AdminLayout() {
         >
           <Menu className="h-5 w-5" />
         </button>
-        <span className="min-w-0 flex-1 truncate font-display font-black">{here?.label || "TạpHoá"}</span>
+        <span className="min-w-0 flex-1 truncate font-display font-black">{here?.label || "Lâm Ly Mart"}</span>
         {user?.role !== "STOCKER" && (
           <Link to="/pos" className="shrink-0 rounded-xl bg-coral-500 px-3 py-1.5 text-sm font-black text-white">
             Bán hàng

@@ -6,7 +6,8 @@ from sqlalchemy.orm import Session, joinedload
 
 from app.config import settings
 from app.core.permissions import require
-from app.core.utils import money, next_code, utcnow
+from app.core.utils import money, next_code, parse_iso_date, utcnow
+from app.services.promo_service import day_end_utc, day_start_utc, live_order_promos, serialize_promo
 from app.services.batch_service import expiry_summary
 from app.database import SessionLocal, get_db
 from app.deps import get_current_staff
@@ -259,20 +260,97 @@ def put_settings(body: SettingsIn, db: Session = Depends(get_db), user: User = D
 
 @router.get("/promotions")
 def promotions(db: Session = Depends(get_db), _: User = Depends(get_current_staff)):
-    return [
-        {
-            "id": p.id,
-            "code": p.code,
-            "name": p.name,
-            "type": p.type,
-            "value": float(p.value),
-            "min_order_amount": float(p.min_order_amount),
-            "is_active": p.is_active,
-            "start_at": p.start_at.isoformat(),
-            "end_at": p.end_at.isoformat(),
-        }
-        for p in db.query(Promotion).all()
-    ]
+    now = utcnow()
+    rows = db.query(Promotion).order_by(Promotion.start_at.desc()).all()
+    return [serialize_promo(p, now) for p in rows]
+
+
+@router.get("/promotions/available")
+def available_promotions(db: Session = Depends(get_db), _: User = Depends(get_current_staff)):
+    """Mã đang trong hạn cho quầy chọn; mã chưa tới ngày hoặc đã hết hạn không trả về."""
+    now = utcnow()
+    return [serialize_promo(p, now) for p in live_order_promos(db)]
+
+
+class PromotionIn(BaseModel):
+    code: str
+    name: str
+    description: str | None = None
+    scope: str = "ORDER"
+    type: str = "PERCENT"
+    value: float
+    min_order_amount: float = 0
+    max_discount: float | None = None
+    usage_limit: int | None = None
+    start_date: str
+    end_date: str
+    is_active: bool = True
+
+
+def _fill_promo(row: Promotion, body: PromotionIn, db: Session):
+    code = body.code.strip().upper().replace(" ", "")
+    if not code or len(code) > 30:
+        raise HTTPException(400, "Mã phải có 1–30 ký tự")
+    dup = db.query(Promotion).filter(Promotion.code == code, Promotion.id != (row.id or 0)).first()
+    if dup:
+        raise HTTPException(400, f"Mã {code} đã tồn tại")
+    if body.scope not in ("ORDER", "NEAR_EXPIRY"):
+        raise HTTPException(400, "Phạm vi không hợp lệ")
+    if body.type not in ("PERCENT", "AMOUNT"):
+        raise HTTPException(400, "Kiểu giảm không hợp lệ")
+    if body.scope == "NEAR_EXPIRY" and body.type != "PERCENT":
+        raise HTTPException(400, "Giảm cận date phải tính theo %")
+    if body.value <= 0 or (body.type == "PERCENT" and body.value > 100):
+        raise HTTPException(400, "Mức giảm không hợp lệ")
+    start, end = parse_iso_date(body.start_date), parse_iso_date(body.end_date)
+    if not start or not end:
+        raise HTTPException(400, "Cần ngày bắt đầu và ngày kết thúc")
+    if end < start:
+        raise HTTPException(400, "Ngày kết thúc phải sau ngày bắt đầu")
+    row.code = code
+    row.name = body.name.strip() or code
+    row.description = (body.description or "").strip() or None
+    row.scope = body.scope
+    row.type = body.type
+    row.value = body.value
+    row.min_order_amount = max(0, body.min_order_amount or 0)
+    row.max_discount = body.max_discount or None
+    row.usage_limit = body.usage_limit or None
+    row.start_at = day_start_utc(start)
+    row.end_at = day_end_utc(end)
+    row.is_active = body.is_active
+
+
+@router.post("/promotions")
+def create_promotion(body: PromotionIn, db: Session = Depends(get_db), _: User = Depends(require("promo.manage"))):
+    row = Promotion(used_count=0)
+    _fill_promo(row, body, db)
+    db.add(row)
+    db.flush()
+    return serialize_promo(row)
+
+
+@router.put("/promotions/{promo_id}")
+def update_promotion(promo_id: int, body: PromotionIn, db: Session = Depends(get_db), _: User = Depends(require("promo.manage"))):
+    row = db.get(Promotion, promo_id)
+    if not row:
+        raise HTTPException(404, "Không tìm thấy mã")
+    _fill_promo(row, body, db)
+    db.flush()
+    return serialize_promo(row)
+
+
+@router.delete("/promotions/{promo_id}")
+def delete_promotion(promo_id: int, db: Session = Depends(get_db), _: User = Depends(require("promo.manage"))):
+    row = db.get(Promotion, promo_id)
+    if not row:
+        raise HTTPException(404, "Không tìm thấy mã")
+    # Mã đã dùng trong hoá đơn thì chỉ tắt, giữ lại để tra cứu
+    if row.used_count:
+        row.is_active = False
+        return {"ok": True, "archived": True}
+    db.delete(row)
+    return {"ok": True, "archived": False}
 
 
 @router.get("/audit-logs")

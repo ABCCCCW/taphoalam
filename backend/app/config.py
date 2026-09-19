@@ -6,7 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
-    app_name: str = "TạpHoá POS"
+    app_name: str = "Lâm Ly Mart"
     secret_key: str = "taphoa-dev-secret-change-me"
     webhook_secret: str = "taphoa-demo-secret"
     access_token_minutes: int = 30

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Printer } from "lucide-react";
 import { InvoiceSheet, ReceiptPrintPortal, type ReceiptData } from "../../components/ui/ReceiptSlip";
-import type { CartLine } from "../../stores/cartStore";
+import { lineDiscount, lineNet, type CartLine } from "../../stores/cartStore";
 
 const money = (n: number) => new Intl.NumberFormat("vi-VN").format(Math.round(n));
 
@@ -49,7 +49,7 @@ export default function CashPayModal({
 
   const draft = useMemo<ReceiptData>(
     () => ({
-      store_name: storeName || "TạpHoá Lâm",
+      store_name: storeName || "Lâm Ly Mart",
       store_address: storeAddress || "12 Nguyễn Trãi, Thanh Xuân, Hà Nội",
       store_phone: storePhone,
       order: {
@@ -68,7 +68,8 @@ export default function CashPayModal({
           product_name: l.name,
           quantity: l.quantity,
           unit_price: l.unit_price,
-          line_total: l.unit_price * l.quantity,
+          discount: lineDiscount(l),
+          line_total: lineNet(l),
         })),
         payments: [{ method: "CASH", status: "PENDING", amount: given }],
       },
@@ -81,7 +82,7 @@ export default function CashPayModal({
   return (
     <div className="fixed inset-0 z-40 grid place-items-center bg-forest-900/50 p-3 backdrop-blur-sm sm:p-4" onClick={done ? onClose : undefined}>
       <div
-        className="card grid max-h-[92dvh] w-full max-w-3xl overflow-hidden animate-pop-in bg-[#f3eee6] md:grid-cols-[minmax(0,1.15fr)_17.5rem] md:items-start"
+        className="card grid max-h-[92dvh] w-full max-w-3xl overflow-hidden animate-pop-in !bg-[#f3eee6] md:grid-cols-[minmax(0,1.15fr)_17.5rem] md:items-start"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="min-h-0 overflow-auto p-4 sm:p-5">

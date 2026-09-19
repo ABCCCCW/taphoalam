@@ -64,7 +64,7 @@ export default function StaffLogin() {
 
         <div className="relative flex items-center gap-2.5">
           <BrandLogo size={44} className="h-11 w-11" />
-          <span className="font-display text-xl font-black">Lâm Mart POS</span>
+          <span className="font-display text-xl font-black">Lâm Ly Mart POS</span>
         </div>
 
         <div className="relative">

@@ -21,7 +21,7 @@ if not settings.skip_schema_sync:
     Base.metadata.create_all(bind=engine)
     ensure_schema()
 
-app = FastAPI(title="TạpHoá POS API", version="1.0.0")
+app = FastAPI(title="Lâm Ly Mart API", version="1.0.0")
 register_exception_handlers(app)
 
 origins = [o.strip() for o in settings.cors_origins.split(",") if o.strip()]

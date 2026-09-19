@@ -22,6 +22,7 @@ from app.models import (
     User,
 )
 from app.services.batch_service import suggest_expiry
+from app.services.promo_service import near_expiry_info, near_expiry_promo
 from app.services.barcode import detect_symbology, generate_internal_barcode
 from app.services.barcode_lookup import lookup as lookup_barcode
 from app.services.inventory_service import InventoryService
@@ -34,7 +35,10 @@ def _show_cost(viewer: User | None) -> bool:
     return bool(viewer and viewer.role in ("ADMIN", "STOCKER"))
 
 
-def serialize_product(db: Session, p: Product, warehouse_id: int = 1, viewer: User | None = None):
+_UNSET = object()
+
+
+def serialize_product(db: Session, p: Product, warehouse_id: int = 1, viewer: User | None = None, near_promo=_UNSET):
     inv = inventory_view(db, p.id, warehouse_id)
     primary = next((b.barcode for b in (p.barcodes or []) if b.is_primary), None)
     if not primary and p.barcodes:
@@ -80,6 +84,7 @@ def serialize_product(db: Session, p: Product, warehouse_id: int = 1, viewer: Us
         "low_stock": inv["quantity"] <= p.min_stock,
         "track_expiry": bool(p.track_expiry),
         "suggested_expiry": suggest_expiry(p).isoformat(),
+        "near_expiry": near_expiry_info(db, p.id, near_promo if near_promo is not _UNSET else near_expiry_promo(db), warehouse_id),
     }
     if _show_cost(viewer):
         data["cost_price"] = float(p.cost_price)
@@ -111,7 +116,8 @@ def list_products(
         folded = fold(q)
         query = query.filter((Product.name.ilike(f"%{q}%")) | (Product.name_search.ilike(f"%{folded}%")) | (Product.sku.ilike(f"%{q}%")))
     items = query.order_by(Product.name).offset((page - 1) * size).limit(size).all()
-    out = [serialize_product(db, p, viewer=user) for p in items]
+    near_promo = near_expiry_promo(db)
+    out = [serialize_product(db, p, viewer=user, near_promo=near_promo) for p in items]
     if low_stock:
         out = [x for x in out if x["low_stock"]]
     return {"items": out, "page": page, "size": size}

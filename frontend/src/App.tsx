@@ -26,6 +26,7 @@ import CustomersPage from "./features/customers/CustomersPage";
 import ReportsPage from "./features/reports/ReportsPage";
 import SettingsPage from "./features/settings/SettingsPage";
 import LabelsPage from "./features/products/LabelsPage";
+import PromotionsPage from "./features/promotions/PromotionsPage";
 
 /**
  * Chặn theo vai ngay ở tầng route.
@@ -71,6 +72,7 @@ export default function App() {
         <Route path="orders" element={<Guard roles={QUAY}><OrdersPage /></Guard>} />
         <Route path="online" element={<Guard roles={CA_BA}><OnlineOrdersPage /></Guard>} />
         <Route path="customers" element={<Guard roles={QUAY}><CustomersPage /></Guard>} />
+        <Route path="promotions" element={<Guard roles={["ADMIN"]}><PromotionsPage /></Guard>} />
         <Route path="reports" element={<Guard roles={["ADMIN"]}><ReportsPage /></Guard>} />
         <Route path="settings" element={<Guard roles={["ADMIN"]}><SettingsPage /></Guard>} />
       </Route>

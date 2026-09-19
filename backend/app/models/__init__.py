@@ -605,6 +605,9 @@ class Promotion(Base):
     usage_limit: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     used_count: Mapped[int] = mapped_column(Integer, default=0)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    # ORDER: mã chọn cho cả đơn · NEAR_EXPIRY: tự trừ vào từng món cận date, không cần chọn
+    scope: Mapped[str] = mapped_column(String(20), default="ORDER")
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
 
 
 class Setting(Base):

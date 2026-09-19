@@ -24,7 +24,9 @@ Fix 2026-09-19: Bảng hiển thị dính liền, tiêu đề nhạt. Đổi `.t
 
 Fix 2026-09-19: Ghép ĐT hỏng — QR trỏ `192.168.8.203` (PUBLIC_HOST cũ) + cert chỉ có `192.168.1.97` trong khi máy đang `192.168.1.99`. QR ghép chuyển HTTP `:5173`, IP lấy WebRTC, cấp lại cert SAN.
 
-Fix 2026-09-19: Logo web Lâm Mart (`/logo-lam-mart.png`) thay emoji 🥬 trên header shop, admin, POS, login, favicon.
+Fix 2026-09-19: Logo web (`/logo-lam-mart.png`) thay emoji 🥬 trên header shop, admin, POS, login, favicon.
+
+Fix 2026-09-19: Đổi tên ứng dụng thành Lâm Ly Mart (header, hoá đơn, cấu hình, seed, API title).
 
 Fix 2026-09-19: Header POS — tìm kiếm xuống cạnh kệ, tab Tất cả/nhóm hàng gom vào nút Bộ lọc, trên cùng hiện thông tin cửa hàng + menu icon người.
 

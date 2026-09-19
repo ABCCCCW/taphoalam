@@ -64,6 +64,13 @@ def ensure_schema():
             with engine.begin() as conn:
                 for sql in stmts:
                     conn.execute(text(sql))
+    if "promotions" in tables:
+        cols = {c["name"] for c in insp.get_columns("promotions")}
+        with engine.begin() as conn:
+            if "scope" not in cols:
+                conn.execute(text("ALTER TABLE promotions ADD COLUMN scope VARCHAR(20) NOT NULL DEFAULT 'ORDER'"))
+            if "description" not in cols:
+                conn.execute(text("ALTER TABLE promotions ADD COLUMN description TEXT"))
     _relocate_store_hanoi(tables)
 
 
