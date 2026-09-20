@@ -1,0 +1,918 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lâm Ly Mart — Hướng dẫn sử dụng</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Be+Vietnam+Pro:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --paper:#FAF8F2; --card:#FFFFFF; --sunk:#F4F1E8;
+  --ink:#17211C; --ink2:#4F5D50; --ink3:#87927F;
+  --line:#E4E0D3; --line2:#CDC8B7;
+
+  --forest:#15633E; --forest-soft:#E3EFE6;
+  --lime:#6F9E15;  --lime-soft:#EDF5D8;
+  --coral:#CE4326; --coral-soft:#FBE9E3;
+  --sun:#9C6A05;   --sun-soft:#F8EEDA;
+  --sky:#1C6486;   --sky-soft:#E2EEF4;
+  --grape:#65478F; --grape-soft:#EBE5F5;
+
+  --shadow:0 1px 2px rgba(23,33,28,.05), 0 10px 28px -20px rgba(23,33,28,.35);
+  --radius:12px;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:"Be Vietnam Pro", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size:15.5px; line-height:1.7; -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:"Archivo", ui-sans-serif, system-ui, sans-serif; margin:0; line-height:1.18; text-wrap:balance; letter-spacing:-.01em}
+h1{font-size:clamp(28px,4.6vw,44px); font-weight:700}
+h2{font-size:clamp(22px,2.8vw,29px); font-weight:700}
+h3{font-size:19px; font-weight:600}
+h4{font-size:16px; font-weight:600}
+p{margin:0}
+code,kbd,.mono{font-family:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace; font-size:.88em}
+code{background:var(--sunk); border:1px solid var(--line); border-radius:5px; padding:.05em .38em}
+a{color:var(--forest); text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--forest); outline-offset:2px; border-radius:4px}
+
+/* ---------- shell ---------- */
+.wrap{max-width:1280px; margin:0 auto; padding-inline:20px; padding-block:0}
+.shell{display:grid; grid-template-columns:232px minmax(0,1fr); gap:56px; align-items:start}
+@media (max-width:1000px){ .shell{grid-template-columns:1fr; gap:28px} }
+
+/* ---------- cover ---------- */
+.cover{border-bottom:1px solid var(--line); background:var(--card)}
+.cover-in{max-width:1280px; margin:0 auto; padding:44px 20px 34px; display:grid; gap:18px}
+.brandline{display:flex; align-items:center; gap:12px; flex-wrap:wrap}
+.mark{width:38px; height:38px; border-radius:10px; background:var(--forest); color:#fff; display:grid; place-items:center; font-family:"Archivo"; font-weight:700; font-size:18px; flex:none}
+.brandname{font-family:"Archivo"; font-weight:700; font-size:17px; letter-spacing:-.01em}
+.eyebrow{font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink3); font-weight:600}
+.lede{max-width:62ch; color:var(--ink2); font-size:17px}
+.metarow{display:flex; flex-wrap:wrap; gap:8px 10px; margin-top:4px}
+.meta{font-size:12.5px; color:var(--ink2); background:var(--sunk); border:1px solid var(--line); border-radius:999px; padding:4px 11px}
+.meta b{font-weight:600; color:var(--ink)}
+
+/* ---------- toc ---------- */
+.toc{position:sticky; top:20px; font-size:13.5px}
+.toc-t{font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink3); font-weight:600; padding-bottom:10px; border-bottom:1px solid var(--line); margin-bottom:10px}
+.toc ol{list-style:none; margin:0; padding:0; display:grid; gap:1px}
+.toc a{display:flex; gap:9px; padding:5px 8px; border-radius:7px; text-decoration:none; color:var(--ink2)}
+.toc a:hover{background:var(--sunk); color:var(--ink)}
+.toc .n{color:var(--ink3); font-family:"JetBrains Mono"; font-size:11.5px; padding-top:2px; flex:none}
+@media (max-width:1000px){ .toc{position:static} }
+
+/* ---------- sections ---------- */
+main{padding-block:40px 80px; display:grid; gap:56px; min-width:0}
+section{display:grid; gap:20px; scroll-margin-top:16px}
+.sec-h{display:grid; gap:8px; padding-bottom:14px; border-bottom:2px solid var(--ink)}
+.sec-n{font-family:"JetBrains Mono"; font-size:12px; color:var(--ink3)}
+.body{display:grid; gap:16px; max-width:72ch}
+.body p{color:var(--ink2)}
+.body p strong{color:var(--ink); font-weight:600}
+h3{margin-top:10px}
+
+/* ---------- blocks ---------- */
+.card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:18px 20px; box-shadow:var(--shadow)}
+.grid2{display:grid; grid-template-columns:repeat(auto-fit,minmax(255px,1fr)); gap:14px}
+.grid3{display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:14px}
+
+.steps{list-style:none; counter-reset:s; margin:0; padding:0; display:grid; gap:12px}
+.steps li{counter-increment:s; display:grid; grid-template-columns:26px minmax(0,1fr); gap:13px; align-items:start}
+.steps li::before{
+  content:counter(s); width:26px; height:26px; border-radius:50%;
+  background:var(--forest); color:#fff; display:grid; place-items:center;
+  font-family:"JetBrains Mono"; font-size:12px; font-weight:500; margin-top:1px;
+}
+.steps li > div{min-width:0}
+.steps .what{font-weight:600}
+.steps .how{color:var(--ink2); font-size:14.5px}
+
+.plain{margin:0; padding-left:1.15em; display:grid; gap:7px; color:var(--ink2)}
+.plain li::marker{color:var(--ink3)}
+.plain strong{color:var(--ink); font-weight:600}
+
+.note{border-left:3px solid var(--sky); background:var(--sky-soft); border-radius:0 9px 9px 0; padding:12px 16px; font-size:14.5px}
+.warn{border-left:3px solid var(--coral); background:var(--coral-soft); border-radius:0 9px 9px 0; padding:12px 16px; font-size:14.5px}
+.rule{border-left:3px solid var(--lime); background:var(--lime-soft); border-radius:0 9px 9px 0; padding:12px 16px; font-size:14.5px}
+.note b,.warn b,.rule b{font-weight:600}
+
+.ui{display:inline-block; background:var(--card); border:1px solid var(--line2); border-radius:6px; padding:1px 7px; font-size:.9em; font-weight:500; white-space:nowrap; box-shadow:0 1px 0 var(--line2)}
+kbd{display:inline-block; background:var(--card); border:1px solid var(--line2); border-bottom-width:2px; border-radius:5px; padding:0 6px; font-size:.84em}
+
+.tag{display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; border-radius:999px; padding:3px 10px; white-space:nowrap}
+.t-admin{background:var(--ink); color:#fff}
+.t-cashier{background:var(--lime-soft); color:var(--lime)}
+.t-stocker{background:var(--sky-soft); color:var(--sky)}
+.t-guest{background:var(--grape-soft); color:var(--grape)}
+.t-off{background:var(--sunk); color:var(--ink3)}
+
+/* ---------- tables ---------- */
+.tbl-wrap{border:1px solid var(--line); border-radius:var(--radius); overflow-x:auto; background:var(--card)}
+table{border-collapse:collapse; width:100%; font-size:14px; min-width:520px}
+thead th{background:var(--sunk); text-align:left; font-weight:600; font-size:12.5px; letter-spacing:.02em; color:var(--ink); padding:10px 13px; border-bottom:2px solid var(--lime); white-space:nowrap}
+tbody td{padding:9px 13px; border-top:1px solid var(--line); color:var(--ink2); vertical-align:top}
+tbody tr:nth-child(even){background:#FCFBF7}
+tbody td:first-child{color:var(--ink); font-weight:500}
+td.c,th.c{text-align:center}
+.yes{color:var(--forest); font-weight:700}
+.no{color:var(--ink3)}
+.num{font-family:"JetBrains Mono"; font-variant-numeric:tabular-nums}
+
+/* ---------- screen map ---------- */
+.route{line-height:1.95}
+.route code{background:none; border:none; padding:0; color:var(--forest); font-weight:500; white-space:nowrap}
+
+footer{border-top:1px solid var(--line); background:var(--card)}
+.foot-in{max-width:1280px; margin:0 auto; padding:26px 20px; color:var(--ink3); font-size:13px; display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap}
+
+@media print{
+  body{background:#fff; font-size:11pt}
+  .toc, .cover .metarow{display:none}
+  .shell{grid-template-columns:1fr}
+  section{break-inside:avoid}
+  .card,.tbl-wrap{box-shadow:none}
+  main{padding-block:12px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="cover">
+  <div class="cover-in">
+    <div class="brandline">
+      <div class="mark">LM</div>
+      <div>
+        <div class="brandname">Lâm Ly Mart</div>
+        <div class="eyebrow">Hệ thống quản lý bán hàng tạp hoá</div>
+      </div>
+    </div>
+    <h1>Hướng dẫn sử dụng</h1>
+    <p class="lede">Siêu thị mini hai mặt tiền — quầy thu ngân và website khách tự đặt — dùng chung một kho. Tài liệu này đi lần lượt từng chức năng theo từng người dùng: khách mua online, thu ngân, nhân viên kho, chủ tiệm.</p>
+    <div class="metarow">
+      <span class="meta"><b>4</b> nhóm người dùng</span>
+      <span class="meta"><b>13</b> màn hình chức năng</span>
+      <span class="meta"><b>38</b> bảng dữ liệu</span>
+      <span class="meta">Trụ sở <b>Cầu Diễn, Bắc Từ Liêm, Hà Nội</b></span>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+<div class="shell">
+
+  <nav class="toc" aria-label="Mục lục">
+    <div class="toc-t">Mục lục</div>
+    <ol>
+      <li><a href="#tong-quan"><span class="n">01</span><span>Hệ thống làm được gì</span></a></li>
+      <li><a href="#vai"><span class="n">02</span><span>Ai dùng màn hình nào</span></a></li>
+      <li><a href="#dang-nhap"><span class="n">03</span><span>Đăng nhập, tài khoản</span></a></li>
+      <li><a href="#khach"><span class="n">04</span><span>Khách mua online</span></a></li>
+      <li><a href="#thu-ngan"><span class="n">05</span><span>Thu ngân — quầy POS</span></a></li>
+      <li><a href="#kho"><span class="n">06</span><span>Nhân viên kho</span></a></li>
+      <li><a href="#chu-tiem"><span class="n">07</span><span>Chủ tiệm</span></a></li>
+      <li><a href="#quy-tac"><span class="n">08</span><span>Quy tắc hệ thống tự làm</span></a></li>
+      <li><a href="#demo"><span class="n">09</span><span>Kịch bản demo 5 phút</span></a></li>
+      <li><a href="#su-co"><span class="n">10</span><span>Gặp lỗi thì làm gì</span></a></li>
+      <li><a href="#chay"><span class="n">11</span><span>Cài đặt và chạy</span></a></li>
+    </ol>
+  </nav>
+
+  <main>
+
+<!-- ================= 01 ================= -->
+<section id="tong-quan">
+  <div class="sec-h">
+    <span class="sec-n">01</span>
+    <h2>Hệ thống làm được gì</h2>
+  </div>
+  <div class="body">
+    <p>Lâm Ly Mart là <strong>một hệ thống, hai mặt tiền</strong>. Mặt trong là quầy thu ngân: quét mã, tính tiền, in hoá đơn, mở và đóng ca. Mặt ngoài là website: khách xem hàng, bỏ giỏ, chốt đơn, chọn lấy tại quầy hay giao tận nơi. Cả hai <strong>trừ trên cùng một bảng tồn kho</strong>, nên không bao giờ bán trùng một hộp sữa cho hai người.</p>
+    <p>Điểm nối giữa hai mặt tiền là cột <span class="ui">Giữ</span> trong kho. Khách online chốt đơn thì hàng bị <em>giữ</em> chứ chưa bị trừ; quầy chỉ bán được phần còn lại. Hết thời gian giữ mà khách không trả tiền thì hàng tự trả về kệ.</p>
+  </div>
+
+  <div class="grid3">
+    <div class="card">
+      <span class="tag t-cashier">Quầy POS</span>
+      <h4 style="margin-top:10px">Bán tại chỗ</h4>
+      <ul class="plain" style="font-size:14px; margin-top:8px">
+        <li>Quét mã vạch bằng máy quét hoặc điện thoại</li>
+        <li>Tiền mặt tính tiền trả khách, VietQR tự khớp</li>
+        <li>Nhiều đơn để đó cùng lúc (<span class="ui">Chưa TT 1</span>)</li>
+        <li>In hoá đơn nhiệt 58/80mm</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag t-guest">Website khách</span>
+      <h4 style="margin-top:10px">Khách tự đặt</h4>
+      <ul class="plain" style="font-size:14px; margin-top:8px">
+        <li>Kệ hàng theo danh mục, tìm theo tên</li>
+        <li>Lấy tại quầy 0đ hoặc giao theo km</li>
+        <li>Trả khi nhận hoặc chuyển khoản QR</li>
+        <li>Tích điểm, lên hạng, đánh giá hàng</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag t-stocker">Kho</span>
+      <h4 style="margin-top:10px">Nhập, đếm, theo hạn</h4>
+      <ul class="plain" style="font-size:14px; margin-top:8px">
+        <li>Phiếu nhập theo lô, bắt buộc ghi hạn dùng</li>
+        <li>In tem mã vạch riêng cho từng lô</li>
+        <li>Bán ra trừ lô hạn gần nhất trước (FIFO)</li>
+        <li>Kiểm kê đếm tay rồi cân bằng sổ</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <b>Một câu để nhớ:</b> tồn bán được = <span class="num">Đang còn − Đang giữ</span>. Mọi màn hình đều lấy con số này, nên quầy và website không tranh nhau hàng.
+  </div>
+</section>
+
+<!-- ================= 02 ================= -->
+<section id="vai">
+  <div class="sec-h">
+    <span class="sec-n">02</span>
+    <h2>Ai dùng màn hình nào</h2>
+  </div>
+  <div class="body">
+    <p>Hệ thống có <strong>bốn nhóm người dùng</strong>. Ba nhóm nhân viên đăng nhập bằng mã nhân viên, nhóm thứ tư là khách hàng đăng nhập bằng số điện thoại. Quyền được chặn ở hai lớp: route ở trình duyệt (vào sai chỗ thì tự đẩy về trang chính của vai) và quyền ở API (gọi sai thì trả lỗi 403).</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead>
+        <tr><th>Màn hình</th><th>Đường dẫn</th><th class="c"><span class="tag t-admin">Chủ tiệm</span></th><th class="c"><span class="tag t-cashier">Thu ngân</span></th><th class="c"><span class="tag t-stocker">Kho</span></th><th class="c"><span class="tag t-guest">Khách</span></th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Website mua hàng</td><td class="route"><code>/</code>, <code>/catalog</code>, <code>/cart</code>, <code>/checkout</code></td><td class="c yes">✓</td><td class="c yes">✓</td><td class="c yes">✓</td><td class="c yes">✓</td></tr>
+        <tr><td>Đơn của tôi, tài khoản</td><td class="route"><code>/orders</code>, <code>/account</code></td><td class="c no">–</td><td class="c no">–</td><td class="c no">–</td><td class="c yes">✓</td></tr>
+        <tr><td>Quầy bán hàng (POS)</td><td class="route"><code>/pos</code></td><td class="c yes">✓</td><td class="c yes">✓</td><td class="c no">–</td><td class="c no">–</td></tr>
+        <tr><td>Điện thoại làm máy quét</td><td class="route"><code>/scan</code></td><td class="c yes">✓</td><td class="c yes">✓</td><td class="c yes">✓</td><td class="c no">–</td></tr>
+        <tr><td>Tổng quan + Báo cáo</td><td class="route"><code>/admin</code></td><td class="c yes">✓</td><td class="c no">–</td><td class="c no">–</td><td class="c no">–</td></tr>
+        <tr><td>Hàng hoá</td><td class="route"><code>/admin/products</code></td><td class="c yes">✓</td><td class="c no">–</td><td class="c yes">✓</td><td class="c no">–</td></tr>
+        <tr><td>In tem mã vạch</td><td class="route"><code>/admin/labels</code></td><td class="c yes">✓</td><td class="c no">–</td><td class="c yes">✓</td><td class="c no">–</td></tr>
+        <tr><td>Kho — tồn &amp; lô hàng</td><td class="route"><code>/admin/inventory</code></td><td class="c yes">✓</td><td class="c yes">✓</td><td class="c yes">✓</td><td class="c no">–</td></tr>
+        <tr><td>Kiểm kê</td><td class="route"><code>/admin/stocktake</code></td><td class="c yes">✓</td><td class="c no">–</td><td class="c yes">✓</td><td class="c no">–</td></tr>
+        <tr><td>Nhập hàng</td><td class="route"><code>/admin/receipts</code></td><td class="c yes">✓</td><td class="c no">–</td><td class="c yes">✓</td><td class="c no">–</td></tr>
+        <tr><td>Hoá đơn &amp; trả hàng</td><td class="route"><code>/admin/orders</code></td><td class="c yes">✓</td><td class="c yes">✓</td><td class="c no">–</td><td class="c no">–</td></tr>
+        <tr><td>Đơn online</td><td class="route"><code>/admin/online</code></td><td class="c yes">✓</td><td class="c yes">✓</td><td class="c yes">✓</td><td class="c no">–</td></tr>
+        <tr><td>Khách hàng</td><td class="route"><code>/admin/customers</code></td><td class="c yes">✓</td><td class="c yes">✓</td><td class="c no">–</td><td class="c no">–</td></tr>
+        <tr><td>Khuyến mãi</td><td class="route"><code>/admin/promotions</code></td><td class="c yes">✓</td><td class="c no">–</td><td class="c no">–</td><td class="c no">–</td></tr>
+        <tr><td>Tài khoản nhân viên</td><td class="route"><code>/admin/accounts</code></td><td class="c yes">✓</td><td class="c no">–</td><td class="c no">–</td><td class="c no">–</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Mấy việc chỉ một vai được làm</h3>
+  <div class="grid2">
+    <div class="card">
+      <span class="tag t-admin">Chỉ chủ tiệm</span>
+      <ul class="plain" style="font-size:14px; margin-top:10px">
+        <li>Xem <strong>lãi gộp, giá vốn, báo cáo doanh thu</strong></li>
+        <li><strong>Cân bằng kiểm kê</strong> — chốt số lệch vào sổ</li>
+        <li>Tạo, sửa, tắt <strong>mã khuyến mãi</strong></li>
+        <li>Mở, khoá, đổi mật khẩu <strong>tài khoản nhân viên</strong></li>
+        <li>Đổi <strong>tài khoản nhận chuyển khoản</strong> (cần PIN 6 số)</li>
+      </ul>
+    </div>
+    <div class="card">
+      <span class="tag t-off">Bị chặn</span>
+      <ul class="plain" style="font-size:14px; margin-top:10px">
+        <li>Thu ngân <strong>không thấy giá vốn</strong>, không mở Tổng quan, không xem báo cáo</li>
+        <li>Nhân viên kho <strong>không bán hàng</strong> — không vào được quầy POS</li>
+        <li>Thu ngân không lập phiếu nhập, không tạo phiếu kiểm kê</li>
+        <li>Khách chỉ huỷ đơn khi cửa hàng <strong>chưa duyệt</strong></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 03 ================= -->
+<section id="dang-nhap">
+  <div class="sec-h">
+    <span class="sec-n">03</span>
+    <h2>Đăng nhập, tài khoản</h2>
+  </div>
+  <div class="body">
+    <p>Cả khách và nhân viên dùng <strong>một form duy nhất</strong> ở <code>/dang-nhap</code>. Khách gõ số điện thoại, nhân viên gõ mã nhân viên hoặc tên đăng nhập — hệ thống tự nhận ra là ai và đưa về đúng trang.</p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Vai</th><th>Đăng nhập</th><th>Mật khẩu</th><th>PIN</th><th>Vào là thấy</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag t-admin">Chủ tiệm</span></td><td class="mono">admin</td><td class="mono">Admin@2026</td><td class="mono">0000</td><td>Tổng quan <code>/admin</code></td></tr>
+        <tr><td><span class="tag t-cashier">Thu ngân</span></td><td class="mono">0001</td><td class="mono">Nguyenbaolam</td><td class="mono">1234</td><td>Quầy bán <code>/pos</code></td></tr>
+        <tr><td><span class="tag t-stocker">Kho</span></td><td class="mono">0002</td><td class="mono">Nguyenbaolam</td><td class="mono">4321</td><td>Kho <code>/admin/inventory</code></td></tr>
+        <tr><td><span class="tag t-guest">Khách</span></td><td class="mono">0901234567</td><td class="mono">khach123</td><td>—</td><td>Trang chủ website</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ul class="plain">
+    <li><strong>Nhân viên mới</strong> được cấp mã tiếp theo tự động: <code>0003</code>, <code>0004</code>… mật khẩu mặc định <code>Nguyenbaolam</code>, chủ tiệm đổi lại sau.</li>
+    <li><strong>Phiên đăng nhập</strong> giữ 30 phút, sau đó tự gia hạn bằng refresh token (7 ngày). Đóng tab mở lại vẫn còn đăng nhập.</li>
+    <li><strong>Mật khẩu</strong> không dấu, không khoảng trắng. Ô nhập có nút con mắt để xem lại.</li>
+    <li><strong>Số điện thoại</strong> chỉ nhận chữ số, đúng 10 số.</li>
+  </ul>
+
+  <div class="note">
+    <b>Đổi mật khẩu nhân viên:</b> chủ tiệm vào <span class="ui">Tài khoản</span> → chọn người → <span class="ui">Mật khẩu</span>. Đổi xong hệ thống <b>huỷ hết phiên đang mở</b> của người đó, họ phải đăng nhập lại.
+  </div>
+</section>
+
+<!-- ================= 04 ================= -->
+<section id="khach">
+  <div class="sec-h">
+    <span class="sec-n">04</span>
+    <h2><span class="tag t-guest">Khách</span> Mua hàng trên website</h2>
+  </div>
+  <div class="body">
+    <p>Khách không cần đăng nhập để xem hàng và bỏ giỏ, nhưng <strong>phải đăng nhập để chốt đơn</strong> — vì đơn cần số điện thoại, địa chỉ nhận và chỗ để theo dõi.</p>
+  </div>
+
+  <h3>4.1 — Tạo tài khoản</h3>
+  <ol class="steps">
+    <li><div><div class="what">Vào <code>/dang-nhap</code></div><div class="how">Bấm <span class="ui">Đăng ký</span> nếu chưa có tài khoản.</div></div></li>
+    <li><div><div class="what">Gõ tên, số điện thoại, mật khẩu</div><div class="how">Số điện thoại chính là tên đăng nhập, không trùng với người khác được.</div></div></li>
+    <li><div><div class="what">Xong là vào luôn</div><div class="how">Hệ thống tự cấp mã khách, hạng <span class="ui">Khách quen</span>, điểm 0.</div></div></li>
+  </ol>
+
+  <h3>4.2 — Tìm và xem hàng</h3>
+  <ul class="plain">
+    <li><strong>Trang chủ</strong> — banner, danh mục, <span class="ui">Bán chạy hôm nay</span> (xếp theo số đã bán).</li>
+    <li><strong>Kệ hàng</strong> <code>/catalog</code> — thanh nhóm hàng ở trên, thẻ hàng bên dưới; bấm nhóm để lọc.</li>
+    <li><strong>Ô tìm trên header</strong> — gõ tên hàng, gợi ý hiện ngay khi gõ.</li>
+    <li><strong>Trang một món</strong> <code>/p/&lt;tên-món&gt;</code> — ảnh, giá, số còn bán được, đánh giá của khách trước, mục <span class="ui">Hay lấy cùng</span>.</li>
+  </ul>
+  <div class="note">
+    Món đang có <b>lô quá hạn trên kệ</b> thì website không cho bỏ giỏ nữa, kể cả còn tồn — chờ kho bỏ lô đó ra khỏi kệ.
+  </div>
+
+  <h3>4.3 — Giỏ hàng</h3>
+  <ul class="plain">
+    <li>Bấm <span class="ui">+</span> trên thẻ hàng hoặc <span class="ui">Bỏ vào giỏ</span> ở trang chi tiết.</li>
+    <li>Trong giỏ sửa số lượng bằng <span class="ui">−</span> <span class="ui">+</span>, bấm thùng rác để bỏ món.</li>
+    <li>Không bấm được quá <strong>số hàng còn bán được</strong>.</li>
+    <li>Đăng nhập rồi thì giỏ được lưu trên máy chủ — đổi máy vẫn còn.</li>
+  </ul>
+
+  <h3>4.4 — Chốt đơn</h3>
+  <ol class="steps">
+    <li><div><div class="what">Chọn cách nhận hàng</div><div class="how"><span class="ui">Lấy tại quầy</span> — 0đ, ra cửa hàng lấy. <span class="ui">Giao tận nơi</span> — điền địa chỉ, hệ thống tính phí theo khoảng cách.</div></div></li>
+    <li><div><div class="what">Điền địa chỉ nhận</div><div class="how">Tên người nhận, số điện thoại, số nhà + đường, phường, quận, tỉnh. Trình duyệt tra toạ độ địa chỉ để tính km; địa chỉ đã lưu thì chọn lại từ danh sách.</div></div></li>
+    <li><div><div class="what">Xem phí giao</div><div class="how">Trong <strong>2 km</strong> miễn phí. Quá 2 km: <strong>20.000đ</strong>, rồi mỗi km trọn thêm cộng <strong>5.000đ</strong>. Ví dụ 2,5 km → 20.000đ · 3 km → 25.000đ · 4,2 km → 30.000đ.</div></div></li>
+    <li><div><div class="what">Nhập mã giảm giá</div><div class="how">Ô <span class="ui">Mã giảm giá</span>. Chỉ mã đang trong hạn, còn lượt và đủ đơn tối thiểu mới ăn; sai thì hiện đúng lý do (chưa tới ngày, hết hạn, chưa đủ đơn tối thiểu, hết lượt).</div></div></li>
+    <li><div><div class="what">Chọn cách trả tiền</div><div class="how"><span class="ui">Khi nhận hàng</span> — trả tiền mặt lúc nhận, hàng được giữ <strong>24 giờ</strong>. <span class="ui">Chuyển khoản QR</span> — hiện mã VietQR, hàng được giữ <strong>30 phút</strong>.</div></div></li>
+    <li><div><div class="what">Bấm chốt đơn</div><div class="how">Đơn vào trạng thái <span class="ui">Chờ duyệt</span>, hàng bị giữ trong kho ngay lúc này.</div></div></li>
+  </ol>
+  <div class="warn">
+    <b>Phí giao được tính lại ở máy chủ</b> theo toạ độ đã lưu, không tin con số trình duyệt gửi lên. Địa chỉ chưa định vị được thì lấy mức khởi điểm 20.000đ và ghi rõ là chưa định vị.
+  </div>
+
+  <h3>4.5 — Theo dõi đơn</h3>
+  <p class="body" style="max-width:72ch">Vào <span class="ui">Đơn của tôi</span> <code>/orders</code>. Mỗi đơn có một chip trạng thái:</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Chip khách thấy</th><th>Nghĩa là</th><th>Khách còn làm được gì</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag t-off">Chờ chuyển khoản</span></td><td>Đơn QR chưa nhận được tiền</td><td>Quét mã trả tiền, hoặc huỷ</td></tr>
+        <tr><td><span class="tag t-off">Chờ duyệt</span></td><td>Cửa hàng chưa xem đơn</td><td>Huỷ được</td></tr>
+        <tr><td><span class="tag t-cashier">Đã duyệt</span></td><td>Cửa hàng nhận đơn</td><td>Không huỷ trên web nữa, gọi cửa hàng</td></tr>
+        <tr><td><span class="tag t-off">Đang soạn</span></td><td>Nhân viên đang lấy hàng</td><td>Chờ</td></tr>
+        <tr><td><span class="tag t-guest">Đang giao</span></td><td>Hàng đã ra khỏi cửa hàng</td><td>Chờ nhận, trả tiền nếu là COD</td></tr>
+        <tr><td><span class="tag t-admin">Xong</span></td><td>Đã nhận hàng, đã tính điểm</td><td>Đánh giá món đã mua</td></tr>
+        <tr><td><span class="tag t-off">Đã huỷ</span></td><td>Khách huỷ hoặc cửa hàng từ chối</td><td>Xem lý do cửa hàng ghi</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>4.6 — Điểm, hạng, đánh giá</h3>
+  <ul class="plain">
+    <li><strong>Điểm</strong>: mỗi <span class="num">10.000đ</span> đơn xong được <span class="num">1</span> điểm. Dùng ở quầy, <span class="num">1</span> điểm <span class="num">= 1đ</span>.</li>
+    <li><strong>Hạng</strong>: <span class="ui">Khách quen</span> → <span class="ui">Bạc</span> khi tổng chi đạt <span class="num">1.000.000đ</span> → <span class="ui">Vàng</span> khi đạt <span class="num">5.000.000đ</span>.</li>
+    <li><strong>Đánh giá</strong>: chỉ đánh giá được món nằm trong <strong>đơn của mình đã hoàn tất</strong>, mỗi món một lần. Điểm sao cập nhật lại điểm trung bình hiện trên trang món.</li>
+  </ul>
+</section>
+
+<!-- ================= 05 ================= -->
+<section id="thu-ngan">
+  <div class="sec-h">
+    <span class="sec-n">05</span>
+    <h2><span class="tag t-cashier">Thu ngân</span> Quầy bán hàng POS</h2>
+  </div>
+  <div class="body">
+    <p>Màn hình <code>/pos</code> chia hai nửa: bên trái là <strong>kệ hàng</strong> có ô tìm và bộ lọc nhóm, bên phải là <strong>giỏ đơn đang bán</strong> và khối tiền. Header có logo, tên cửa hàng, nút <span class="ui">Đơn web</span> và khối tài khoản nhân viên.</p>
+  </div>
+
+  <h3>5.1 — Mở ca</h3>
+  <ol class="steps">
+    <li><div><div class="what">Vào quầy, hệ thống hỏi ngay</div><div class="how">Chưa mở ca thì <strong>không bán được</strong> — mọi lần chốt đơn đều bị chặn với thông báo «Hãy mở ca trước khi bán hàng».</div></div></li>
+    <li><div><div class="what">Gõ <span class="ui">Tiền đầu ca</span></div><div class="how">Số tiền lẻ có trong két lúc nhận ca, ví dụ <span class="num">200.000</span>.</div></div></li>
+    <li><div><div class="what">Bấm <span class="ui">Mở ca bán</span></div><div class="how">Ca được cấp mã, header hiện <span class="ui">Ca sáng</span> (mở trong 6h–18h) hoặc <span class="ui">Ca đêm</span>.</div></div></li>
+  </ol>
+
+  <h3>5.2 — Thêm hàng vào đơn</h3>
+  <div class="grid2">
+    <div class="card">
+      <h4>Bốn cách bỏ hàng vào giỏ</h4>
+      <ul class="plain" style="font-size:14px; margin-top:10px">
+        <li><strong>Bấm thẳng trên kệ</strong> — chạm thẻ hàng.</li>
+        <li><strong>Máy quét cầm tay</strong> — quét là hàng nhảy vào giỏ, không cần chuột.</li>
+        <li><strong>Gõ / tìm</strong> — bấm <kbd>F1</kbd> nhảy vào ô tìm, gõ tên hoặc dán mã.</li>
+        <li><strong>Điện thoại làm máy quét</strong> — xem mục 5.3.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Hệ thống đọc được những mã nào</h4>
+      <ul class="plain" style="font-size:14px; margin-top:10px">
+        <li><strong>Mã nhà sản xuất</strong> in trên bao — EAN-13, EAN-8, UPC-A, ITF-14.</li>
+        <li><strong>Mã hàng nội bộ</strong> — mở đầu <code>200</code>, hệ thống tự cấp cho hàng không có mã in.</li>
+        <li><strong>Tem lô</strong> — mở đầu <code>25</code>, biết đúng hộp này thuộc lô nào, hạn nào.</li>
+        <li><strong>Mã hàng cân</strong> — mở đầu <code>21</code> (kg) hoặc <code>22</code> (tiền), cân siêu thị in ra.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="rule">
+    <b>Quét tem lô thì chặt hơn:</b> nếu chính lô đó đã quá hạn, hệ thống <b>không cho bán hộp đó</b>, và lúc trừ kho sẽ trừ đúng lô vừa quét chứ không trừ lô khác.
+  </div>
+
+  <h3>5.3 — Dùng điện thoại làm máy quét</h3>
+  <ol class="steps">
+    <li><div><div class="what">Trên quầy: icon đầu người → <span class="ui">Ghép điện thoại</span></div><div class="how">Hộp ghép hiện <strong>mã 6 số</strong> và một mã QR.</div></div></li>
+    <li><div><div class="what">Trên điện thoại: mở <code>/scan</code></div><div class="how">Quét QR trên màn hình quầy, hoặc tự mở trang rồi gõ 6 số đó.</div></div></li>
+    <li><div><div class="what">Ghép xong, quét liên tục</div><div class="how">Mỗi mã quét được đẩy sang quầy và nhảy thẳng vào giỏ. Lóa quá thì gõ tay số mã ở ô dưới camera.</div></div></li>
+    <li><div><div class="what">Xong thì <span class="ui">Ngắt điện thoại</span></div><div class="how">Trong menu đầu người trên quầy.</div></div></li>
+  </ol>
+  <div class="note">
+    Camera điện thoại cần <b>HTTPS</b>. Lúc demo trên máy local, quầy chạy <code>http://…:5173</code> còn điện thoại vào <code>https://…:5174</code>. Trên bản triển khai thật thì đã có HTTPS sẵn.
+  </div>
+
+  <h3>5.4 — Hàng chưa có trên kệ (hàng ngoài)</h3>
+  <p class="body" style="max-width:72ch">Khách cầm ra món chưa từng nhập, hoặc quét ra mã lạ. Không cần gọi kho:</p>
+  <ol class="steps">
+    <li><div><div class="what">Hộp <span class="ui">Hàng ngoài</span> tự mở</div><div class="how">Quét mã lạ thì mã đó được điền sẵn vào ô <span class="ui">Mã hàng</span>. Hoặc mở tay từ menu đầu người.</div></div></li>
+    <li><div><div class="what">Gõ ba thứ</div><div class="how"><span class="ui">Tên hàng</span> · <span class="ui">Giá bán</span> · <span class="ui">Số đang cầm</span>. Không cần biết giá vốn.</div></div></li>
+    <li><div><div class="what">Bán bình thường</div><div class="how">Món được tạo ngay, ghi vào kho đúng số đang cầm, đánh dấu <strong>chưa chốt giá vốn</strong>.</div></div></li>
+    <li><div><div class="what">Kho chốt giá vốn sau</div><div class="how">Món hiện chip <span class="ui">Chờ chốt</span> ở màn Hàng hoá để kho hoặc chủ tiệm điền giá vốn thật.</div></div></li>
+  </ol>
+
+  <h3>5.5 — Gắn khách, giảm giá</h3>
+  <ul class="plain">
+    <li><strong>Gắn khách</strong>: gõ số điện thoại trên giỏ. Chưa có thì bấm thêm <span class="ui">Khách mới</span> ngay tại quầy (tên + số điện thoại).</li>
+    <li><strong>Dùng điểm</strong>: gắn khách rồi mới dùng được. 1 điểm trừ 1đ, không dùng quá số điểm đang có.</li>
+    <li><strong>Mã khuyến mãi</strong>: chọn trong danh sách mã đang chạy — mã chưa tới ngày hoặc hết hạn không hiện ra.</li>
+    <li><strong>Giảm tay</strong>: ô <span class="ui">Giảm tay</span>, gõ bao nhiêu trừ bấy nhiêu. Hệ thống không cho tổng đơn thành số âm.</li>
+    <li><strong>Hàng cận date</strong>: <strong>tự giảm, không phải bấm gì</strong> — xem mục 8.</li>
+  </ul>
+
+  <h3>5.6 — Thu tiền mặt</h3>
+  <ol class="steps">
+    <li><div><div class="what">Bấm <span class="ui">Tiền mặt</span></div><div class="how">Mở màn tiền mặt, bên cạnh là tờ hoá đơn xem trước.</div></div></li>
+    <li><div><div class="what">Gõ số tiền khách đưa</div><div class="how">Gõ bằng bàn phím. Đưa thiếu thì bị chặn với thông báo «Số tiền khách đưa chưa đủ».</div></div></li>
+    <li><div><div class="what">Bấm <span class="ui">Thanh toán</span></div><div class="how">Kho trừ ngay, đơn thành <span class="ui">Xong</span>, số <strong>trả khách</strong> hiện to.</div></div></li>
+    <li><div><div class="what">In hoá đơn</div><div class="how">Tờ xem trước mở ra, bấm in. In lại được sau ở màn <span class="ui">Hoá đơn</span>.</div></div></li>
+  </ol>
+
+  <h3>5.7 — Thu chuyển khoản VietQR</h3>
+  <ol class="steps">
+    <li><div><div class="what">Bấm <span class="ui">QR</span></div><div class="how">Mã VietQR hiện to cho khách quét — đúng số tiền, nội dung là mã hoá đơn.</div></div></li>
+    <li><div><div class="what">Hàng được giữ, chưa trừ</div><div class="how">Tồn chuyển sang cột <span class="ui">Giữ</span> trong <strong>5 phút</strong>. Kệ vẫn hiện đúng số bán được cho khách sau.</div></div></li>
+    <li><div><div class="what">Tiền về thì đơn tự khớp</div><div class="how">Ngân hàng gọi webhook, hệ thống so nội dung chuyển khoản với mã đơn và tự chốt. Thu ngân không phải bấm gì.</div></div></li>
+    <li><div><div class="what">Hoặc bấm tay <span class="ui">Đã nhận tiền</span></div><div class="how">Khi đã xem app ngân hàng thấy tiền về. Kho trừ lúc này, đơn thành <span class="ui">Xong</span>.</div></div></li>
+  </ol>
+  <div class="warn">
+    <b>Khách đổi ý giữa lúc chờ QR?</b> Bấm <span class="ui">Nháp</span> để đơn nằm chờ, hoặc <span class="ui">Xoá đơn</span> trên giỏ để huỷ hẳn — huỷ thì <b>hàng được trả về kệ ngay</b>. Quá 5 phút không ai làm gì, hệ thống tự trả hàng về.
+  </div>
+
+  <h3>5.8 — Nhiều đơn cùng lúc</h3>
+  <ul class="plain">
+    <li>Khách đang tìm ví? Bấm <span class="ui">Để đó</span> — đơn nằm thành chip <span class="ui">Chưa TT 1</span> trên đầu giỏ, quầy bán tiếp khách sau.</li>
+    <li>Bấm vào chip để mở lại đơn cũ, cả đơn nháp và đơn QR đang chờ.</li>
+    <li>Tải lại trang, đóng máy mở lại, các đơn chưa thu tiền vẫn còn.</li>
+  </ul>
+
+  <h3>5.9 — Xử lý đơn web ngay tại quầy</h3>
+  <p class="body" style="max-width:72ch">Nút <span class="ui">Đơn web</span> trên header có con số ở góc: <strong>coral</strong> là số đơn chờ duyệt, <strong>đen</strong> là số đơn đang xử lý. Đơn mới về thì có một tiếng thông báo. Bấm nút để mở danh sách — mỗi đơn một hàng, bên phải là <strong>đúng một nút việc tiếp theo</strong>:</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Đơn đang ở</th><th>Nút hiện ra</th><th>Bấm xong đơn thành</th></tr></thead>
+      <tbody>
+        <tr><td>Chờ duyệt</td><td><span class="ui">Duyệt</span></td><td>Đã duyệt</td></tr>
+        <tr><td>Đã duyệt</td><td><span class="ui">Soạn</span></td><td>Đang soạn</td></tr>
+        <tr><td>Đang soạn</td><td><span class="ui">Giao đi</span></td><td>Đang giao</td></tr>
+        <tr><td>Đang giao</td><td><span class="ui">Xong</span></td><td>Xong — kho trừ thật, khách được tính điểm</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>5.10 — Đóng ca</h3>
+  <ol class="steps">
+    <li><div><div class="what">Icon đầu người → <span class="ui">Đóng ca</span></div><div class="how">Hộp đóng ca hiện sẵn bốn số: <span class="ui">Tiền đầu ca</span>, <span class="ui">Bán thu tiền mặt</span>, <span class="ui">Bán qua chuyển khoản</span>, <span class="ui">Két phải có</span>.</div></div></li>
+    <li><div><div class="what">Đếm két thật rồi gõ vào</div><div class="how">Ô <span class="ui">Tiền đếm được trong két</span>.</div></div></li>
+    <li><div><div class="what">Hệ thống ghi số lệch</div><div class="how">Lệch được lưu vào ca để chủ tiệm xem lại, không tự sửa gì trong kho.</div></div></li>
+  </ol>
+
+  <h3>5.11 — Hoá đơn và trả hàng</h3>
+  <ul class="plain">
+    <li>Màn <span class="ui">Hoá đơn</span> <code>/admin/orders</code> — tìm theo mã đơn, lọc theo kênh bán và trạng thái, 10 dòng một trang.</li>
+    <li>Mở một đơn để xem từng món, tiền hàng, giảm giá, phí giao, tiền trả khách; in lại hoá đơn từ đây.</li>
+    <li><strong>Khách trả hàng</strong>: bấm <span class="ui">Khách trả hàng</span>, chọn món và số lượng, ghi lý do, tick <span class="ui">Nhập lại vào kho</span> nếu hàng còn bán được. Đơn thành <span class="ui">Trả một phần</span> hoặc <span class="ui">Khách trả hết</span>.</li>
+  </ul>
+</section>
+
+<!-- ================= 06 ================= -->
+<section id="kho">
+  <div class="sec-h">
+    <span class="sec-n">06</span>
+    <h2><span class="tag t-stocker">Kho</span> Nhân viên kho</h2>
+  </div>
+  <div class="body">
+    <p>Nhân viên kho không bán hàng. Việc của kho là <strong>đưa hàng vào hệ thống cho đúng</strong>: nhập theo lô có hạn dùng, dán tem, theo dõi tồn, đếm lại khi lệch, và bỏ hàng quá hạn khỏi kệ.</p>
+  </div>
+
+  <h3>6.1 — Hàng hoá</h3>
+  <p class="body" style="max-width:72ch">Màn <code>/admin/products</code> — danh sách mặt hàng, 10 dòng một trang, tìm theo tên hoặc mã SKU.</p>
+  <ol class="steps">
+    <li><div><div class="what">Thêm mặt hàng mới</div><div class="how">Gõ <span class="ui">Tên hàng</span>, <span class="ui">Giá bán</span>, <span class="ui">Giá vốn</span>, chọn <span class="ui">Danh mục</span> và <span class="ui">Đơn vị</span>.</div></div></li>
+    <li><div><div class="what">Thêm ảnh</div><div class="how">Bấm ô ảnh cạnh tên → <span class="ui">Chụp</span> (mở camera) hoặc <span class="ui">Tải</span> (chọn ảnh có sẵn). Ảnh mới đè ảnh cũ và xoá file cũ trên đĩa.</div></div></li>
+    <li><div><div class="what">Chọn kiểu bán</div><div class="how"><span class="ui">Đếm cái</span> cho chai, gói, hộp · <span class="ui">Cân kg</span> cho rau, thịt, hoa quả · <span class="ui">Bán lẻ</span> cho gạo, đường múc lẻ.</div></div></li>
+    <li><div><div class="what">Bật <span class="ui">Bán trên website</span></div><div class="how">Không bật thì món chỉ bán ở quầy, khách online không thấy.</div></div></li>
+    <li><div><div class="what">Cấp mã vạch nếu hàng không có mã in</div><div class="how">Bấm <span class="ui">Cấp mã vạch nội bộ</span> — hệ thống sinh mã EAN-13 mở đầu <code>200</code>, in tem dán lên hàng.</div></div></li>
+  </ol>
+  <div class="note">
+    <b>Chip <span class="ui">Chờ chốt</span></b> là món thu ngân tạo nhanh tại quầy, chưa có giá vốn. Bấm vào để điền <span class="ui">Giá vốn</span> · <span class="ui">Giá bán</span> · <span class="ui">Còn trên kệ</span> — chốt xong món hết hiện chip, báo lãi mới đúng.
+  </div>
+
+  <h3>6.2 — Nhập hàng</h3>
+  <p class="body" style="max-width:72ch">Màn <code>/admin/receipts</code> có hai tab: <span class="ui">Nhập hàng</span> để lập phiếu mới, <span class="ui">Phiếu đã lập</span> để xem lại.</p>
+  <ol class="steps">
+    <li><div><div class="what">Chọn nhà cung cấp</div><div class="how">Để trống cũng được. Chưa có thì bấm <span class="ui">Thêm nhà cung cấp</span> — tên, điện thoại, địa chỉ.</div></div></li>
+    <li><div><div class="what">Thêm từng dòng hàng</div><div class="how">Mặt hàng · <span class="ui">Số lượng</span> · <span class="ui">Giá nhập</span> · <span class="ui">Hạn dùng</span>. Thành tiền tự tính, tổng phiếu hiện ở chân.</div></div></li>
+    <li><div><div class="what">Lưu nháp</div><div class="how">Phiếu vào trạng thái <span class="ui">Nháp</span>, chưa ảnh hưởng gì tới tồn. Màn tự nhảy sang tab <span class="ui">Phiếu đã lập</span>.</div></div></li>
+    <li><div><div class="what">Bấm xác nhận nhập kho</div><div class="how">Lúc này mới thật sự vào kho — xem hộp dưới.</div></div></li>
+    <li><div><div class="what">In tem lô</div><div class="how">Phiếu đã nhập kho có nút lấy tem: <strong>mỗi hộp một tem</strong>, số tem đúng bằng số lượng nhập, trên tem có mã lô và hạn dùng.</div></div></li>
+  </ol>
+  <div class="card">
+    <h4>Xác nhận phiếu nhập thì hệ thống làm 5 việc</h4>
+    <ul class="plain" style="font-size:14px; margin-top:10px">
+      <li><strong>Cộng tồn</strong> và ghi một dòng <span class="ui">Nhập hàng</span> vào lịch sử kho.</li>
+      <li><strong>Tính lại giá vốn</strong> theo bình quân gia quyền: <span class="num">(tồn cũ × vốn cũ + số nhập × giá nhập) ÷ tổng tồn</span>.</li>
+      <li><strong>Tạo lô hàng</strong> mang hạn dùng vừa ghi, và <strong>cấp mã vạch riêng cho lô</strong> (mở đầu <code>25</code>).</li>
+      <li><strong>Đặt lại ngưỡng sắp hết</strong> = 20% số tồn ngay sau khi nhập (ít nhất 1) — không phải điền tay.</li>
+      <li><strong>Ghi nợ nhà cung cấp</strong> phần tiền chưa trả.</li>
+    </ul>
+  </div>
+  <div class="warn">
+    <b>Thiếu hạn dùng là không xác nhận được.</b> Hệ thống chặn với thông báo «Phiếu thiếu hạn sử dụng» — vì không có hạn thì không theo được lô, không cảnh báo cận date, không bán FIFO đúng.
+  </div>
+  <p class="body" style="max-width:72ch">Nhập sai thì bấm <strong>huỷ phiếu</strong>. Phiếu đã nhập kho bị huỷ sẽ <strong>trừ ngược</strong> số đã nhập, ghi một dòng <span class="ui">Trả nhà cung cấp</span> vào lịch sử.</p>
+
+  <h3>6.3 — In tem mã vạch</h3>
+  <ul class="plain">
+    <li>Màn <code>/admin/labels</code> — chọn nhiều món bên trái, danh sách in hiện bên phải.</li>
+    <li>Mỗi món gõ <span class="ui">Số tem</span> cần in. Ô trống hiện <code>0</code> là placeholder, bấm vào gõ luôn.</li>
+    <li>Mẫu tem <strong>50 × 30 mm</strong>: tên hàng, giá bán, mã vạch, hạn dùng nếu là tem lô.</li>
+    <li>Xem trước hiện <strong>từng tờ tem theo đúng số đã gõ</strong>, in ra là dùng được ngay.</li>
+  </ul>
+
+  <h3>6.4 — Kho: tồn và lô hàng</h3>
+  <p class="body" style="max-width:72ch">Màn <code>/admin/inventory</code>. Bốn số tóm tắt ở trên: <span class="ui">Mặt hàng đang theo</span>, <span class="ui">Đang giữ cho đơn online</span>, <span class="ui">Giá trị vốn trên kệ</span>, <span class="ui">Sắp hết hàng</span>.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Cột</th><th>Nghĩa</th></tr></thead>
+      <tbody>
+        <tr><td>Đang còn</td><td>Số thật đang nằm trong kho</td></tr>
+        <tr><td>Giữ</td><td>Phần đã hứa cho đơn online hoặc đơn QR đang chờ tiền</td></tr>
+        <tr><td>Bán được</td><td><span class="num">Đang còn − Giữ</span> — con số quầy và website thật sự dùng</td></tr>
+        <tr><td>Hạn gần nhất</td><td>Hạn của lô sẽ bán ra trước; đỏ là quá hạn, vàng là còn ≤ 7 ngày</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="body" style="max-width:72ch">Trên mỗi dòng có hai nút:</p>
+  <ul class="plain">
+    <li><span class="ui">Lịch sử</span> — xem hết dòng nhập, bán, điều chỉnh của món đó, kèm bốn số tổng: <span class="ui">Đang còn</span>, <span class="ui">Đã nhập</span>, <span class="ui">Đã bán</span>, <span class="ui">Hỏng / mất</span>.</li>
+    <li><span class="ui">Báo hỏng/mất</span> — trừ hàng hỏng, vỡ, mất khỏi kho. Chọn <span class="ui">Lý do</span>: <span class="ui">Hao hụt</span> · <span class="ui">Dập vỡ</span> · <span class="ui">Hết hạn</span> · <span class="ui">Điều chỉnh khác</span>, ghi thêm lý do cụ thể.</li>
+  </ul>
+  <div class="rule">
+    <b>Bỏ kệ lô quá hạn:</b> lô đỏ có nút bỏ kệ. Chưa bỏ thì <b>món đó ngừng bán ở cả quầy và website</b> — kể cả các lô sau còn hạn. Bỏ xong, lô kế tiếp lên thay và món bán lại được ngay.
+  </div>
+
+  <h3>6.5 — Kiểm kê</h3>
+  <ol class="steps">
+    <li><div><div class="what">Vào tab <span class="ui">Kiểm kê</span></div><div class="how">Bảng ba cột: <span class="ui">Máy nói</span> (số hệ thống) · <span class="ui">Đếm tay</span> (gõ vào) · <span class="ui">Lệch</span> (tự tính).</div></div></li>
+    <li><div><div class="what">Đếm thật rồi gõ số</div><div class="how">Đếm ra 0 thì gõ <code>0</code> — khác với để trống là chưa đếm. Đổi trang vẫn giữ số đã đếm.</div></div></li>
+    <li><div><div class="what">Xem phiếu đang đếm</div><div class="how">Bốn số: <span class="ui">Đã đếm</span> · <span class="ui">Khớp số</span> · <span class="ui">Thiếu so với máy</span> · <span class="ui">Thừa so với máy</span>.</div></div></li>
+    <li><div><div class="what">Chủ tiệm cân bằng</div><div class="how">Chỉ chủ tiệm bấm được. Cân bằng thì tồn trong máy <strong>sửa theo số đếm tay</strong>, mỗi dòng lệch ghi một dòng <span class="ui">Điều chỉnh</span>, tổng giá trị lệch được lưu lại.</div></div></li>
+  </ol>
+
+  <h3>6.6 — Soạn hàng cho đơn online</h3>
+  <ul class="plain">
+    <li>Màn <code>/admin/online</code> — mở đơn để xem <span class="ui">Món cần lấy</span> kèm ảnh, số lượng, mã vạch.</li>
+    <li>Lấy được món nào thì quét mã món đó để tick, đỡ sót.</li>
+    <li>Hàng cân (rau, thịt) <strong>cân lại lúc soạn</strong> rồi gõ số thật — hệ thống tính lại tiền dòng và tổng đơn.</li>
+    <li>Xem được tên, số điện thoại, địa chỉ nhận và khoảng cách để giao.</li>
+    <li>Không có hàng thì bấm từ chối, ghi <span class="ui">Lý do</span> — <strong>khách đọc đúng dòng đó</strong> trong đơn của họ, và hàng được trả về kệ.</li>
+  </ul>
+</section>
+
+<!-- ================= 07 ================= -->
+<section id="chu-tiem">
+  <div class="sec-h">
+    <span class="sec-n">07</span>
+    <h2><span class="tag t-admin">Chủ tiệm</span> Quản trị</h2>
+  </div>
+  <div class="body">
+    <p>Chủ tiệm làm được mọi việc của thu ngân và kho, cộng thêm phần tiền: <strong>lãi, báo cáo, khuyến mãi, nhân sự, tài khoản nhận tiền</strong>.</p>
+  </div>
+
+  <h3>7.1 — Tổng quan</h3>
+  <p class="body" style="max-width:72ch">Màn <code>/admin</code> mở ra là thấy ngay hôm nay đang thế nào.</p>
+  <div class="grid2">
+    <div class="card">
+      <h4>Số của hôm nay</h4>
+      <ul class="plain" style="font-size:14px; margin-top:10px">
+        <li><strong>Doanh thu</strong> hôm nay, so với hôm qua</li>
+        <li><strong>Đơn hoàn tất</strong> và giá trị trung bình mỗi đơn</li>
+        <li><strong>Lãi gộp</strong> — chỉ chủ tiệm thấy</li>
+        <li><strong>Đã thu</strong> tách tiền mặt và chuyển khoản</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Khối <span class="ui">Cần làm</span></h4>
+      <ul class="plain" style="font-size:14px; margin-top:10px">
+        <li>Đơn web đang chờ duyệt, chờ soạn, chờ giao</li>
+        <li>Lô <strong>quá hạn</strong> phải bỏ kệ</li>
+        <li>Lô <strong>còn ≤ 7 ngày</strong> nên đẩy bán</li>
+        <li>Món <strong>sắp hết</strong>, cạn nhất lên đầu</li>
+        <li>Món <strong>chưa chốt giá vốn</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>7.2 — Báo cáo</h3>
+  <ul class="plain">
+    <li>Bấm <span class="ui">Báo cáo</span> trên Tổng quan — mở cửa sổ nổi, chọn khoảng ngày.</li>
+    <li><strong>Doanh thu</strong> theo ngày / tuần / tháng, tách theo kênh bán (quầy · website).</li>
+    <li><strong>Lợi nhuận</strong> — tiền bán trừ giá vốn đã chụp lại trên từng dòng hoá đơn.</li>
+    <li><strong>Giá trị tồn kho</strong> theo giá vốn.</li>
+    <li><span class="ui">Xuất Excel</span> — tải file <code>.xlsx</code> để dán vào báo cáo.</li>
+  </ul>
+  <div class="note">
+    Tiền trên hoá đơn cũ <b>không đổi khi giá đổi</b>: mỗi dòng hoá đơn chụp lại tên hàng, giá bán và giá vốn tại đúng thời điểm bán. Đổi giá hôm nay không làm sai lãi của tháng trước.
+  </div>
+
+  <h3>7.3 — Khuyến mãi</h3>
+  <p class="body" style="max-width:72ch">Màn <code>/admin/promotions</code>. Có <strong>hai loại chương trình</strong>, khác nhau ở chỗ ai phải bấm:</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Loại</th><th>Cách chạy</th><th>Dùng khi</th></tr></thead>
+      <tbody>
+        <tr><td>Mã cho cả đơn</td><td>Khách hoặc thu ngân <strong>chọn mã</strong>, giảm vào tổng đơn</td><td>Tết, khai trương, mã <code>TET10</code> giảm 10% đơn từ 50k</td></tr>
+        <tr><td>Giảm cận date</td><td><strong>Tự trừ</strong> vào từng món có lô còn ≤ 7 ngày, không cần chọn mã</td><td>Đẩy hàng gần hạn, mặc định giảm 30%</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <ul class="plain">
+    <li>Mỗi chương trình đặt: <span class="ui">Mã</span>, <span class="ui">Tên hiển thị</span>, kiểu giảm (theo % hoặc số tiền), <span class="ui">Giảm tối đa</span>, <span class="ui">Đơn tối thiểu</span>, <span class="ui">Số lượt dùng tối đa</span>, ngày bắt đầu — kết thúc.</li>
+    <li>Chip trạng thái tự tính: <span class="ui">Đang chạy</span>, <span class="ui">Chưa tới ngày</span>, <span class="ui">Đã hết hạn</span>, <span class="ui">Hết lượt</span>, <span class="ui">Đã tắt</span>.</li>
+    <li><strong>Chỉ mã «Đang chạy» mới hiện ra</strong> cho quầy và khách chọn.</li>
+  </ul>
+
+  <h3>7.4 — Tài khoản nhân viên</h3>
+  <ul class="plain">
+    <li>Màn <code>/admin/accounts</code> — thêm người, chọn vai, đổi mật khẩu, tắt tài khoản người đã nghỉ.</li>
+    <li>Người mới được <strong>cấp mã tiếp theo</strong> tự động và mật khẩu mặc định.</li>
+    <li>Tắt tài khoản thì <strong>phiên đang mở bị huỷ</strong> ngay, người đó bị đẩy ra.</li>
+    <li>Không tự tắt được chính mình, và <strong>không tắt được chủ tiệm cuối cùng</strong> — tránh khoá mất cả hệ thống.</li>
+  </ul>
+
+  <h3>7.5 — Tài khoản nhận chuyển khoản</h3>
+  <ol class="steps">
+    <li><div><div class="what">Bấm icon cạnh <span class="ui">Đăng xuất</span></div><div class="how">Không có màn Cấu hình riêng — chỉ một icon nhỏ.</div></div></li>
+    <li><div><div class="what">Gõ PIN 6 số</div><div class="how">Mặc định <code>000000</code>. Sai PIN thì không mở.</div></div></li>
+    <li><div><div class="what">Sửa số tài khoản, ngân hàng</div><div class="how">Mã VietQR ở quầy và trên website lấy đúng tài khoản này. Đổi sai là tiền khách đi chỗ khác — nên mới cần PIN.</div></div></li>
+  </ol>
+</section>
+
+<!-- ================= 08 ================= -->
+<section id="quy-tac">
+  <div class="sec-h">
+    <span class="sec-n">08</span>
+    <h2>Những việc hệ thống tự làm</h2>
+  </div>
+  <div class="body">
+    <p>Phần này không có nút nào để bấm — là các quy tắc chạy sau lưng. Biết để không tưởng là hệ thống chạy sai.</p>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h4>Giữ hàng cho đơn chưa trả tiền</h4>
+      <p style="color:var(--ink2); font-size:14px; margin-top:8px">Đơn chưa trả tiền không trừ kho — chỉ <strong>giữ</strong>. Hết thời gian giữ, hệ thống tự trả hàng về kệ và huỷ đơn.</p>
+      <div class="tbl-wrap" style="margin-top:12px; border-radius:9px">
+        <table style="min-width:0; font-size:13px">
+          <tbody>
+            <tr><td>QR tại quầy</td><td class="num">5 phút</td></tr>
+            <tr><td>QR trên website</td><td class="num">30 phút</td></tr>
+            <tr><td>Trả khi nhận (COD)</td><td class="num">24 giờ</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <h4>Bán ra trừ lô nào</h4>
+      <p style="color:var(--ink2); font-size:14px; margin-top:8px">Mặc định trừ <strong>lô có hạn gần nhất trước</strong> (FIFO theo hạn) để hàng không nằm quá hạn trên kệ. Nếu thu ngân <strong>quét tem lô</strong>, hệ thống trừ đúng lô đã quét — vì biết chắc hộp đang bán là hộp nào.</p>
+    </div>
+    <div class="card">
+      <h4>Hàng cận date tự giảm</h4>
+      <p style="color:var(--ink2); font-size:14px; margin-top:8px">Có chương trình <span class="ui">Giảm cận date</span> đang chạy thì mọi món có lô còn <strong>≤ 7 ngày</strong> tự được trừ % ngay trên dòng — ở cả quầy và website. Chỉ <strong>phần số lượng thuộc lô cận date</strong> được giảm, phần hàng mới thì không.</p>
+    </div>
+    <div class="card">
+      <h4>Hàng quá hạn tự ngừng bán</h4>
+      <p style="color:var(--ink2); font-size:14px; margin-top:8px">Nếu lô sẽ bán ra trước của một món đã quá hạn, món đó bị chặn ở <strong>mọi nơi</strong> cho tới khi kho bấm bỏ kệ. Chặn ở tầng nghiệp vụ nên không lối nào lách được.</p>
+    </div>
+    <div class="card">
+      <h4>Ngưỡng «sắp hết» tự đặt</h4>
+      <p style="color:var(--ink2); font-size:14px; margin-top:8px">Sau mỗi lần nhập, ngưỡng cảnh báo được đặt lại bằng <strong>20% số tồn ngay sau khi nhập</strong>, ít nhất là 1. Nhập 100 chai thì cảnh báo ở 20; nhập 3 gói thì cảnh báo ở 1.</p>
+    </div>
+    <div class="card">
+      <h4>Chống bấm hai lần</h4>
+      <p style="color:var(--ink2); font-size:14px; margin-top:8px">Mỗi lần chốt đơn mang một <strong>khoá riêng</strong>. Mạng lag, thu ngân bấm hai lần, đơn vẫn chỉ tạo <strong>một lần</strong> — lần sau trả về đúng đơn đã tạo.</p>
+    </div>
+    <div class="card">
+      <h4>Tồn không bao giờ âm</h4>
+      <p style="color:var(--ink2); font-size:14px; margin-top:8px">Mọi lần trừ kho đi qua <strong>một cửa duy nhất</strong>, và câu lệnh chỉ trừ khi còn đủ. Hai người bán cùng lúc thì người sau nhận lỗi «không đủ tồn» kèm tên hàng, chứ không ra số âm.</p>
+    </div>
+    <div class="card">
+      <h4>Tiền lưu dạng số thập phân</h4>
+      <p style="color:var(--ink2); font-size:14px; margin-top:8px">Mọi cột tiền dùng kiểu <code>DECIMAL</code>, không dùng số thực — cộng nghìn hoá đơn vẫn không lệch một đồng do làm tròn.</p>
+    </div>
+  </div>
+
+  <h3>Mã vạch trong hệ thống</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Mở đầu</th><th>Là mã gì</th><th>Ai sinh ra</th><th>Quét ở quầy thì</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">200…</td><td>Mã hàng nội bộ</td><td>Hệ thống, cho hàng không có mã in</td><td>Ra mặt hàng</td></tr>
+        <tr><td class="mono">21…</td><td>Mã hàng cân theo kg</td><td>Cân điện tử của siêu thị</td><td>Ra mặt hàng + số kg</td></tr>
+        <tr><td class="mono">22…</td><td>Mã hàng cân theo tiền</td><td>Cân điện tử của siêu thị</td><td>Ra mặt hàng + số tiền</td></tr>
+        <tr><td class="mono">25…</td><td>Tem lô hàng</td><td>Hệ thống, khi xác nhận phiếu nhập</td><td>Ra đúng lô + hạn, chặn nếu lô quá hạn</td></tr>
+        <tr><td>khác</td><td>Mã nhà sản xuất</td><td>Nhà sản xuất in trên bao</td><td>Ra mặt hàng; mã lạ thì mở hộp <span class="ui">Hàng ngoài</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="body" style="max-width:72ch">Mã lạ không có trong kho, hệ thống <strong>tra thử trên Open Food Facts</strong> để lấy sẵn tên và ảnh; kết quả được lưu lại để lần sau khỏi tra lại. Tra không ra thì nhập tay.</p>
+
+  <h3>Vòng đời một đơn hàng</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Trạng thái</th><th>Nghĩa</th><th>Kho lúc này</th></tr></thead>
+      <tbody>
+        <tr><td>Chờ chuyển khoản</td><td>Đã có mã QR, chưa nhận tiền</td><td>Đang <strong>giữ</strong></td></tr>
+        <tr><td>Chờ duyệt</td><td>Đơn web mới về</td><td>Đang <strong>giữ</strong></td></tr>
+        <tr><td>Đã duyệt</td><td>Cửa hàng nhận đơn</td><td>Đang giữ</td></tr>
+        <tr><td>Đang soạn</td><td>Nhân viên đang lấy hàng</td><td>Đang giữ</td></tr>
+        <tr><td>Đang giao</td><td>Hàng ra khỏi cửa hàng</td><td>Đang giữ</td></tr>
+        <tr><td>Xong</td><td>Đã nhận tiền, đã giao</td><td>Đã <strong>trừ thật</strong></td></tr>
+        <tr><td>Đã huỷ</td><td>Khách huỷ, cửa hàng từ chối, hoặc hết giờ giữ</td><td>Đã <strong>trả về kệ</strong></td></tr>
+        <tr><td>Trả một phần / Khách trả hết</td><td>Khách mang hàng lại</td><td>Nhập lại nếu còn bán được</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="body" style="max-width:72ch">Đơn tiền mặt tại quầy đi tắt: từ giỏ thẳng sang <strong>Xong</strong> và trừ kho ngay, vì tiền đã nằm trong két.</p>
+</section>
+
+<!-- ================= 09 ================= -->
+<section id="demo">
+  <div class="sec-h">
+    <span class="sec-n">09</span>
+    <h2>Kịch bản demo 5 phút</h2>
+  </div>
+  <div class="body">
+    <p>Thứ tự này cho thấy được cả ba cái khó của hệ thống: dùng chung tồn kho, giữ hàng, và thanh toán tự khớp.</p>
+  </div>
+  <ol class="steps">
+    <li><div><div class="what">Bán một đơn tiền mặt</div><div class="how">Mở ca → quét hoặc bấm 3 món → <span class="ui">Tiền mặt</span> → gõ tiền khách đưa → in hoá đơn. Mở màn Kho: <strong>tồn đã giảm</strong>, lịch sử có dòng <span class="ui">Bán ra</span>.</div></div></li>
+    <li><div><div class="what">Cho khách online giành hàng</div><div class="how">Mở website ở tab khác, đặt 2 hộp sữa. Quay lại Kho: cột <span class="ui">Giữ</span> lên 2, cột <span class="ui">Bán được</span> giảm 2. Về quầy: nút <span class="ui">+</span> của món đó <strong>không bấm quá phần còn lại</strong>.</div></div></li>
+    <li><div><div class="what">Thanh toán QR tự khớp</div><div class="how">Ở quầy bấm <span class="ui">QR</span> → mở <code>/demo/bank</code> ở tab khác → bấm chuyển khoản. Quay lại quầy: <strong>đơn tự chuyển sang Xong</strong>, không ai bấm gì.</div></div></li>
+    <li><div><div class="what">Điện thoại làm máy quét</div><div class="how">Mở <code>/scan</code> trên điện thoại, gõ mã 6 số từ quầy, quét một chai — hàng nhảy vào giỏ trên máy tính.</div></div></li>
+    <li><div><div class="what">Xử lý đơn web tại quầy</div><div class="how">Bấm <span class="ui">Đơn web</span> → <span class="ui">Duyệt</span> → <span class="ui">Soạn</span> → <span class="ui">Giao đi</span> → <span class="ui">Xong</span>. Kho: phần <span class="ui">Giữ</span> chuyển thành trừ thật; khách thấy đơn <span class="ui">Xong</span> và được cộng điểm.</div></div></li>
+    <li><div><div class="what">Cho một lô quá hạn</div><div class="how">Nhập một lô hạn đã qua → món đó lập tức <strong>không bán được ở cả quầy và web</strong> → kho bấm bỏ kệ → bán lại được ngay.</div></div></li>
+  </ol>
+  <div class="note">
+    Mã để quét thử: <code>8934588063053</code> (Coca 330ml). Mã giảm giá: <code>TET10</code> — giảm 10% đơn từ 50.000đ.
+  </div>
+</section>
+
+<!-- ================= 10 ================= -->
+<section id="su-co">
+  <div class="sec-h">
+    <span class="sec-n">10</span>
+    <h2>Gặp lỗi thì làm gì</h2>
+  </div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Hiện tượng</th><th>Vì sao</th><th>Làm gì</th></tr></thead>
+      <tbody>
+        <tr><td>«Hãy mở ca trước khi bán hàng»</td><td>Chưa mở ca cho phiên làm việc này</td><td>Mở ca, gõ tiền đầu ca</td></tr>
+        <tr><td>«Không đủ tồn» kèm tên hàng</td><td>Hàng đã bị đơn khác giữ, hoặc thật sự hết</td><td>Xem cột <span class="ui">Giữ</span> ở màn Kho; bỏ đơn treo hoặc nhập thêm</td></tr>
+        <tr><td>«Lô này đã quá hạn»</td><td>Vừa quét tem một hộp đã hết hạn</td><td>Bỏ hộp đó ra, kho bấm bỏ kệ lô đó</td></tr>
+        <tr><td>Món hiện trên kệ nhưng bấm không được</td><td>Lô bán ra trước của món đã quá hạn</td><td>Kho bỏ kệ lô quá hạn, món tự bán lại được</td></tr>
+        <tr><td>«Mã khuyến mãi không hợp lệ»</td><td>Mã sai, chưa tới ngày, hết hạn, hoặc hết lượt</td><td>Xem chip trạng thái ở màn Khuyến mãi</td></tr>
+        <tr><td>«Đơn tối thiểu …»</td><td>Đơn chưa đủ tiền để ăn mã</td><td>Thêm hàng, hoặc dùng mã khác</td></tr>
+        <tr><td>Camera điện thoại không lên</td><td>Trang đang mở bằng HTTP, hoặc đã chặn quyền camera</td><td>Mở bằng HTTPS; vào cài đặt trình duyệt cho phép camera rồi tải lại trang</td></tr>
+        <tr><td>Xem trước in hoá đơn trắng trang</td><td>Bấm in trước khi phiếu vẽ xong</td><td>Đóng cửa sổ in, chờ phiếu hiện rồi in lại; in lại được từ màn Hoá đơn</td></tr>
+        <tr><td>Quét mã mà không ra món nào</td><td>Mã chưa có trong kho</td><td>Hộp <span class="ui">Hàng ngoài</span> tự mở kèm mã — gõ tên và giá là bán được</td></tr>
+        <tr><td>Thu ngân mở Tổng quan bị đẩy ra</td><td>Thu ngân không có quyền xem báo cáo</td><td>Đúng thiết kế — cần số thì hỏi chủ tiệm</td></tr>
+        <tr><td>Đơn QR treo mãi</td><td>Khách bỏ đi không chuyển khoản</td><td>Bấm <span class="ui">Xoá đơn</span> để trả hàng về kệ ngay, hoặc chờ 5 phút hệ thống tự trả</td></tr>
+        <tr><td>Xác nhận phiếu nhập bị chặn</td><td>Còn dòng hàng thiếu hạn dùng</td><td>Điền hạn cho từng dòng rồi xác nhận lại</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================= 11 ================= -->
+<section id="chay">
+  <div class="sec-h">
+    <span class="sec-n">11</span>
+    <h2>Cài đặt và chạy</h2>
+  </div>
+  <div class="body">
+    <p>Cần <strong>Python 3.10+</strong> và <strong>Node 20+</strong>. Máy chỉ có Python 3.9 hoặc chưa cài Node thì dùng Docker.</p>
+  </div>
+  <div class="grid2">
+    <div class="card">
+      <h4>Máy chủ (backend)</h4>
+      <pre class="mono" style="margin:10px 0 0; font-size:12.5px; line-height:1.75; color:var(--ink2); white-space:pre-wrap">cd backend
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python -m seeds.seed_data
+uvicorn app.main:app --reload --port 8000</pre>
+    </div>
+    <div class="card">
+      <h4>Giao diện (frontend)</h4>
+      <pre class="mono" style="margin:10px 0 0; font-size:12.5px; line-height:1.75; color:var(--ink2); white-space:pre-wrap">cd frontend
+npm install
+npm run dev
+
+# mở http://localhost:5173</pre>
+    </div>
+    <div class="card">
+      <h4>Docker</h4>
+      <pre class="mono" style="margin:10px 0 0; font-size:12.5px; line-height:1.75; color:var(--ink2); white-space:pre-wrap">docker compose up -d
+
+# BE_taphoa_lam  → cổng 8000
+# FE_taphoa_lam  → cổng 5173</pre>
+    </div>
+    <div class="card">
+      <h4>Triển khai miễn phí</h4>
+      <ul class="plain" style="font-size:14px; margin-top:10px">
+        <li><strong>Supabase</strong> (Postgres) giữ dữ liệu</li>
+        <li><strong>Vercel</strong> chạy giao diện trên CDN và API dạng serverless</li>
+        <li>Biến môi trường: <code>DATABASE_URL</code>, <code>SECRET_KEY</code>, <code>SKIP_SCHEMA_SYNC=1</code></li>
+        <li>Trên serverless không giữ được kết nối lâu, nên máy quét điện thoại chuyển sang <strong>hỏi định kỳ</strong> thay vì WebSocket</li>
+      </ul>
+    </div>
+  </div>
+  <h3>Hệ thống dựng bằng gì</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Phần</th><th>Công nghệ</th><th>Vai trò</th></tr></thead>
+      <tbody>
+        <tr><td>Máy chủ</td><td>FastAPI 0.115 · SQLAlchemy 2.0 · Pydantic 2</td><td>API, nghiệp vụ, phân quyền</td></tr>
+        <tr><td>Dữ liệu</td><td>SQLite (máy local) · PostgreSQL / Supabase (triển khai)</td><td>38 bảng</td></tr>
+        <tr><td>Giao diện</td><td>React 18 · TypeScript · Vite 6 · Tailwind 3</td><td>Website khách, quầy POS, quản trị</td></tr>
+        <tr><td>Trạng thái</td><td>React Query 5 · Zustand 5</td><td>Dữ liệu máy chủ · giỏ hàng, phiên đăng nhập</td></tr>
+        <tr><td>Quét mã</td><td>@zxing/browser</td><td>Đọc mã vạch bằng camera điện thoại</td></tr>
+        <tr><td>In tem</td><td>JsBarcode</td><td>Vẽ mã vạch lên tem 50×30mm</td></tr>
+        <tr><td>Thanh toán</td><td>qrcode + Pillow, chuẩn VietQR</td><td>Sinh mã QR đúng số tiền và nội dung</td></tr>
+        <tr><td>Đăng nhập</td><td>JWT (30 phút) + refresh token (7 ngày) · bcrypt</td><td>Phiên làm việc, mật khẩu băm</td></tr>
+        <tr><td>Báo cáo</td><td>openpyxl · Recharts</td><td>Xuất Excel · vẽ biểu đồ</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+  </main>
+</div>
+</div>
+
+<footer>
+  <div class="foot-in">
+    <span>Lâm Ly Mart — Hướng dẫn sử dụng</span>
+    <span>Sơ đồ thiết kế: <a href="bao-cao-so-do.html">bao-cao-so-do.html</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

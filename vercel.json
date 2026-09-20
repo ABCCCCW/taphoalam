@@ -1,7 +1,7 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "installCommand": "cd frontend && npm ci",
-  "buildCommand": "cd frontend && npm run build && cp -R ../backend/uploads dist/uploads",
+  "buildCommand": "cd frontend && npm run build && cp -R ../backend/uploads dist/uploads && mkdir -p dist/docs && cp ../docs/huong-dan-su-dung.html ../docs/bao-cao-so-do.html dist/docs/",
   "outputDirectory": "frontend/dist",
   "regions": [
     "sin1"
@@ -19,7 +19,7 @@
       "destination": "/api/index"
     },
     {
-      "source": "/((?!api/|uploads/|assets/).*)",
+      "source": "/((?!api/|uploads/|assets/|docs/).*)",
       "destination": "/index.html"
     }
   ]
